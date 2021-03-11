@@ -1,4 +1,4 @@
-var PIECES = {
+const PIECES = {
 	EMPTY: 0,
 	wP: 1,
 	wN: 2,
@@ -14,9 +14,9 @@ var PIECES = {
 	bK: 12,
 };
 
-var NUM_OF_SQ = 120;
+const NUM_OF_SQ = 120;
 
-var FILES = {
+const FILES = {
 	FILE_A: 0,
 	FILE_B: 1,
 	FILE_C: 2,
@@ -28,7 +28,7 @@ var FILES = {
 	FILE_NONE: 8,
 };
 
-var RANKS = {
+const RANKS = {
 	RANK_1: 0,
 	RANK_2: 1,
 	RANK_3: 2,
@@ -40,9 +40,9 @@ var RANKS = {
 	RANK_NONE: 8,
 };
 
-var COLOURS = { WHITE: 0, BLACK: 1, BOTH: 2 };
+const COLOURS = { WHITE: 0, BLACK: 1, BOTH: 2 };
 
-var SQUARES = {
+const SQUARES = {
 	A1: 21,
 	B1: 22,
 	C1: 23,
@@ -63,4 +63,11 @@ var SQUARES = {
 	OFFBOARD: 100,
 };
 
-var BOOL = { FALSE: 0, TRUE: 1 };
+const BOOL = { FALSE: 0, TRUE: 1 };
+
+const FilesBoard = new Array(NUM_OF_SQ);
+const RanksBoard = new Array(NUM_OF_SQ);
+
+const FileRankToSquare = (f, r) => {
+	return 21 + f + r * 10; // pronalazimo indeks kocke u matrici
+};
