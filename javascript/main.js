@@ -1,6 +1,5 @@
 $(function () {
 	init();
-	console.log("Lol");
 });
 
 const init = () => {
@@ -13,6 +12,7 @@ const InitBoard = () => {
 		FilesBoard[index] = SQUARES.OFFBOARD;
 		RanksBoard[index] = SQUARES.OFFBOARD;
 	}
+
 	for (let rank = RANKS.RANK_1; rank <= RANKS.RANK_8; ++rank) {
 		for (let file = FILES.FILE_A; file <= FILES.FILE_H; ++file) {
 			let square = FileRankToSquare(file, rank);

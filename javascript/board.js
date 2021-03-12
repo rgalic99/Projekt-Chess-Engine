@@ -1,3 +1,7 @@
+const PieceIndex = (piece, pieceNum) => {
+	return piece * 10 + pieceNum;
+};
+
 let GameBoard = {};
 
 GameBoard.pieces = new Array(NUM_OF_SQ);
@@ -15,3 +19,12 @@ GameBoard.castlePerm = 0;
 
 1010 => black and white can castle queenside
 */
+GameBoard.pieceNum = new Array(13);
+/*
+max 10 od iste figute
+
+wP*10 + wPNum -> index figure
+
+ako imamo 6 bijelih pijuna Gameboard.pieceNum[wP]=6
+*/
+GameBoard.pieceList = new Array(13 * 10);
