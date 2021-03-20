@@ -8,10 +8,8 @@ const init = () => {
 };
 
 const InitBoard = () => {
-	for (let index = 0; index < NUM_OF_SQ; index++) {
-		FilesBoard[index] = SQUARES.OFFBOARD;
-		RanksBoard[index] = SQUARES.OFFBOARD;
-	}
+	FilesBoard.fill(SQUARES.OFFBOARD);
+	RanksBoard.fill(SQUARES.OFFBOARD);
 
 	for (let rank = RANKS.RANK_1; rank <= RANKS.RANK_8; ++rank) {
 		for (let file = FILES.FILE_A; file <= FILES.FILE_H; ++file) {
@@ -20,7 +18,16 @@ const InitBoard = () => {
 			RanksBoard[square] = rank;
 		}
 	}
+};
 
-	/* 	for (i = 0; i < NUM_OF_SQ; i++) console.log("FileSquare"+i + ": " + FilesBoard[i]);
-	for (i = 0; i < NUM_OF_SQ; i++) console.log("RankSquare"+ i + ": " + RanksBoard[i]); */
+const ConsoleFiles = () => {
+	FilesBoard.forEach((e, index) => {
+		console.log(`FileSquare ${index} : ${e}`);
+	});
+};
+
+const ConsoleRanks = () => {
+	RanksBoard.forEach((e, index) => {
+		console.log(`RankSquare ${index} : ${e}`);
+	});
 };
