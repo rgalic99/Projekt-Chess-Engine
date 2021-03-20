@@ -74,4 +74,78 @@ const ResetBoard = () => {
 
 const ParseFEN = (FENstring) => {
 	ResetBoard();
+
+	let rank = RANKS.RANK_8;
+	let file = FILES.FILE_A;
+	let fenCount = 0;
+
+	while (rank >= RANKS.RANK_1 && fenCount < FENstring.length) {
+		let count = 1;
+		switch (fen[fenCount]) {
+			case "p":
+				piece = PIECES.bP;
+				break;
+			case "r":
+				piece = PIECES.bR;
+				break;
+			case "n":
+				piece = PIECES.bN;
+				break;
+			case "b":
+				piece = PIECES.bB;
+				break;
+			case "k":
+				piece = PIECES.bK;
+				break;
+			case "q":
+				piece = PIECES.bQ;
+				break;
+			case "P":
+				piece = PIECES.wP;
+				break;
+			case "R":
+				piece = PIECES.wR;
+				break;
+			case "N":
+				piece = PIECES.wN;
+				break;
+			case "B":
+				piece = PIECES.wB;
+				break;
+			case "K":
+				piece = PIECES.wK;
+				break;
+			case "Q":
+				piece = PIECES.wQ;
+				break;
+
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+			case "6":
+			case "7":
+			case "8":
+				piece = PIECES.EMPTY;
+				count = Number(fen[fenCount]);
+				break;
+
+			case "/":
+			case " ":
+				rank--;
+				file = FILES.FILE_A;
+				fenCount++;
+				continue;
+			default:
+				console.log("FEN error");
+				return;
+		}
+		for (let i = 0; i < count; i++) {
+			let square120 = FileRankToSquare(file, rank);
+			boardPieces[square120] = piece;
+			file++;
+		}
+		fenCount++;
+	}
 };
