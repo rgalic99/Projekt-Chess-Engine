@@ -93,6 +93,17 @@ const PieceKeys = new Array(13 * 10);
 let SideKey;
 const CastleKeys = new Array(16);
 
+const Board_64_to_120 = new Array(64);
+const Board_120_to_64 = new Array(NUM_OF_SQ);
+
+const GetSquare64 = (square120) => {
+	return Board_120_to_64[square120];
+};
+
+const GetSquare120 = (square64) => {
+	return Board_64_to_120[square64];
+};
+
 //je li figura velika (ne pijun) ili ne
 const PieceBig = [
 	BOOL.FALSE,
