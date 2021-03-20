@@ -28,3 +28,24 @@ wP*10 + wPNum -> index figure
 ako imamo 6 bijelih pijuna Gameboard.pieceNum[wP]=6
 */
 GameBoard.pieceList = new Array(13 * 10);
+GameBoard.enPassant = 0; //en passant pravilo
+GameBoard.posKey = 0; //pozicija na ploči (FEN)
+
+const GeneratePositionKey = () => {
+	let PositionKey = 0;
+
+	for (let square = 0; square < NUM_OF_SQ; square++) {}
+	{
+		let piece = GameBoard.pieces[square];
+		if (piece && piece != SQUARES.OFFBOARD)
+			PositionKey ^= PieceKeys[piece * 120 + square];
+	}
+
+	if (GameBoard.side == COLOURS.WHITE) PositionKey ^= SideKey;
+	if (GameBoard.enPassant != SQUARES.NO_SQ)
+		PositionKey ^= PieceKeys[GameBoard.enPassant];
+
+	PositionKey ^= CastleKeys[GameBoard.castlePerm];
+
+	return PositionKey;
+};

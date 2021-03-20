@@ -89,6 +89,10 @@ const FileRankToSquare = (f, r) => {
 	return 21 + f + r * 10; // pronalazimo indeks kocke u matrici
 };
 
+const PieceKeys = new Array(13 * 10);
+let SideKey;
+const CastleKeys = new Array(16);
+
 //je li figura velika (ne pijun) ili ne
 const PieceBig = [
 	BOOL.FALSE,

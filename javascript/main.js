@@ -11,8 +11,8 @@ const InitBoard = () => {
 	FilesBoard.fill(SQUARES.OFFBOARD);
 	RanksBoard.fill(SQUARES.OFFBOARD);
 
-	for (let rank = RANKS.RANK_1; rank <= RANKS.RANK_8; ++rank) {
-		for (let file = FILES.FILE_A; file <= FILES.FILE_H; ++file) {
+	for (let rank = RANKS.RANK_1; rank <= RANKS.RANK_8; rank++) {
+		for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			let square = FileRankToSquare(file, rank);
 			FilesBoard[square] = file;
 			RanksBoard[square] = rank;
