@@ -29,7 +29,7 @@ ako imamo 6 bijelih pijuna Gameboard.pieceNum[wP]=6
 */
 GameBoard.pieceList = new Array(13 * 10);
 GameBoard.enPassant = 0; //en passant pravilo
-GameBoard.posKey = 0; //pozicija na ploči (FEN)
+GameBoard.posKey = 0; //pozicija na ploči
 
 GameBoard.moveList = new Array(MAX_POSITION_MOVES * MAX_DEPTH);
 GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH);
@@ -143,9 +143,41 @@ const ParseFEN = (FENstring) => {
 		}
 		for (let i = 0; i < count; i++) {
 			let square120 = FileRankToSquare(file, rank);
-			boardPieces[square120] = piece;
+			GameBoard.pieces[square120] = piece;
 			file++;
 		}
 		fenCount++;
 	}
+
+	GameBoard.side(FENstring[fenCount] == "w") ? COLOURS.WHITE : COLOURS.BLACK;
+	fenCount += 2;
+
+	while (FENstring[fenCount] != " ") {
+		switch (FENstring[fenCount]) {
+			case "K":
+				GameBoard.castlePerm |= CASTLEBIT.WKCA;
+				break;
+			case "Q":
+				GameBoard.castlePerm |= CASTLEBIT.WQCA;
+				break;
+			case "k":
+				GameBoard.castlePerm |= CASTLEBIT.BKCA;
+				break;
+			case "q":
+				GameBoard.castlePerm |= CASTLEBIT.BQCA;
+				break;
+			default:
+				break;
+		}
+		fenCount++;
+	}
+	fenCount++;
+
+	if (FENstring[fenCount] != "-") {
+		file = FENstring[fenCount].charCodeAt() - "a".charCodeAt();
+		rank = Number(FENstring[fenCount + 1]) - 1;
+		GameBoard.enPassant = FileRankToSquare(file, rank);
+	}
+
+	GameBoard.posKey = GeneratePositionKey();
 };
