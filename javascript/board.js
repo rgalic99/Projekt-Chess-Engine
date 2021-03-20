@@ -1,16 +1,16 @@
 const PieceIndex = (piece, pieceNum) => {
-	return piece * 10 + pieceNum;
+	return piece * 10 + pieceNum; //vraća jedinstveni indeks neke figure
 };
 
 let GameBoard = {};
 
 GameBoard.pieces = new Array(NUM_OF_SQ);
-GameBoard.side = COLOURS.WHITE;
-GameBoard.fiftyMoveRule = 0;
+GameBoard.side = COLORS.WHITE;
+GameBoard.fiftyMoveRule = 0; //prati poteze po pravilu 50 poteza
 GameBoard.historyPly = 0;
 GameBoard.ply = 0;
-GameBoard.material = new Array(2);
-GameBoard.castlePerm = 0;
+GameBoard.material = new Array(2); //materijalna vrijednost figura ta bijelog/crnog
+GameBoard.castlePerm = 0; //prati pravo rokade
 /*
 0001 => white kingside castle 
 0010 => white queenside castle
@@ -28,11 +28,11 @@ wP*10 + wPNum -> index figure
 ako imamo 6 bijelih pijuna Gameboard.pieceNum[wP]=6
 */
 GameBoard.pieceList = new Array(13 * 10);
-GameBoard.enPassant = 0; //en passant pravilo
-GameBoard.posKey = 0; //pozicija na ploči
+GameBoard.enPassant = 0; //prati en passant pravilo
+GameBoard.posKey = 0; //pozicija na ploči (hash)
 
-GameBoard.moveList = new Array(MAX_POSITION_MOVES * MAX_DEPTH);
-GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH);
+GameBoard.moveList = new Array(MAX_POSITION_MOVES * MAX_DEPTH); //lista svih poteza
+GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH); //lista rezultata poteza
 GameBoard.moveListStart = new Array(MAX_DEPTH);
 
 const GeneratePositionKey = () => {
@@ -44,8 +44,7 @@ const GeneratePositionKey = () => {
 		if (piece && piece != SQUARES.OFFBOARD)
 			PositionKey ^= PieceKeys[piece * 120 + square];
 	}
-
-	if (GameBoard.side == COLOURS.WHITE) PositionKey ^= SideKey;
+	if (GameBoard.side == COLORS.WHITE) PositionKey ^= SideKey;
 	if (GameBoard.enPassant != SQUARES.NO_SQ)
 		PositionKey ^= PieceKeys[GameBoard.enPassant];
 
@@ -62,7 +61,7 @@ const ResetBoard = () => {
 	for (let index = 0; index < 64; index++)
 		GameBoard.pieces[GetSquare120(index)] = PIECES.EMPTY;
 
-	GameBoard.side = COLOURS.BOTH;
+	GameBoard.side = COLORS.BOTH;
 	GameBoard.enPassant = SQUARES.NO_SQ;
 	GameBoard.fiftyMoveRule = 0;
 	GameBoard.ply = 0;
@@ -72,6 +71,7 @@ const ResetBoard = () => {
 	GameBoard.moveListStart[GameBoard.ply] = 0;
 };
 
+// Primjer FEN-a:	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 const ParseFEN = (FENstring) => {
 	ResetBoard();
 
@@ -149,7 +149,7 @@ const ParseFEN = (FENstring) => {
 		fenCount++;
 	}
 
-	GameBoard.side(FENstring[fenCount] == "w") ? COLOURS.WHITE : COLOURS.BLACK;
+	GameBoard.side(FENstring[fenCount] == "w") ? COLORS.WHITE : COLORS.BLACK;
 	fenCount += 2;
 
 	while (FENstring[fenCount] != " ") {

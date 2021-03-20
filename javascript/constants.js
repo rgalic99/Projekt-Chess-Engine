@@ -53,7 +53,7 @@ const RANKS = {
 };
 
 //boje
-const COLOURS = { WHITE: 0, BLACK: 1, BOTH: 2 };
+const COLORS = { WHITE: 0, BLACK: 1, BOTH: 2 };
 
 //pravo castleanja / rokade
 const CASTLEBIT = { WKCA: 1, WQCA: 2, BKCA: 4, BQCA: 8 };
@@ -82,9 +82,9 @@ const SQUARES = {
 
 const BOOL = { FALSE: 0, TRUE: 1 };
 
-const MAX_GAME_MOVES = 2048;
-const MAX_POSITION_MOVES = 256;
-const MAX_DEPTH = 64;
+const MAX_GAME_MOVES = 2048; //broj mogućih poteza u svakoj igri
+const MAX_POSITION_MOVES = 256; //broj poteza u danoj poziciji
+const MAX_DEPTH = 64; //maksimalna dubina do koje će ići računalo
 
 const FilesBoard = new Array(NUM_OF_SQ);
 const RanksBoard = new Array(NUM_OF_SQ);
@@ -93,19 +93,19 @@ const FileRankToSquare = (f, r) => {
 	return 21 + f + r * 10; // pronalazimo indeks kocke u matrici
 };
 
-const PieceKeys = new Array(13 * 10);
-let SideKey;
-const CastleKeys = new Array(16);
+const PieceKeys = new Array(13 * 10); //hash vrijednosti za figure
+const CastleKeys = new Array(16); //hash vrijednosti za rokadu
+const SideKey = RAND_32(); //hash vrijednost za stranu koja igra
 
-const Board_64_to_120 = new Array(64);
-const Board_120_to_64 = new Array(NUM_OF_SQ);
+const Board_64_to_120 = new Array(64); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 120 kocaka
+const Board_120_to_64 = new Array(NUM_OF_SQ); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 64 kocke
 
 const GetSquare64 = (square120) => {
-	return Board_120_to_64[square120];
+	return Board_120_to_64[square120]; //vraća indeks kocke od 0-63
 };
 
 const GetSquare120 = (square64) => {
-	return Board_64_to_120[square64];
+	return Board_64_to_120[square64]; //vraća indeks kocke zadan preko formule 21 + file + rank * 10
 };
 
 //je li figura velika (ne pijun) ili ne
@@ -178,19 +178,19 @@ const PieceVal = [
 
 //boje za sve figure
 const PieceCol = [
-	COLOURS.BOTH,
-	COLOURS.WHITE,
-	COLOURS.WHITE,
-	COLOURS.WHITE,
-	COLOURS.WHITE,
-	COLOURS.WHITE,
-	COLOURS.WHITE,
-	COLOURS.BLACK,
-	COLOURS.BLACK,
-	COLOURS.BLACK,
-	COLOURS.BLACK,
-	COLOURS.BLACK,
-	COLOURS.BLACK,
+	COLORS.BOTH,
+	COLORS.WHITE,
+	COLORS.WHITE,
+	COLORS.WHITE,
+	COLORS.WHITE,
+	COLORS.WHITE,
+	COLORS.WHITE,
+	COLORS.BLACK,
+	COLORS.BLACK,
+	COLORS.BLACK,
+	COLORS.BLACK,
+	COLORS.BLACK,
+	COLORS.BLACK,
 ];
 
 //koje su figure pijuni
