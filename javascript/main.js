@@ -5,6 +5,7 @@ $(function () {
 const init = () => {
 	console.log("Inicijalizacija...");
 	InitBoard();
+	Init_Board120to64();
 };
 
 const InitBoard = () => {

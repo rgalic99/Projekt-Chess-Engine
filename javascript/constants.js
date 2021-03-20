@@ -82,6 +82,10 @@ const SQUARES = {
 
 const BOOL = { FALSE: 0, TRUE: 1 };
 
+const MAX_GAME_MOVES = 2048;
+const MAX_POSITION_MOVES = 256;
+const MAX_DEPTH = 64;
+
 const FilesBoard = new Array(NUM_OF_SQ);
 const RanksBoard = new Array(NUM_OF_SQ);
 
