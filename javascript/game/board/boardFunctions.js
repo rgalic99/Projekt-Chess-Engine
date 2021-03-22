@@ -139,6 +139,8 @@ const parseEnPassant = (FENstring, fenCount) => {
 		file = FENstring[fenCount].charCodeAt() - "a".charCodeAt();
 		rank = FENstring[fenCount + 1].charCodeAt() - "1".charCodeAt();
 		GameBoard.enPassant = FileRankToSquare(file, rank); //postavljanje indeksa en passant kocke
+	} else {
+		GameBoard.enPassant = "No";
 	}
 	fenCount++; //pomak za 1 karakter
 
@@ -195,14 +197,14 @@ const PrintBoard = () => {
 		console.log(line);
 	}
 
-	line = "   ";
+	line = "  ";
 	for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-		line += `${fileChar[file]}  `;
+		line += ` ${fileChar[file]}  `;
 	}
 
 	console.log(line);
 	console.log(`side: ${sideChar[GameBoard.side]}`);
-	console.log(`en passant: ${GameBoard.enPas}`);
+	console.log(`en passant: ${GameBoard.enPassant}`);
 	line = "";
 
 	if (GameBoard.castlePerm & CASTLEBIT.WKCA) line += "K";
