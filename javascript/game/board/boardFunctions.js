@@ -25,16 +25,27 @@ const ResetBoard = () => {
 };
 
 // Primjer FEN-a:	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-const ParseFEN = (FENstring) => {
+const parseFEN = (FENstring) => {
 	ResetBoard();
+	let fenCount = 0; //index of the character in FENstring
 
+	fenCount = parsePieces(FENstring, fenCount);
+	if (fenCount == -1) return;
+
+	fenCount = parseSide(FENstring, fenCount);
+	fenCount = parseCastle(FENstring, fenCount);
+	fenCount = parseEnPassant(FENstring, fenCount);
+
+	GameBoard.posKey = GeneratePositionKey();
+};
+
+const parsePieces = (FENstring, fenCount) => {
 	let rank = RANKS.RANK_8;
 	let file = FILES.FILE_A;
-	let fenCount = 0;
 
 	while (rank >= RANKS.RANK_1 && fenCount < FENstring.length) {
 		let count = 1;
-		switch (fen[fenCount]) {
+		switch (FENstring[fenCount]) {
 			case "p":
 				piece = PIECES.bP;
 				break;
@@ -81,7 +92,7 @@ const ParseFEN = (FENstring) => {
 			case "7":
 			case "8":
 				piece = PIECES.EMPTY;
-				count = Number(fen[fenCount]);
+				count = Number(FENstring[fenCount]);
 				break;
 
 			case "/":
@@ -92,7 +103,7 @@ const ParseFEN = (FENstring) => {
 				continue;
 			default:
 				console.log("FEN error");
-				return;
+				return -1;
 		}
 
 		for (let i = 0; i < count; i++) {
@@ -103,9 +114,16 @@ const ParseFEN = (FENstring) => {
 		fenCount++;
 	}
 
-	GameBoard.side(FENstring[fenCount] == "w") ? COLORS.WHITE : COLORS.BLACK;
-	fenCount += 2;
+	return fenCount;
+};
 
+const parseSide = (FENstring, fenCount) => {
+	GameBoard.side(FENstring[fenCount] == "w") ? COLORS.WHITE : COLORS.BLACK; //parse whose turn it is
+	fenCount += 2; //move 2 characters forward
+	return fenCount;
+};
+
+const parseCastle = (FENstring, fenCount) => {
 	while (FENstring[fenCount] != " ") {
 		switch (FENstring[fenCount]) {
 			case "K":
@@ -127,13 +145,17 @@ const ParseFEN = (FENstring) => {
 	}
 	fenCount++;
 
+	return fenCount;
+};
+
+const parseEnPassant = (FENstring, fenCount) => {
 	if (FENstring[fenCount] != "-") {
 		file = FENstring[fenCount].charCodeAt() - "a".charCodeAt();
 		rank = Number(FENstring[fenCount + 1]) - 1;
 		GameBoard.enPassant = FileRankToSquare(file, rank);
 	}
 
-	GameBoard.posKey = GeneratePositionKey();
+	return fenCount;
 };
 
 const GeneratePositionKey = () => {
@@ -145,6 +167,7 @@ const GeneratePositionKey = () => {
 		if (piece && piece != SQUARES.OFFBOARD)
 			PositionKey ^= PieceKeys[piece * 120 + square];
 	}
+
 	if (GameBoard.side == COLORS.WHITE) PositionKey ^= SideKey;
 
 	if (GameBoard.enPassant != SQUARES.NO_SQ)
