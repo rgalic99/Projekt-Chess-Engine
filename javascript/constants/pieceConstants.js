@@ -193,7 +193,7 @@ const PieceBishopQueen = [
 	BOOL.FALSE,
 ];
 
-//da li se figura "kliže" (može neograničeno u neko smjeru)
+//da li se figura "kliže" (može se micati neograničeno u nekom smjeru)
 const PieceSlides = [
 	BOOL.FALSE,
 	BOOL.FALSE,

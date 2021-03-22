@@ -19,8 +19,8 @@ const PopulateBoardArrays = () => {
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			square = FileRankToSquare(file, rank);
 
-			FilesBoard[square] = file; // populate FilesBoard
-			RanksBoard[square] = rank; // populate RanksBoard
+			FilesBoard[square] = file; // popunjavamo FilesBoard
+			RanksBoard[square] = rank; // popunjavamo RanksBoard
 
 			Board_64_to_120[square64] = square;
 			Board_120_to_64[square] = square64;

@@ -8,16 +8,16 @@ GameBoard.ply = 0;
 GameBoard.material = new Array(2); //materijalna vrijednost figura ta bijelog/crnog
 GameBoard.castlePerm = 0; //prati pravo rokade
 /*
-0001 => white kingside castle 
-0010 => white queenside castle
-0100 => black kingside castle
-1000 => black queenside castle
+0001 => bijeli ima pravo rokade na strani kralja
+0010 => bijeli ima pravo rokade na strani kraljice
+0100 => crni ima pravo rokade kingside
+1000 => crni ima pravo rokade na strani kraljice
 
-1010 => black and white can castle queenside
+1010 => crni i bijeli imaju pravo rokade na strani kraljice
 */
 GameBoard.pieceNum = new Array(13);
 /*
-max 10 od iste figute
+max 10 od iste figure
 
 wP*10 + wPNum -> index figure
 

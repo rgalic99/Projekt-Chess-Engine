@@ -9,16 +9,16 @@ const GetSquare120 = (square64) => {
 // Primjer FEN-a:	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 const parseFEN = (FENstring) => {
 	ResetBoard();
-	let fenCount = 0; //index of the character in FENstring
+	let fenCount = 0; //indeks znaka u FENstring-u
 
 	fenCount = parsePieces(FENstring, fenCount);
-	if (fenCount == -1) throw new Error("FEN is invalid"); //if FEN is invalid
+	if (fenCount == -1) throw new Error("FEN is invalid"); //ako FEN nije valjan
 
 	fenCount = parseSide(FENstring, fenCount);
 	fenCount = parseCastle(FENstring, fenCount);
 	fenCount = parseEnPassant(FENstring, fenCount);
 
-	GameBoard.posKey = GeneratePositionKey(); // generate position hash
+	GameBoard.posKey = GeneratePositionKey(); // generira hash poticije
 };
 
 const parsePieces = (FENstring, fenCount) => {
