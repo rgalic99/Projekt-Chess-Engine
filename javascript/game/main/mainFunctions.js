@@ -1,15 +1,5 @@
-$(function () {
-	init();
-});
-
-const init = () => {
-	console.log("Inicijalizacija...");
-	InitBoard();
-};
-
-const InitBoard = () => {
-	InitBoardArrays();
-	PopulateBoardArrays();
+const FileRankToSquare = (file, rank) => {
+	return 21 + file + rank * 10; // pronalazimo indeks kocke u matrici
 };
 
 const InitBoardArrays = () => {

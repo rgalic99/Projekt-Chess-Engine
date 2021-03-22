@@ -1,56 +1,9 @@
-const PieceIndex = (piece, pieceNum) => {
-	return piece * 10 + pieceNum; //vraća jedinstveni indeks neke figure
+const GetSquare64 = (square120) => {
+	return Board_120_to_64[square120]; //vraća indeks kocke od 0-63
 };
 
-let GameBoard = {};
-
-GameBoard.pieces = new Array(NUM_OF_SQ);
-GameBoard.side = COLORS.WHITE;
-GameBoard.fiftyMoveRule = 0; //prati poteze po pravilu 50 poteza
-GameBoard.historyPly = 0;
-GameBoard.ply = 0;
-GameBoard.material = new Array(2); //materijalna vrijednost figura ta bijelog/crnog
-GameBoard.castlePerm = 0; //prati pravo rokade
-/*
-0001 => white kingside castle 
-0010 => white queenside castle
-0100 => black kingside castle
-1000 => black queenside castle
-
-1010 => black and white can castle queenside
-*/
-GameBoard.pieceNum = new Array(13);
-/*
-max 10 od iste figute
-
-wP*10 + wPNum -> index figure
-
-ako imamo 6 bijelih pijuna Gameboard.pieceNum[wP]=6
-*/
-GameBoard.pieceList = new Array(13 * 10);
-GameBoard.enPassant = 0; //prati en passant pravilo
-GameBoard.posKey = 0; //pozicija na ploči (hash)
-
-GameBoard.moveList = new Array(MAX_POSITION_MOVES * MAX_DEPTH); //lista svih poteza
-GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH); //lista rezultata poteza
-GameBoard.moveListStart = new Array(MAX_DEPTH);
-
-const GeneratePositionKey = () => {
-	let PositionKey = 0;
-
-	for (let square = 0; square < NUM_OF_SQ; square++) {}
-	{
-		let piece = GameBoard.pieces[square];
-		if (piece && piece != SQUARES.OFFBOARD)
-			PositionKey ^= PieceKeys[piece * 120 + square];
-	}
-	if (GameBoard.side == COLORS.WHITE) PositionKey ^= SideKey;
-	if (GameBoard.enPassant != SQUARES.NO_SQ)
-		PositionKey ^= PieceKeys[GameBoard.enPassant];
-
-	PositionKey ^= CastleKeys[GameBoard.castlePerm];
-
-	return PositionKey;
+const GetSquare120 = (square64) => {
+	return Board_64_to_120[square64]; //vraća indeks kocke zadan preko formule 21 + file + rank * 10
 };
 
 const ResetBoard = () => {
@@ -141,6 +94,7 @@ const ParseFEN = (FENstring) => {
 				console.log("FEN error");
 				return;
 		}
+
 		for (let i = 0; i < count; i++) {
 			let square120 = FileRankToSquare(file, rank);
 			GameBoard.pieces[square120] = piece;
@@ -180,4 +134,23 @@ const ParseFEN = (FENstring) => {
 	}
 
 	GameBoard.posKey = GeneratePositionKey();
+};
+
+const GeneratePositionKey = () => {
+	let PositionKey = 0;
+
+	for (let square = 0; square < NUM_OF_SQ; square++) {}
+	{
+		let piece = GameBoard.pieces[square];
+		if (piece && piece != SQUARES.OFFBOARD)
+			PositionKey ^= PieceKeys[piece * 120 + square];
+	}
+	if (GameBoard.side == COLORS.WHITE) PositionKey ^= SideKey;
+
+	if (GameBoard.enPassant != SQUARES.NO_SQ)
+		PositionKey ^= PieceKeys[GameBoard.enPassant];
+
+	PositionKey ^= CastleKeys[GameBoard.castlePerm];
+
+	return PositionKey;
 };
