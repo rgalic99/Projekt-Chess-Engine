@@ -1,5 +1,7 @@
 $(function () {
 	init();
+	parseFEN(START_FEN);
+	PrintBoard();
 });
 
 const init = () => {

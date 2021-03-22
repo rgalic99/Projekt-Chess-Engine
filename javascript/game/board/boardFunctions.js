@@ -104,7 +104,7 @@ const addPiece = (count, square, piece) => {
 };
 
 const parseSide = (FENstring, fenCount) => {
-	GameBoard.side(FENstring[fenCount] == "w") ? COLORS.WHITE : COLORS.BLACK; //parsiraj čiji je red
+	GameBoard.side = FENstring[fenCount] == "w" ? COLORS.WHITE : COLORS.BLACK; //parsiraj čiji je red
 	fenCount += 2; //pomak za 2 karaktera
 	return fenCount;
 };
@@ -180,4 +180,35 @@ const ResetBoard = () => {
 	GameBoard.castlePerm = 0;
 	GameBoard.posKey = 0;
 	GameBoard.moveListStart[GameBoard.ply] = 0;
+};
+
+const PrintBoard = () => {
+	let line = "";
+	console.log("\nPloča:\n");
+
+	for (let rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
+		line = `${rankChar[rank]} `;
+		for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
+			let piece = GameBoard.pieces[FileRankToSquare(file, rank)];
+			line += ` ${pieceChar[piece]} `;
+		}
+		console.log(line);
+	}
+
+	line = "   ";
+	for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
+		line += `${fileChar[file]}  `;
+	}
+
+	console.log(line);
+	console.log(`side: ${sideChar[GameBoard.side]}`);
+	console.log(`en passant: ${GameBoard.enPas}`);
+	line = "";
+
+	if (GameBoard.castlePerm & CASTLEBIT.WKCA) line += "K";
+	if (GameBoard.castlePerm & CASTLEBIT.WQCA) line += "Q";
+	if (GameBoard.castlePerm & CASTLEBIT.BKCA) line += "k";
+	if (GameBoard.castlePerm & CASTLEBIT.BQCA) line += "q";
+	console.log(`castle: ${line}`);
+	console.log(`key: ${GameBoard.posKey.toString(16)}`);
 };
