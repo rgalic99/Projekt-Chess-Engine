@@ -25,7 +25,7 @@ const PIECES = {
 };
 
 //vrijedonsti figure (pijun je 100)
-const PieceVal = [
+const pieceVal = [
 	0,
 	100,
 	325,
@@ -41,7 +41,7 @@ const PieceVal = [
 	50000,
 ];
 //je li figura velika (ne pijun) ili ne
-const PieceBig = [
+const pieceBig = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.TRUE,
@@ -58,7 +58,7 @@ const PieceBig = [
 ];
 
 //je li figura major / velika (kraljica ili top)
-const PieceMaj = [
+const pieceMaj = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.FALSE,
@@ -75,7 +75,7 @@ const PieceMaj = [
 ];
 
 //je li figura minor / mala (konj ili lovac)
-const PieceMin = [
+const pieceMin = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.TRUE,
@@ -92,7 +92,7 @@ const PieceMin = [
 ];
 
 //boje za sve figure
-const PieceCol = [
+const pieceCol = [
 	COLORS.BOTH,
 	COLORS.WHITE,
 	COLORS.WHITE,
@@ -109,7 +109,7 @@ const PieceCol = [
 ];
 
 //koje su figure pijuni
-const PiecePawn = [
+const piecePawn = [
 	BOOL.FALSE,
 	BOOL.TRUE,
 	BOOL.FALSE,
@@ -126,7 +126,7 @@ const PiecePawn = [
 ];
 
 //koje su figure konji
-const PieceKnight = [
+const pieceKnight = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.TRUE,
@@ -143,7 +143,7 @@ const PieceKnight = [
 ];
 
 //koje su figure kraljevi
-const PieceKing = [
+const pieceKing = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.FALSE,
@@ -160,7 +160,7 @@ const PieceKing = [
 ];
 
 //koje su figure kraljica ili top
-const PieceRookQueen = [
+const pieceRookQueen = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.FALSE,
@@ -177,7 +177,7 @@ const PieceRookQueen = [
 ];
 
 //koje su figure kraljica ili lovac
-const PieceBishopQueen = [
+const pieceBishopQueen = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.FALSE,
@@ -194,7 +194,7 @@ const PieceBishopQueen = [
 ];
 
 //da li se figura "kliže" (može se micati neograničeno u nekom smjeru)
-const PieceSlides = [
+const pieceSlides = [
 	BOOL.FALSE,
 	BOOL.FALSE,
 	BOOL.FALSE,

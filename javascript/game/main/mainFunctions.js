@@ -3,10 +3,10 @@ const FileRankToSquare = (file, rank) => {
 };
 
 const InitBoardArrays = () => {
-	Board_120_to_64.fill(-1);
-	Board_64_to_120.fill(-1);
-	FilesBoard.fill(SQUARES.OFFBOARD);
-	RanksBoard.fill(SQUARES.OFFBOARD);
+	board_120_to_64.fill(-1);
+	board_64_to_120.fill(-1);
+	filesBoard.fill(SQUARES.OFFBOARD);
+	ranksBoard.fill(SQUARES.OFFBOARD);
 };
 
 const PopulateBoardArrays = () => {
@@ -19,11 +19,11 @@ const PopulateBoardArrays = () => {
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			square = FileRankToSquare(file, rank);
 
-			FilesBoard[square] = file; // popunjavamo FilesBoard
-			RanksBoard[square] = rank; // popunjavamo RanksBoard
+			filesBoard[square] = file; // popunjavamo FilesBoard
+			ranksBoard[square] = rank; // popunjavamo RanksBoard
 
-			Board_64_to_120[square64] = square;
-			Board_120_to_64[square] = square64;
+			board_64_to_120[square64] = square;
+			board_120_to_64[square] = square64;
 			square64++;
 		}
 	}

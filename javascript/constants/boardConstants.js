@@ -22,11 +22,11 @@ const sideChar = "wb-";
 const rankChar = "12345678";
 const fileChar = "abcdefgh";
 
-const FilesBoard = new Array(NUM_OF_SQ);
-const RanksBoard = new Array(NUM_OF_SQ);
+const filesBoard = new Array(NUM_OF_SQ);
+const ranksBoard = new Array(NUM_OF_SQ);
 
-const Board_64_to_120 = new Array(64); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 120 kocaka
-const Board_120_to_64 = new Array(NUM_OF_SQ); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 64 kocke
+const board_64_to_120 = new Array(64); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 120 kocaka
+const board_120_to_64 = new Array(NUM_OF_SQ); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 64 kocke
 
 //stupci
 const FILES = {

@@ -8,6 +8,6 @@ const MAX_GAME_MOVES = 2048; //broj mogućih poteza u svakoj igri
 const MAX_POSITION_MOVES = 256; //broj poteza u danoj poziciji
 const MAX_DEPTH = 64; //maksimalna dubina do koje će ići računalo
 
-const PieceKeys = new Array(13 * 10); //hash vrijednosti za figure
-const CastleKeys = new Array(16); //hash vrijednosti za rokadu
-const SideKey = RAND_32(); //hash vrijednost za stranu koja igra
+const pieceKeys = new Array(13 * 10); //hash vrijednosti za figure
+const castleKeys = new Array(16); //hash vrijednosti za rokadu
+const sideKey = RAND_32(); //hash vrijednost za stranu koja igra

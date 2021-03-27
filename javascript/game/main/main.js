@@ -1,10 +1,10 @@
 $(function () {
-	init();
-	parseFEN(START_FEN);
+	Init();
+	ParseFEN(START_FEN);
 	PrintBoard();
 });
 
-const init = () => {
+const Init = () => {
 	console.log("Inicijalizacija...");
 	InitBoard();
 };

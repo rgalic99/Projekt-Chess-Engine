@@ -1,11 +1,11 @@
 const ConsoleFiles = () => {
-	FilesBoard.forEach((e, index) => {
+	filesBoard.forEach((e, index) => {
 		console.log(`FileSquare ${index} : ${e}`);
 	});
 };
 
 const ConsoleRanks = () => {
-	RanksBoard.forEach((e, index) => {
+	ranksBoard.forEach((e, index) => {
 		console.log(`RankSquare ${index} : ${e}`);
 	});
 };
