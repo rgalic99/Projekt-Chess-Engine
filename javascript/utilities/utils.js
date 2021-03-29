@@ -34,11 +34,22 @@ const GetStringFromSquare64 = (number64) => {
 	let squareString = "";
 
 	let squareStringNum = Math.ceil(number64 / 8);
-	let squareStringLetter = String.fromCharCode(
-		number64 - 8 * Math.floor(number64 / 8) + "a".charCodeAt()
-	);
+	let squareStringLetter = number64 - 8 * Math.floor(number64 / 8);
 
-	squareString = `${squareStringLetter}${squareStringNum}`;
+	squareString = `${MakeCharFromNum(squareStringLetter)}${squareStringNum}`;
 
 	return squareString;
+};
+
+const MakeCharFromNum = (number) => {
+	return String.fromCharCode(number + "a".charCodeAt());
+};
+
+const GetSquare120FromSting = (string) => {
+	if (string != "No") {
+		let file = string[0].charCodeAt() - "a".charCodeAt();
+		let rank = string[1].charCodeAt() - "1".charCodeAt();
+		return FileRankToSquare(file, rank);
+	}
+	return 0;
 };

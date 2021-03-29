@@ -136,8 +136,8 @@ const ParseCastle = (fenString, fenCount) => {
 
 const ParseEnPassant = (fenString, fenCount) => {
 	if (fenString[fenCount] != "-") {
-		file = fenString[fenCount].charCodeAt() - "a".charCodeAt();
-		rank = fenString[fenCount + 1].charCodeAt() - "1".charCodeAt();
+		let file = fenString[fenCount].charCodeAt() - "a".charCodeAt();
+		let rank = fenString[fenCount + 1].charCodeAt() - "1".charCodeAt();
 		GameBoard.enPassant = GetStringFromSquare120(
 			FileRankToSquare(file, rank)
 		); //postavljanje en passant kocke
@@ -158,10 +158,10 @@ const GeneratePositionKey = () => {
 			positionKey ^= pieceKeys[piece * 120 + square]; //operacija XOR nad PositionKey vrijednosti za svaku figuru
 	}
 
-	if (GameBoard.side == COLORS.WHITE) positionKey ^= sideKey; //XOR sa stranom koja igra
-
-	if (GameBoard.enPassant != SQUARES.NO_SQ)
-		positionKey ^= pieceKeys[GameBoard.enPassant]; //XOR sa en passant kockom
+	if (GameBoard.side == COLORS.WHITE) positionKey ^= sideKey;
+	//XOR sa stranom koja igra
+	if (GetSquare120FromSting(GameBoard.enPassant) != SQUARES.NO_SQ)
+		positionKey ^= pieceKeys[GetSquare120FromSting(GameBoard.enPassant)]; //XOR sa en passant kockom
 
 	positionKey ^= castleKeys[GameBoard.castlePerm]; //XOR sa pravima rokade
 
