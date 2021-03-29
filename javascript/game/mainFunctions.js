@@ -1,7 +1,3 @@
-const FileRankToSquare = (file, rank) => {
-	return 21 + file + rank * 10; // pronalazimo indeks kocke u matrici
-};
-
 const InitBoardArrays = () => {
 	board_120_to_64.fill(-1);
 	board_64_to_120.fill(-1);

@@ -1,11 +1,3 @@
-const GetSquare64 = (square120) => {
-	return board_120_to_64[square120]; //vraća indeks kocke od 0-63
-};
-
-const GetSquare120 = (square64) => {
-	return board_64_to_120[square64]; //vraća indeks kocke zadan preko formule 21 + file + rank * 10
-};
-
 // Primjer FEN-a:	rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 const ParseFEN = (fenString) => {
 	ResetBoard();
@@ -161,60 +153,10 @@ const GeneratePositionKey = () => {
 
 	if (GameBoard.side == COLORS.WHITE) positionKey ^= sideKey;
 	//XOR sa stranom koja igra
-	if (GetSquare120FromSting(GameBoard.enPassant) != SQUARES.NO_SQ)
-		positionKey ^= pieceKeys[GetSquare120FromSting(GameBoard.enPassant)]; //XOR sa en passant kockom
+	if (GetSquare120FromString(GameBoard.enPassant) != SQUARES.NO_SQ)
+		positionKey ^= pieceKeys[GetSquare120FromString(GameBoard.enPassant)]; //XOR sa en passant kockom
 
 	positionKey ^= castleKeys[GameBoard.castlePerm]; //XOR sa pravima rokade
 
 	return positionKey;
-};
-
-const PrintBoard = () => {
-	let line = "";
-	console.log("\nPloča:\n");
-
-	for (let rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
-		line = `${rankChar[rank]} `;
-		for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-			let piece = GameBoard.pieces[FileRankToSquare(file, rank)];
-			line += ` ${pieceChar[piece]} `;
-		}
-		console.log(line);
-	}
-
-	line = "  ";
-	for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-		line += ` ${fileChar[file]}  `;
-	}
-
-	console.log(line);
-	console.log(`side: ${sideChar[GameBoard.side]}`);
-	line = "";
-
-	if (GameBoard.castlePerm & CASTLEBIT.WKCA) line += "K";
-	if (GameBoard.castlePerm & CASTLEBIT.WQCA) line += "Q";
-	if (GameBoard.castlePerm & CASTLEBIT.BKCA) line += "k";
-	if (GameBoard.castlePerm & CASTLEBIT.BQCA) line += "q";
-	console.log(`castle: ${line}`);
-	console.log(`en passant: ${GameBoard.enPassant}`);
-	console.log(`key: ${GameBoard.posKey.toString(16)}`);
-};
-
-const UpdateMaterialLists = () => {
-	GameBoard.pieceList.fill(PIECES.EMPTY);
-	GameBoard.material.fill(0);
-	GameBoard.pieceNum.fill(0);
-
-	for (let i = 0; i < 64; i++) {
-		let square = GetSquare120(i);
-		let piece = GameBoard.pieces[square];
-		if (piece != PIECES.EMPTY) {
-			color = pieceCol[piece];
-			GameBoard.material[color] += pieceVal[piece];
-			GameBoard.pieceList[
-				PieceIndex(piece, GameBoard.pieceNum[piece])
-			] = square;
-			GameBoard.pieceNum[piece]++;
-		}
-	}
 };
