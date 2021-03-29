@@ -10,7 +10,7 @@ const GetSquare120 = (square64) => {
 const ParseFEN = (fenString) => {
 	ResetBoard();
 	let fenCount = 0; //indeks znaka u fenString-u
-
+	if (fenString == "") throw new Error("FEN is empty");
 	fenCount = ParsePieces(fenString, fenCount);
 	if (fenCount == -1) throw new Error("FEN is invalid"); //ako FEN nije valjan
 

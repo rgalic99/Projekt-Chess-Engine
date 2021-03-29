@@ -10,8 +10,15 @@
 		<h1>Šah</h1>
 		<div class="FenInputDiv">
 			FEN:<br />
-			<input type="text" id="fenInput" />
-			<button type="button" class="SetFen">Unesi poziciju</button>
+			<input type="text"
+				class="fenInput"
+				id="textsend"
+				onkeyup="CheckButton()"
+				spellcheck="false"
+			></input>
+			<button type="button" id="button" class="SetFen">
+				Unesi poziciju
+			</button>
 		</div>
 		<div class="board"><img src="resources/board.png" /></div>
 	</body>
@@ -27,10 +34,18 @@
 		<script src="../javascript/game/board/boardFunctions.js"></script>
 		<script>
 			$(".SetFen").click(() => {
-				let string = $("#fenInput").val();
+				let string = $(".fenInput").val();
 				ParseFEN(string);
 				PrintBoard();
 			});
+
+			const CheckButton = () => {
+				if (document.getElementById("textsend").value === "") {
+					document.getElementById("button").disabled = true;
+				} else {
+					document.getElementById("button").disabled = false;
+				}
+			};
 		</script>
 	</footer>
 </html>
