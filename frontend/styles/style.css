@@ -12,7 +12,7 @@ img {
 	max-height: 100%;
 }
 
-.SetFen {
+.setFenButton {
 	outline: none;
 	box-shadow: 3px 4px 0px 0px #e67a73;
 	background: linear-gradient(to bottom, #e4685d 5%, #eb675e 100%);
@@ -28,11 +28,10 @@ img {
 	text-decoration: none;
 	text-shadow: 0px 1px 0px #b23e35;
 }
-.SetFen:hover {
+.setFenButton:hover {
 	background: linear-gradient(to bottom, #eb675e 5%, #e4685d 100%);
-	background-color: #eb675e;
 }
-.SetFen:active {
+.setFenButton:active {
 	position: relative;
 	top: 2px;
 }
@@ -53,9 +52,28 @@ img {
 	border-radius: 15px;
 	text-shadow: 0px 0px 0px #ffffff;
 }
-.fenInput:focus {
-	outline: none;
-}
+.fenInput:focus,
 .fenInput:active {
 	outline: none;
+}
+
+.setFenButtonDisabled {
+	outline: none;
+	box-shadow: 3px 4px 0px 0px #a8a8a8;
+	background: linear-gradient(to bottom, #e0e0e0 5%, #a8a8a8 100%);
+	background-color: #e0e0e0;
+	border-radius: 15px;
+	border: 1px solid #ffffff;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 17px;
+	padding: 7px 25px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #a6a6a6;
+}
+.setFenButtonDisabled:hover {
+	background: linear-gradient(to bottom, #a8a8a8 5%, #e0e0e0 100%);
+	background-color: #a8a8a8;
 }
