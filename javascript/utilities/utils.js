@@ -24,3 +24,21 @@ const RAND_32 = () => {
 		Math.floor(Math.random() * 255 + 1)
 	);
 };
+
+const GetStringFromSquare120 = (number) => {
+	let number64 = GetSquare64(number); //daje indeks od 0-63
+	return GetStringFromSquare64(number64);
+};
+
+const GetStringFromSquare64 = (number64) => {
+	let squareString = "";
+
+	let squareStringNum = Math.ceil(number64 / 8);
+	let squareStringLetter = String.fromCharCode(
+		number64 - 8 * Math.floor(number64 / 8) + "a".charCodeAt()
+	);
+
+	squareString = `${squareStringLetter}${squareStringNum}`;
+
+	return squareString;
+};

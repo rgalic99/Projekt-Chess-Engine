@@ -11,7 +11,7 @@
 		<div class="FenInputDiv">
 			FEN:<br />
 			<input type="text" id="fenInput" />
-			<button type="button" id="SetFen">Unesi poziciju</button>
+			<button type="button" class="SetFen">Unesi poziciju</button>
 		</div>
 		<div class="board"><img src="resources/board.png" /></div>
 	</body>
@@ -25,5 +25,12 @@
 		<script src="../javascript/game/main/mainFunctions.js"></script>
 		<script src="../javascript/game/board/board.js"></script>
 		<script src="../javascript/game/board/boardFunctions.js"></script>
+		<script>
+			$(".SetFen").click(() => {
+				let string = $("#fenInput").val();
+				ParseFEN(string);
+				PrintBoard();
+			});
+		</script>
 	</footer>
 </html>
