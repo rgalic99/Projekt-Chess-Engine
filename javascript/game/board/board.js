@@ -33,9 +33,6 @@ GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH); //lista rezult
 
 const ResetBoard = () => {
 	GameBoard.pieces.fill(SQUARES.OFFBOARD);
-	GameBoard.pieceList.fill(PIECES.EMPTY);
-	GameBoard.material.fill(0);
-	GameBoard.pieceNum.fill(0);
 	for (let index = 0; index < 64; index++)
 		GameBoard.pieces[GetSquare120(index)] = PIECES.EMPTY;
 

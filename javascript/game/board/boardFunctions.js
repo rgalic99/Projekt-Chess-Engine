@@ -19,6 +19,7 @@ const ParseFEN = (fenString) => {
 	fenCount = ParseEnPassant(fenString, fenCount);
 
 	GameBoard.posKey = GeneratePositionKey(); // generira hash poticije
+	UpdateMaterialLists();
 };
 
 const ParsePieces = (fenString, fenCount) => {
@@ -197,4 +198,23 @@ const PrintBoard = () => {
 	console.log(`castle: ${line}`);
 	console.log(`en passant: ${GameBoard.enPassant}`);
 	console.log(`key: ${GameBoard.posKey.toString(16)}`);
+};
+
+const UpdateMaterialLists = () => {
+	GameBoard.pieceList.fill(PIECES.EMPTY);
+	GameBoard.material.fill(0);
+	GameBoard.pieceNum.fill(0);
+
+	for (let i = 0; i < 64; i++) {
+		let square = GetSquare120(i);
+		let piece = GameBoard.pieces[square];
+		if (piece != PIECES.EMPTY) {
+			color = pieceCol[piece];
+			GameBoard.material[color] += pieceVal[piece];
+			GameBoard.pieceList[
+				PieceIndex(piece, GameBoard.pieceNum[piece])
+			] = square;
+			GameBoard.pieceNum[piece]++;
+		}
+	}
 };
