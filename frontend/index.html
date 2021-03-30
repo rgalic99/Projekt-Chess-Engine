@@ -23,35 +23,8 @@
 		<div class="board"><img src="resources/board.png" /></div>
 	</body>
 	<footer>
-		<script src="../javascript/utilities/utils.js"></script>
+		<div id="dependencies"></div>
 		<script src="../javascript/libs/jquery-3.6.0.min.js"></script>
-		<script src="../javascript/constants/boardConstants.js"></script>
-		<script src="../javascript/constants/gameConstants.js"></script>
-		<script src="../javascript/constants/pieceConstants.js"></script>
-		<script src="../javascript/game/main/main.js"></script>
-		<script src="../javascript/game/main/mainFunctions.js"></script>
-		<script src="../javascript/game/board/board.js"></script>
-		<script src="../javascript/game/board/boardFunctions.js"></script>
-		<script>
-			$(".setFenButton").click(() => {
-				let string = $(".fenInput").val();
-				ParseFEN(string);
-				PrintBoard();
-			});
-
-		</script>
-		<script>
-		const CheckButton = () => {
-				if (document.getElementById("textsend").value === "") {
-					$("button").first().removeClass("setFenButton");
-					$("button").first().addClass("setFenButtonDisabled");
-					document.getElementById("button").disabled = true;
-				} else {
-					$("button").first().removeClass("setFenButtonDisabled");
-					$("button").first().addClass("setFenButton");
-					document.getElementById("button").disabled = false;
-				}
-			};
-			</script>
+		<script src="../javascript/utilities/dependencies.js"></script>
 	</footer>
 </html>

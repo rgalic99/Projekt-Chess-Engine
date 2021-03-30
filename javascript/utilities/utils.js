@@ -12,6 +12,10 @@ const ConsoleRanks = () => {
 
 const BOOL = { FALSE: 0, TRUE: 1 };
 
+const FileRankToSquare = (file, rank) => {
+	return 21 + file + rank * 10; // pronalazimo indeks kocke u matrici
+};
+
 const PieceIndex = (piece, pieceNum) => {
 	return piece * 10 + pieceNum; //vraća jedinstveni indeks neke figure
 };
@@ -25,12 +29,11 @@ const RAND_32 = () => {
 	);
 };
 
-const GetStringFromSquare120 = (number) => {
-	let number64 = GetSquare64(number); //daje indeks od 0-63
-	return GetStringFromSquare64(number64);
+const PrintSquare = (square) => {
+	return `${fileChar[filesBoard[square]]}${rankChar[ranksBoard[square]]}`;
 };
 
-const GetStringFromSquare64 = (number64) => {
+const PrintSquare64 = (number64) => {
 	let squareString = "";
 
 	let squareStringNum = Math.ceil(number64 / 8);
@@ -45,11 +48,42 @@ const MakeCharFromNum = (number) => {
 	return String.fromCharCode(number + "a".charCodeAt());
 };
 
-const GetSquare120FromSting = (string) => {
+const GetSquare120FromString = (string) => {
 	if (string != "No") {
 		let file = string[0].charCodeAt() - "a".charCodeAt();
 		let rank = string[1].charCodeAt() - "1".charCodeAt();
 		return FileRankToSquare(file, rank);
 	}
 	return 0;
+};
+
+const PrintBoard = () => {
+	let line = "";
+	console.log("\nPloča:\n");
+
+	for (let rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
+		line = `${rankChar[rank]} `;
+		for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
+			let piece = GameBoard.pieces[FileRankToSquare(file, rank)];
+			line += ` ${pieceChar[piece]} `;
+		}
+		console.log(line);
+	}
+
+	line = "  ";
+	for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
+		line += ` ${fileChar[file]}  `;
+	}
+
+	console.log(line);
+	console.log(`side: ${sideChar[GameBoard.side]}`);
+	line = "";
+
+	if (GameBoard.castlePerm & CASTLEBIT.WKCA) line += "K";
+	if (GameBoard.castlePerm & CASTLEBIT.WQCA) line += "Q";
+	if (GameBoard.castlePerm & CASTLEBIT.BKCA) line += "k";
+	if (GameBoard.castlePerm & CASTLEBIT.BQCA) line += "q";
+	console.log(`castle: ${line}`);
+	console.log(`en passant: ${GameBoard.enPassant}`);
+	console.log(`key: ${GameBoard.posKey.toString(16)}`);
 };
