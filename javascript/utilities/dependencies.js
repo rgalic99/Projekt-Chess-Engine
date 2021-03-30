@@ -12,7 +12,7 @@ const GetDependencies = () => {
 	return links.split("\n");
 };
 
-const ParseDependencies = async () => {
+const ParseDependencies = () => {
 	let links = GetDependencies();
 	links.forEach(async (link) => {
 		let script = document.createElement("script");
