@@ -12,22 +12,22 @@ const GetDependencies = () => {
 	return links.split("\n");
 };
 
-const ParseDependencies = () => {
-	let links = GetDependencies();
-	links.forEach((link) => {
-		let script = document.createElement("script");
-		script.src = `../javascript/${link}`;
-		document.getElementById("dependencies").appendChild(script);
-		sleep(1);
-	});
-};
-
-ParseDependencies();
-
-const sleep = (ms) => {
+const Sleep = (ms) => {
 	const date = Date.now();
 	let currentDate = null;
 	do {
 		currentDate = Date.now();
 	} while (currentDate - date < ms);
 };
+
+const ParseDependencies = () => {
+	let links = GetDependencies();
+	links.forEach((link) => {
+		let script = document.createElement("script");
+		script.src = `../javascript/${link}`;
+		document.getElementById("dependencies").appendChild(script);
+		Sleep(1);
+	});
+};
+
+ParseDependencies();
