@@ -209,3 +209,8 @@ const pieceSlides = [
 	Boolean.True,
 	Boolean.False,
 ];
+
+const knightDirection = [-21, -19, -12, -8, 8, 12, 19, 21];
+const rookDirection = [-10, -1, 1, 10];
+const bishopDirection = [-11, -9, 9, 11];
+const kingDirection = [-11, -10, -9, -1, 1, 9, 10, 11];
