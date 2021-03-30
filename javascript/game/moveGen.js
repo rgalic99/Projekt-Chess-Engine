@@ -1,7 +1,10 @@
 const SquareAttacked = (square, side) => {
 	if (AttackedByPawn(square, side)) return Boolean.True;
 	if (AttackedByKnight(square, side)) return Boolean.True;
+	if (AttackedByBishopOrQueen(square, side)) return Boolean.True;
+	if (AttackedByRookOrQueen(square, side)) return Boolean.True;
 	if (AttackedByKing(square, side)) return Boolean.True;
+	return Boolean.False;
 };
 
 const AttackedByPawn = (square, side) => {
@@ -23,7 +26,7 @@ const AttackedByKnight = (square, side) => {
 		if (
 			piece != SQUARES.OFFBOARD &&
 			pieceCol[piece] == side &&
-			pieceKnight[piece] == Boolean.True
+			pieceKnight[piece]
 		) {
 			return Boolean.True;
 		}
@@ -37,10 +40,42 @@ const AttackedByKing = (square, side) => {
 		if (
 			piece != SQUARES.OFFBOARD &&
 			pieceCol[piece] == side &&
-			pieceKing[piece] == Boolean.True
+			pieceKing[piece]
 		) {
 			return Boolean.True;
 		}
+	});
+	return Boolean.False;
+};
+
+const AttackedByBishopOrQueen = (square, side) => {
+	bishopDirection.forEach((direction) => {
+		do {
+			let current_square = square + direction;
+			let piece = GameBoard.pieces[current_square];
+			if (
+				piece != PIECES.EMPTY &&
+				pieceBishopQueen[piece] &&
+				pieceCol[piece] == side
+			)
+				return Boolean.True;
+		} while (piece != SQUARES.OFFBOARD);
+	});
+	return Boolean.False;
+};
+
+const AttackedByRookOrQueen = (square, side) => {
+	rookDirection.forEach((direction) => {
+		do {
+			let current_square = square + direction;
+			let piece = GameBoard.pieces[current_square];
+			if (
+				piece != PIECES.EMPTY &&
+				pieceRookQueen[piece] &&
+				pieceCol[piece] == side
+			)
+				return Boolean.True;
+		} while (piece != SQUARES.OFFBOARD);
 	});
 	return Boolean.False;
 };
