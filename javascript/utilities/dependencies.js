@@ -14,11 +14,20 @@ const GetDependencies = () => {
 
 const ParseDependencies = () => {
 	let links = GetDependencies();
-	links.forEach(async (link) => {
+	links.forEach((link) => {
 		let script = document.createElement("script");
 		script.src = `../javascript/${link}`;
-		await document.getElementById("dependencies").appendChild(script);
+		document.getElementById("dependencies").appendChild(script);
+		sleep(1);
 	});
 };
 
 ParseDependencies();
+
+const sleep = (ms) => {
+	const date = Date.now();
+	let currentDate = null;
+	do {
+		currentDate = Date.now();
+	} while (currentDate - date < ms);
+};
