@@ -8,7 +8,8 @@ const GetDependencies = () => {
 	game/pieceFunctions.js
 	game/board.js
 	game/main.js
-	game/FEN.js`;
+	game/FEN.js
+	game/moveGen.js`;
 	return links.split("\n");
 };
 

@@ -10,6 +10,8 @@ const ConsoleRanks = () => {
 	});
 };
 
+const Bool = { False: 0, True: 1 };
+
 const FileRankToSquare = (file, rank) => {
 	return 21 + file + rank * 10; // pronalazimo indeks kocke u matrici
 };

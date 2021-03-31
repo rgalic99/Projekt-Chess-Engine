@@ -16,4 +16,5 @@ $("button")
 		let string = $(".fenInput").val();
 		ParseFEN(string);
 		PrintBoard();
+		PrintAttackedSquares();
 	});
