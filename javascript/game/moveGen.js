@@ -1,78 +1,38 @@
-const SquareAttacked = (square, side) => {
-	if (AttackedByPawn(square, side)) return Bool.True;
-	if (AttackedByKnight(square, side)) return Bool.True;
-	if (AttackedByRookOrQueen(square, side)) return Bool.True;
-	if (AttackedByBishopOrQueen(square, side)) return Bool.True;
-	if (AttackedByKing(square, side)) return Bool.True;
-	return Bool.False;
+/*
+fromSquare = prvih 7 bitova 0x7F
+toSquare = pomaknut za 7 << 0x7F
+capturedPiece = stane u 4 bita a pomak je 14 << 0xF
+enPassant = 1 bit 0x40000
+pawnStart = 1 bit 0x80000
+promotion = stane u 4 bita a pomak je 20 << 0xF
+castling = 1 bit 0x1000000
+*/
+
+const fromSquare = (move) => {
+	return move & 0x7f;
 };
 
-const AttackedByPawn = (square, side) => {
-	//white=0, black=1
-	if (
-		GameBoard.pieces[square + 22 * side - 11] == //if side is white then square-11 otherwise square+11
-			(side ? PIECES.bP : PIECES.wP) || //if black is playing side will be 1 and therefore true so we check black pawns
-		GameBoard.pieces[square + 18 * side - 9] == //if side is white then -9 otherwise +9
-			(side ? PIECES.bP : PIECES.wP) //if white is playing side will be 0 and therefore false so we check white pawns
-	)
-		return Bool.True;
-	return Bool.False;
-};
-const AttackedByKnight = (square, side) => {
-	return CheckKnightAndKing(square, side, knightDirection, pieceKnight);
-};
-const AttackedByKing = (square, side) => {
-	return CheckKnightAndKing(square, side, kingDirection, pieceKing);
+const toSquare = (move) => {
+	return (move >> 7) & 0x7f;
 };
 
-const AttackedByBishopOrQueen = (square, side) => {
-	return CheckBishopAndRook(square, side, bishopDirection, pieceBishopQueen);
+const capturedPiece = (move) => {
+	return (move >> 14) & 0xf;
 };
 
-const AttackedByRookOrQueen = (square, side) => {
-	return CheckBishopAndRook(square, side, rookDirection, pieceRookQueen);
+const promotedPiece = (move) => {
+	return (move >> 20) & 0xf;
 };
 
-const CheckKnightAndKing = (square, side, directionArray, pieceArray) => {
-	for (let index = 0; index < directionArray.length; index++) {
-		let piece = GameBoard.pieces[square + directionArray[index]];
-		if (CheckPiece(piece, side, pieceArray)) {
-			return Bool.True;
-		}
-	}
-	return Bool.False;
-};
+const moveFlagEnPassant = 0x40000;
+const moveFlagPawnStart = 0x80000;
+const moveFlagCastle = 0x1000000;
 
-const CheckBishopAndRook = (square, side, directionArray, pieceArray) => {
-	for (let index = 0; index < directionArray.length; index++) {
-		let current_square = square + directionArray[index];
-		let piece = GameBoard.pieces[current_square];
+const moveFlagCapture = 0x7c000;
+const moveFlagPromotion = 0xf00000;
 
-		while (piece != SQUARES.OFFBOARD) {
-			if (CheckPiece(piece, side, pieceArray)) return Bool.True;
+const noMove = 0;
 
-			current_square += directionArray[index];
-			piece = GameBoard.pieces[current_square];
-		}
-	}
-	return Bool.False;
-};
-
-const CheckPiece = (piece, side, pieceArray) => {
-	return (
-		piece != PIECES.EMPTY && pieceArray[piece] && pieceCol[piece] == side
-	);
-};
-
-const PrintAttackedSquares = () => {
-	console.log("\nAttacked:\n");
-	for (let rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
-		let line = `${rank + 1}  `;
-		for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-			let square = FileRankToSquare(file, rank);
-			let piece = SquareAttacked(square, GameBoard.side) ? "X" : "-";
-			line += ` ${piece} `;
-		}
-		console.log(line);
-	}
+const Move = (from, to, captured, flag) => {
+	return from | (to << 7) | (captured << 14) | (promoted << 20) | flag;
 };

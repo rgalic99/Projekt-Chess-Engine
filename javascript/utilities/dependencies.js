@@ -9,6 +9,7 @@ const GetDependencies = () => {
 	game/board.js
 	game/main.js
 	game/FEN.js
+	game/squareAttacked.js
 	game/moveGen.js`;
 	return links.split("\n");
 };
