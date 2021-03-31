@@ -25,6 +25,14 @@ const AttackedByKing = (square, side) => {
 	return CheckKnightAndKing(square, side, kingDirection, pieceKing);
 };
 
+const AttackedByBishopOrQueen = (square, side) => {
+	return CheckBishopAndRook(square, side, bishopDirection, pieceBishopQueen);
+};
+
+const AttackedByRookOrQueen = (square, side) => {
+	return CheckBishopAndRook(square, side, rookDirection, pieceRookQueen);
+};
+
 const CheckKnightAndKing = (square, side, directionArray, pieceArray) => {
 	for (let index = 0; index < directionArray.length; index++) {
 		let piece = GameBoard.pieces[square + directionArray[index]];
@@ -35,30 +43,7 @@ const CheckKnightAndKing = (square, side, directionArray, pieceArray) => {
 	return Bool.False;
 };
 
-const AttackedByBishopOrQueen = (square, side) => {
-	return CheckBishopAndRookAndQueen(
-		square,
-		side,
-		bishopDirection,
-		pieceBishopQueen
-	);
-};
-
-const AttackedByRookOrQueen = (square, side) => {
-	return CheckBishopAndRookAndQueen(
-		square,
-		side,
-		rookDirection,
-		pieceRookQueen
-	);
-};
-
-const CheckBishopAndRookAndQueen = (
-	square,
-	side,
-	directionArray,
-	pieceArray
-) => {
+const CheckBishopAndRook = (square, side, directionArray, pieceArray) => {
 	for (let index = 0; index < directionArray.length; index++) {
 		let current_square = square + directionArray[index];
 		let piece = GameBoard.pieces[current_square];
