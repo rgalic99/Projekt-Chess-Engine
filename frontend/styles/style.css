@@ -6,6 +6,18 @@
 }
 body {
 	font-size: 16px;
+	--main-button-color: #e6776d;
+	--main-button-gradient: #f37b73;
+	--main-button-shadow: #e67a73;
+	--background-color: #cc99ec;
+	--background-gradient: #7c84f3;
+	--main-button-disabled: #e0e0e0;
+	--main-button-disabled-gradient: #a8a8a8;
+	background: linear-gradient(
+		123deg,
+		var(--background-color) 0%,
+		var(--background-gradient) 100%
+	);
 }
 img {
 	max-width: 100%;
@@ -14,14 +26,18 @@ img {
 
 .setFenButton {
 	outline: none;
-	box-shadow: 3px 4px 0px 0px #e67a73;
-	background: linear-gradient(to bottom, #e4685d 5%, #eb675e 100%);
-	background-color: #e4685d;
+	box-shadow: 3px 4px 0px 0px var(--main-button-shadow);
+	background: linear-gradient(
+		90deg,
+		var(--main-button-color) 5%,
+		var(main-button-gradient) 100%
+	);
+	background-color: var(--main-button-gradient);
 	border-radius: 15px;
-	border: 1px solid #ffffff;
+	border: 1px solid white;
 	display: inline-block;
 	cursor: pointer;
-	color: #ffffff;
+	color: white;
 	font-family: Arial;
 	font-size: 17px;
 	padding: 7px 25px;
@@ -29,7 +45,11 @@ img {
 	text-shadow: 0px 1px 0px #b23e35;
 }
 .setFenButton:hover {
-	background: linear-gradient(to bottom, #eb675e 5%, #e4685d 100%);
+	background: linear-gradient(
+		45deg,
+		var(--main-button-gradient) 5%,
+		var(--main-button-color) 100%
+	);
 }
 .setFenButton:active {
 	position: relative;
@@ -43,14 +63,18 @@ img {
 	width: 550px;
 	font-size: 16px;
 	border-width: 1px;
-	border-color: #ffffff;
-	box-shadow: 3px 4px 0px 0px #e67a73;
-	background: linear-gradient(to bottom, #e4685d 5%, #eb675e 100%);
-	background-color: #e4685d;
-	color: #ffffff;
+	border-color: white;
+	box-shadow: 3px 4px 0px 0px var(--main-button-shadow);
+	background: linear-gradient(
+		75deg,
+		var(--main-button-color) 5%,
+		var(--main-button-gradient) 100%
+	);
+	background-color: var(--main-button-color);
+	color: white;
 	border-style: solid;
 	border-radius: 15px;
-	text-shadow: 0px 0px 0px #ffffff;
+	text-shadow: 0px 0px 0px white;
 }
 .fenInput:focus,
 .fenInput:active {
@@ -59,21 +83,29 @@ img {
 
 .setFenButtonDisabled {
 	outline: none;
-	box-shadow: 3px 4px 0px 0px #a8a8a8;
-	background: linear-gradient(to bottom, #e0e0e0 5%, #a8a8a8 100%);
-	background-color: #e0e0e0;
+	box-shadow: 3px 4px 0px 0px var(--main-button-disabled-gradient);
+	background: linear-gradient(
+		75deg,
+		var(--main-button-disabled) 5%,
+		var(--main-button-disabled-gradient) 100%
+	);
+	background-color: var(--main-button-disabled);
 	border-radius: 15px;
-	border: 1px solid #ffffff;
+	border: 1px solid white;
 	display: inline-block;
 	cursor: pointer;
-	color: #ffffff;
+	color: white;
 	font-family: Arial;
 	font-size: 17px;
 	padding: 7px 25px;
 	text-decoration: none;
-	text-shadow: 0px 1px 0px #a6a6a6;
+	text-shadow: 0px 1px 0px var(--main-button-disabled-gradient);
 }
 .setFenButtonDisabled:hover {
-	background: linear-gradient(to bottom, #a8a8a8 5%, #e0e0e0 100%);
-	background-color: #a8a8a8;
+	background: linear-gradient(
+		to bottom,
+		var(--main-button-disabled-gradient) 5%,
+		var(--main-button-disabled) 100%
+	);
+	background-color: var(--main-button-disabled-gradient);
 }
