@@ -36,3 +36,88 @@ const noMove = 0;
 const Move = (from, to, captured, flag) => {
 	return from | (to << 7) | (captured << 14) | (promoted << 20) | flag;
 };
+
+const GenerateMoves = () => {
+	//	GameBoard.moveListStart -> indeks prvog poteza u nekom ply-u
+	//	GameBoard.moveList -> lista svih poteza
+
+	GameBoard.moveListStart[GameBoard.ply + 1] =
+		GameBoard.moveListStart[GameBoard.ply];
+
+	let square = null;
+	let pieceNum = null;
+	let color = GameBoard.side;
+	let pieceType = color ? PIECES.bP : PIECES.wP; //white = 0 black = 1
+
+	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; pieceType++) {
+		square = GameBoard.pieceList[PieceIndex(pieceType, pieceNum)];
+		if (GameBoard.pieces[SquareOffset(square, color, 10)] == PIECES.EMPTY) {
+			//Add pawn move
+			if (
+				RanksBoard[square] == (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
+				GameBoard.pieces[SquareOffset(square, color, 20)] ==
+					PIECES.EMPTY
+			) {
+				//Add pawn start move (quiet move)
+			}
+		}
+		if (
+			SquareOffboard(SquareOffset(square, color, 9)) == Bool.False &&
+			pieceCol[GameBoard.pieces[SquareOffset(square, color, 9)]] ==
+				(color ? COLORS.WHITE : COLORS.BLACK)
+		) {
+			//Add pawn capture move
+		}
+		if (
+			SquareOffboard(SquareOffset(square, color, 11)) == Bool.False &&
+			pieceCol[GameBoard.pieces[SquareOffset(square, color, 11)]] ==
+				(color ? COLORS.WHITE : COLORS.BLACK)
+		) {
+			//Add pawn capture move
+		}
+		if (GameBoard.enPassant != SQUARES.NO_SQ) {
+			if (SquareOffset(square, color, 9) == GameBoard.enPassant) {
+				//add en Passant move
+			}
+			if (SquareOffset(square, color, 11) == GameBoard.enPassant) {
+				//add en Passant move
+			}
+		}
+	}
+
+	/* Castling */
+
+	if (GameBoard.castlePerm & (CASTLEBIT.BKCA | CASTLEBIT.WKCA))
+		if (
+			GameBoard.pieces[color ? SQUARES.F8 : SQUARES.F1] == PIECES.EMPTY &&
+			GameBoard.pieces[color ? SQUARES.G8 : SQUARES.F1] == PIECES.EMPTY
+		)
+			if (
+				SquareAttacked(color ? SQUARES.F8 : SQUARES.F1, !color) ==
+					Bool.False &&
+				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
+					Bool.False
+			) {
+				//Add quiet move (castle)
+			}
+	if (GameBoard.castlePerm & (CASTLEBIT.BQCA | CASTLEBIT.WQCA))
+		if (
+			GameBoard.pieces[color ? SQUARES.B8 : SQUARES.B1] == PIECES.EMPTY &&
+			GameBoard.pieces[color ? SQUARES.C8 : SQUARES.C1] == PIECES.EMPTY &&
+			GameBoard.pieces[color ? SQUARES.D8 : SQUARES.D1] == PIECES.EMPTY
+		)
+			if (
+				SquareAttacked(color ? SQUARES.D8 : SQUARES.D1, !color) ==
+					Bool.False &&
+				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
+					Bool.False
+			) {
+				//Add quiet move (castle)
+			}
+
+	pieceType = color ? PIECES.bN : PIECES.wN;
+};
+
+const SquareOffboard = (square) => {
+	return FilesBoard[square] == SQUARES.OFFBOARD;
+};
