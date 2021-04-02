@@ -20,6 +20,10 @@ const PieceIndex = (piece, pieceNum) => {
 	return piece * 10 + pieceNum; //vraća jedinstveni indeks neke figure
 };
 
+const SquareOffset = (square, color, offset) => {
+	return square + offset * (1 - color);
+};
+
 const RAND_32 = () => {
 	return (
 		(Math.floor(Math.random() * 255 + 1) << 23) |
@@ -84,6 +88,6 @@ const PrintBoard = () => {
 	if (GameBoard.castlePerm & CASTLEBIT.BKCA) line += "k";
 	if (GameBoard.castlePerm & CASTLEBIT.BQCA) line += "q";
 	console.log(`castle: ${line}`);
-	console.log(`en passant: ${GameBoard.enPassant}`);
+	console.log(`en passant: ${PrintSquare(GameBoard.enPassant)}`);
 	console.log(`key: ${GameBoard.posKey.toString(16)}`);
 };
