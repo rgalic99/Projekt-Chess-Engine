@@ -24,6 +24,10 @@ const SquareOffset = (square, color, offset) => {
 	return square + offset * (1 - color);
 };
 
+const SquareOffboard = (square) => {
+	return FilesBoard[square] == SQUARES.OFFBOARD;
+};
+
 const RAND_32 = () => {
 	return (
 		(Math.floor(Math.random() * 255 + 1) << 23) |
