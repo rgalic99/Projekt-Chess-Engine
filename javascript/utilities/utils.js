@@ -38,7 +38,9 @@ const RAND_32 = () => {
 };
 
 const PrintSquare = (square) => {
-	return `${fileChar[filesBoard[square]]}${rankChar[ranksBoard[square]]}`;
+	return square == SQUARES.NO_SQ
+		? "No"
+		: `${fileChar[filesBoard[square]]}${rankChar[ranksBoard[square]]}`;
 };
 
 const PrintSquare64 = (number64) => {

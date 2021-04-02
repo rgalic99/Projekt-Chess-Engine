@@ -47,12 +47,19 @@ const GenerateMoves = () => {
 	let square = null;
 	let pieceNum = null;
 	let color = GameBoard.side;
+
+	/* Pawn move */
+
 	let pieceType = color ? PIECES.bP : PIECES.wP; //white = 0 black = 1
 
 	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; pieceType++) {
 		square = GameBoard.pieceList[PieceIndex(pieceType, pieceNum)];
+
+		/* Pawn moves up 1 square */
 		if (GameBoard.pieces[SquareOffset(square, color, 10)] == PIECES.EMPTY) {
 			//Add pawn move
+
+			/* Pawn moves up 2 squares */
 			if (
 				RanksBoard[square] == (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
 				GameBoard.pieces[SquareOffset(square, color, 20)] ==
@@ -61,6 +68,8 @@ const GenerateMoves = () => {
 				//Add pawn start move (quiet move)
 			}
 		}
+
+		/* Pawn capture */
 		if (
 			SquareOffboard(SquareOffset(square, color, 9)) == Bool.False &&
 			pieceCol[GameBoard.pieces[SquareOffset(square, color, 9)]] ==
@@ -75,6 +84,8 @@ const GenerateMoves = () => {
 		) {
 			//Add pawn capture move
 		}
+
+		/* Pawn capture en passant*/
 		if (GameBoard.enPassant != SQUARES.NO_SQ) {
 			if (SquareOffset(square, color, 9) == GameBoard.enPassant) {
 				//add en Passant move
@@ -98,7 +109,7 @@ const GenerateMoves = () => {
 				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
 					Bool.False
 			) {
-				//Add quiet move (castle)
+				//Add quiet move (castle) kingside
 			}
 	if (GameBoard.castlePerm & (CASTLEBIT.BQCA | CASTLEBIT.WQCA))
 		if (
@@ -112,12 +123,8 @@ const GenerateMoves = () => {
 				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
 					Bool.False
 			) {
-				//Add quiet move (castle)
+				//Add quiet move (castle) queenside
 			}
 
 	pieceType = color ? PIECES.bN : PIECES.wN;
-};
-
-const SquareOffboard = (square) => {
-	return FilesBoard[square] == SQUARES.OFFBOARD;
 };
