@@ -7,12 +7,12 @@ const SquareAttacked = (square, side) => {
 	return Bool.False;
 };
 
-const AttackedByPawn = (square, side) => {
+const AttackedByPawn = (square) => {
 	//white=0, black=1
 	if (
 		GameBoard.pieces[SquareOffset(square, side, 11)] ==
 			(side ? PIECES.wP : PIECES.bP) || //if black is playing we check black pawns
-		GameBoard.pieces[SquareOffset(square, side, 9)] ==
+		GameBoard.pieces[SquareOffset(square, 9)] ==
 			(side ? PIECES.wP : PIECES.bP) //if white is playing we check white pawns
 	)
 		return Bool.True;
@@ -53,8 +53,8 @@ const CheckPiece = (piece, side, pieceArray) => {
 
 const CheckBishopAndRook = (square, side, directionArray, pieceArray) => {
 	for (let index = 0; index < directionArray.length; index++) {
-		let current_square = square + directionArray[index];
-		let piece = GameBoard.pieces[current_square];
+		let target_square = square + directionArray[index];
+		let piece = GameBoard.pieces[target_square];
 
 		while (piece != SQUARES.OFFBOARD) {
 			if (piece != PIECES.EMPTY) {
@@ -62,8 +62,8 @@ const CheckBishopAndRook = (square, side, directionArray, pieceArray) => {
 				break;
 			}
 
-			current_square += directionArray[index];
-			piece = GameBoard.pieces[current_square];
+			target_square += directionArray[index];
+			piece = GameBoard.pieces[target_square];
 		}
 	}
 	return Bool.False;

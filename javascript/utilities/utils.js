@@ -20,7 +20,8 @@ const PieceIndex = (piece, pieceNum) => {
 	return piece * 10 + pieceNum; //vraća jedinstveni indeks neke figure
 };
 
-const SquareOffset = (square, color, offset) => {
+const SquareOffset = (square, offset) => {
+	const color = GameBoard.side;
 	return square + offset * (1 - 2 * color);
 };
 
