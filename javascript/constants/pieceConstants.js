@@ -214,3 +214,23 @@ const knightDirection = [-21, -19, -12, -8, 8, 12, 19, 21];
 const rookDirection = [-10, -1, 1, 10];
 const bishopDirection = [-11, -9, 9, 11];
 const kingDirection = [-11, -10, -9, -1, 1, 9, 10, 11];
+
+const dirNum = [0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8];
+const pieceDir = [
+	0,
+	0,
+	knightDirection,
+	bishopDirection,
+	rookDirection,
+	kingDirection,
+	kingDirection,
+	0,
+	knightDirection,
+	bishopDirection,
+	rookDirection,
+	kingDirection,
+	kingDirection,
+];
+
+const loopNonSlidePiece = [PIECES.wN, PIECES.wK, 0, PIECES.bN, PIECES.bK, 0];
+const loopNonSlideIndex = [0, 3];

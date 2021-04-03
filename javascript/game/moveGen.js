@@ -127,4 +127,26 @@ const GenerateMoves = () => {
 			}
 
 	pieceType = color ? PIECES.bN : PIECES.wN;
+	let pieceIndex = loopNonSlideIndex[GameBoard.side];
+	let piece = loopNonSlidePiece[pieceIndex++];
+	while (piece) {
+		for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+			square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
+
+			for (let i = 0; i < dirNum[piece]; i++) {
+				let current_square = square + pieceDir[piece][i];
+				let current_piece = GameBoard.pieces[current_square];
+
+				if (SquareOffboard(current_square)) continue;
+
+				if (current_piece != PIECES.EMPTY)
+					if (pieceCol[current_piece] != color) {
+						//do
+					} else {
+						//something
+					}
+			}
+		}
+		piece = loopNonSlidePiece[pieceIndex++];
+	}
 };
