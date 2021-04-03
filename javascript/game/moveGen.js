@@ -205,24 +205,46 @@ const GenerateNonSlideMove = (square, color, direction) => {
 
 const GenerateSlideMove = (square, color, direction) => {
 	let current_square = square + direction;
-	let current_piece = GameBoard.pieces[current_square];
 
 	while (!SquareOffboard(current_square)) {
+		let current_piece = GameBoard.pieces[current_square];
+
 		if (current_piece != PIECES.EMPTY) {
-			if (pieceCol[current_piece] != color)
+			if (pieceCol[current_piece] != color) {
 				AddCaptureMove(
 					Move(square, current_square, current_piece, PIECES.EMPTY, 0)
 				);
+			}
 			return;
-		} else {
-			AddQuietMove(
-				Move(square, current_square, PIECES.EMPTY, PIECES.EMPTY, 0)
-			);
-			current_square += direction;
 		}
+		AddQuietMove(
+			Move(square, current_square, PIECES.EMPTY, PIECES.EMPTY, 0)
+		);
+		current_square += direction;
 	}
 };
+/*
 
+				while (SQOFFBOARD(t_sq) == BOOL.FALSE) {
+					if (GameBoard.pieces[t_sq] != PIECES.EMPTY) {
+						if (
+							PieceCol[GameBoard.pieces[t_sq]] != GameBoard.side
+						) {
+							AddCaptureMove(
+								MOVE(
+									sq,
+									t_sq,
+									GameBoard.pieces[t_sq],
+									PIECES.EMPTY,
+									0
+								)
+							);
+						}
+						break;
+					}
+					AddQuietMove(MOVE(sq, t_sq, PIECES.EMPTY, PIECES.EMPTY, 0));
+					t_sq += dir;
+				} */
 const GenerateBig = (pieceIndex, piece, color, GenerateFunction, loopArray) => {
 	let pieceNum = 0;
 	while (piece) {

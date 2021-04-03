@@ -1,7 +1,7 @@
 const NUM_OF_SQ = 120;
 
 const START_FEN =
-	"r1bqk2r/pp3pbp/n2ppnp1/2p5/3P4/1PNQPNP1/P1P1BP1P/R1B1K2R w KQkq - 5 8";
+	"r1bqk2r/pp3pbp/n2ppnp1/2p5/3P4/1PNQPNP1/P1P1BP1P/R1B1K2R b KQkq - 5 8";
 
 const pieceChar = [
 	"- ",
