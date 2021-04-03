@@ -21,7 +21,7 @@ const PieceIndex = (piece, pieceNum) => {
 };
 
 const SquareOffset = (square, color, offset) => {
-	return square + offset * (1 - color);
+	return square + offset * (1 - 2 * color);
 };
 
 const SquareOffboard = (square) => {
