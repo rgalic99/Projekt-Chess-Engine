@@ -25,7 +25,7 @@ const SquareOffset = (square, color, offset) => {
 };
 
 const SquareOffboard = (square) => {
-	return FilesBoard[square] == SQUARES.OFFBOARD;
+	return filesBoard[square] == SQUARES.OFFBOARD;
 };
 
 const RAND_32 = () => {
@@ -52,6 +52,37 @@ const PrintSquare64 = (number64) => {
 	squareString = `${MakeCharFromNum(squareStringLetter)}${squareStringNum}`;
 
 	return squareString;
+};
+
+const PrintMove = (move) => {
+	// e2e4 (za promociju dodati slovo figure u koju se promovira)
+	const from = PrintSquare(fromSquare(move));
+	const to = PrintSquare(toSquare(move));
+	const promotionChar = PromotionChar(promotedPiece(move));
+
+	return `${from}${to}${promotionChar}`;
+};
+
+const PromotionChar = (promoted) => {
+	if (promoted) {
+		if (pieceKnight[promoted]) return "k";
+		if (pieceBishopQueen[promoted] && !pieceRookQueen[promoted]) return "b";
+		if (!pieceBishopQueen[promoted] && pieceRookQueen[promoted]) return "r";
+		return "q";
+	}
+	return "";
+};
+
+const PrintMoveList = () => {
+	console.log("Move List:");
+	for (
+		let index = GameBoard.moveListStart[GameBoard.ply];
+		index < GameBoard.moveListStart[GameBoard.ply + 1];
+		index++
+	) {
+		let move = GameBoard.moveList[index];
+		console.log(PrintMove(move));
+	}
 };
 
 const MakeCharFromNum = (number) => {

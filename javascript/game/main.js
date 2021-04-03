@@ -3,6 +3,8 @@ $(() => {
 	Init();
 	ParseFEN(START_FEN);
 	PrintBoard();
+	GenerateMoves();
+	PrintMoveList();
 });
 
 const Init = () => {
