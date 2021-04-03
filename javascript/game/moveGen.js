@@ -147,30 +147,49 @@ const GenerateCastleQueenside = (color) => {
 			}
 };
 
-const GenerateNonSlideMove = (current_square, color, direction) => {
+const GenerateNonSlideMove = (square, color, direction) => {
+	let current_square = square + direction;
 	if (SquareOffboard(current_square)) return console.log(direction);
 
 	let current_piece = GameBoard.pieces[current_square];
 
 	if (current_piece != PIECES.EMPTY)
 		if (pieceCol[current_piece] != color) {
-			//add capture
-		} else {
-			//add quiet move
+			AddCaptureMove(
+				Move(
+					square,
+					current_square,
+					GameBoard.pieces[current_square],
+					PIECES.EMPTY,
+					0
+				)
+			);
 		}
+	AddQuietMove(Move(square, current_square, PIECES.EMPTY, PIECES.EMPTY, 0));
 };
 
-const GenerateSlideMove = (current_square, color, direction) => {
+const GenerateSlideMove = (square, color, direction) => {
+	let current_square = square + direction;
 	let current_piece = GameBoard.pieces[current_square];
 
 	while (!SquareOffboard(current_square)) {
 		if (current_piece != PIECES.EMPTY) {
 			if (pieceCol[current_piece] != color) {
-				//add capture
+				AddCaptureMove(
+					Move(
+						square,
+						current_square,
+						GameBoard.pieces[current_square],
+						PIECES.EMPTY,
+						0
+					)
+				);
 			}
 			return;
 		}
-		//add quiet move
+		AddQuietMove(
+			Move(square, current_square, PIECES.EMPTY, PIECES.EMPTY, 0)
+		);
 		current_square += direction;
 	}
 };
@@ -186,9 +205,24 @@ const GenerateBig = (pieceIndex, piece, GenerateFunction) => {
 
 			for (let i = 0; i < dirNum[piece]; i++) {
 				let direction = pieceDir[piece][i];
-				GenerateFunction(square + direction, color, direction);
+				GenerateFunction(square, color, direction);
 			}
 		}
 		piece = loopNonSlidePiece[pieceIndex++];
 	}
+};
+
+const AddCaptureMove = (move) => {
+	GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
+	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
+};
+
+const AddQuietMove = (move) => {
+	GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
+	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
+};
+
+const AddEnPassantMove = (move) => {
+	GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
+	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
 };
