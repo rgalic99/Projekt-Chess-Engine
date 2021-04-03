@@ -75,16 +75,9 @@ const GenerateMoves = () => {
 	/* Non slide piece (knight and king) */
 	let pieceIndex = loopNonSlideIndex[color];
 	let piece = loopNonSlidePiece[pieceIndex++];
+	GenerateNonSlide(pieceIndex, piece);
 
-	while (piece) {
-		for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
-			square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
-
-			for (let i = 0; i < dirNum[piece]; i++)
-				GenerateNonSlideMove(square + pieceDir[piece][i], color);
-		}
-		piece = loopNonSlidePiece[pieceIndex++];
-	}
+	/* Slide piece (rook, bishop and queen) */
 };
 
 const GeneratePawnMove = (square, color) => {
@@ -162,4 +155,20 @@ const GenerateNonSlideMove = (current_square, color) => {
 		} else {
 			//add quiet move
 		}
+};
+
+const GenerateNonSlide = (pieceIndex, piece) => {
+	while (piece) {
+		for (
+			let pieceNum = 0;
+			pieceNum < GameBoard.pieceNum[piece];
+			pieceNum++
+		) {
+			let square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
+
+			for (let i = 0; i < dirNum[piece]; i++)
+				GenerateNonSlideMove(square + pieceDir[piece][i], color);
+		}
+		piece = loopNonSlidePiece[pieceIndex++];
+	}
 };
