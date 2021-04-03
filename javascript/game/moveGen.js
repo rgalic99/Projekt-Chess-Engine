@@ -46,6 +46,8 @@ const GenerateMoves = () => {
 
 	let square = null;
 	let pieceNum = null;
+	let pieceIndex = null;
+	let piece = null;
 	let color = GameBoard.side;
 
 	/* Pawn */
@@ -73,8 +75,8 @@ const GenerateMoves = () => {
 	GenerateCastleQueenside(color);
 
 	/* Non slide piece (knight and king) */
-	let pieceIndex = loopNonSlideIndex[color];
-	let piece = loopNonSlidePiece[pieceIndex++];
+	pieceIndex = loopNonSlideIndex[color];
+	piece = loopNonSlidePiece[pieceIndex++];
 	GenerateBig(pieceIndex, piece, GenerateNonSlideMove);
 
 	/* Slide piece (rook, bishop and queen) */
@@ -92,9 +94,16 @@ const GeneratePawnMove = (square, color) => {
 		if (
 			RanksBoard[square] == (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
 			GameBoard.pieces[SquareOffset(square, color, 20)] == PIECES.EMPTY
-		) {
-			//Add pawn start move (quiet move)
-		}
+		)
+			AddQuietMove(
+				Move(
+					square,
+					SquareOffset(square, color, 20),
+					PIECES.EMPTY,
+					PIECES.EMPTY,
+					moveFlagPawnStart
+				)
+			);
 	}
 };
 
@@ -109,9 +118,15 @@ const GeneratePawnCapture = (square, color, offset) => {
 };
 
 const GeneratePawnCaptureEnPassant = (square, color, offset) => {
-	if (SquareOffset(square, color, offset) == GameBoard.enPassant) {
-		//add en Passant move
-	}
+	const enPassantSquare = SquareOffset(square, color, offset);
+	if (enPassantSquare == GameBoard.enPassant)
+		AddEnPassantMove(
+			square,
+			enPassantSquare,
+			PIECES.EMPTY,
+			PIECES.EMPTY,
+			moveFlagEnPassant
+		);
 };
 
 const GenerateCastleKingside = (color) => {
@@ -125,9 +140,16 @@ const GenerateCastleKingside = (color) => {
 					Bool.False &&
 				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
 					Bool.False
-			) {
-				//Add quiet move (castle) kingside
-			}
+			)
+				AddQuietMove(
+					Move(
+						color ? SQUARES.E8 : SQUARES.E1,
+						color ? SQUARES.G8 : SQUARES.G1,
+						PIECES.EMPTY,
+						PIECES.EMPTY,
+						moveFlagCastle
+					)
+				);
 };
 
 const GenerateCastleQueenside = (color) => {
@@ -142,19 +164,26 @@ const GenerateCastleQueenside = (color) => {
 					Bool.False &&
 				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
 					Bool.False
-			) {
-				//Add quiet move (castle) queenside
-			}
+			)
+				AddQuietMove(
+					Move(
+						color ? SQUARES.E8 : SQUARES.E1,
+						color ? SQUARES.C8 : SQUARES.C1,
+						PIECES.EMPTY,
+						PIECES.EMPTY,
+						moveFlagCastle
+					)
+				);
 };
 
 const GenerateNonSlideMove = (square, color, direction) => {
 	let current_square = square + direction;
-	if (SquareOffboard(current_square)) return console.log(direction);
+	if (SquareOffboard(current_square)) return;
 
 	let current_piece = GameBoard.pieces[current_square];
 
-	if (current_piece != PIECES.EMPTY)
-		if (pieceCol[current_piece] != color) {
+	if (current_piece != PIECES.EMPTY) {
+		if (pieceCol[current_piece] != color)
 			AddCaptureMove(
 				Move(
 					square,
@@ -164,8 +193,11 @@ const GenerateNonSlideMove = (square, color, direction) => {
 					0
 				)
 			);
-		}
-	AddQuietMove(Move(square, current_square, PIECES.EMPTY, PIECES.EMPTY, 0));
+	} else {
+		AddQuietMove(
+			Move(square, current_square, PIECES.EMPTY, PIECES.EMPTY, 0)
+		);
+	}
 };
 
 const GenerateSlideMove = (square, color, direction) => {
