@@ -46,8 +46,6 @@ const GenerateMoves = () => {
 
 	let square = null;
 	let pieceNum = null;
-	let pieceIndex = null;
-	let piece = null;
 	let color = GameBoard.side;
 
 	/* Pawn */
@@ -74,14 +72,10 @@ const GenerateMoves = () => {
 	GenerateCastleQueenside();
 
 	/* Non slide piece (knight and king) */
-	pieceIndex = loopNonSlideIndex[color];
-	piece = loopNonSlidePiece[pieceIndex++];
-	GenerateBig(pieceIndex, piece, GenerateNonSlideMove, loopNonSlidePiece);
+	GenerateBig(GenerateNonSlideMove, loopNonSlideIndex, loopNonSlidePiece);
 
 	/* Slide piece (rook, bishop and queen) */
-	pieceIndex = loopSlideIndex[color];
-	piece = loopSlidePiece[pieceIndex++];
-	GenerateBig(pieceIndex, piece, GenerateSlideMove, loopSlidePiece);
+	GenerateBig(GenerateSlideMove, loopSlideIndex, loopSlidePiece);
 };
 
 const GeneratePawnMove = (square) => {
@@ -223,7 +217,9 @@ const GenerateSlideMove = (square, direction) => {
 		target_square += direction;
 	}
 };
-const GenerateBig = (pieceIndex, piece, GenerateFunction, loopArray) => {
+const GenerateBig = (GenerateFunction, loopPieceIndex, loopPieceArray) => {
+	let pieceIndex = loopPieceIndex[color];
+	let piece = loopPieceArray[pieceIndex++];
 	let pieceNum = 0;
 	while (piece) {
 		for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
@@ -234,7 +230,7 @@ const GenerateBig = (pieceIndex, piece, GenerateFunction, loopArray) => {
 				GenerateFunction(square, direction);
 			}
 		}
-		piece = loopArray[pieceIndex++];
+		piece = loopPieceArray[pieceIndex++];
 	}
 };
 
