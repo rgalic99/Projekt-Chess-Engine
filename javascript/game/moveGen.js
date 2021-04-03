@@ -55,49 +55,70 @@ const GenerateMoves = () => {
 	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; pieceType++) {
 		square = GameBoard.pieceList[PieceIndex(pieceType, pieceNum)];
 
-		/* Pawn moves up 1 square */
-		if (GameBoard.pieces[SquareOffset(square, color, 10)] == PIECES.EMPTY) {
-			//Add pawn move
-
-			/* Pawn moves up 2 squares */
-			if (
-				RanksBoard[square] == (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
-				GameBoard.pieces[SquareOffset(square, color, 20)] ==
-					PIECES.EMPTY
-			) {
-				//Add pawn start move (quiet move)
-			}
-		}
-
+		/* Pawn move */
+		GeneratePawnMove(square, color);
 		/* Pawn capture */
-		if (
-			SquareOffboard(SquareOffset(square, color, 9)) == Bool.False &&
-			pieceCol[GameBoard.pieces[SquareOffset(square, color, 9)]] ==
-				(color ? COLORS.WHITE : COLORS.BLACK)
-		) {
-			//Add pawn capture move
-		}
-		if (
-			SquareOffboard(SquareOffset(square, color, 11)) == Bool.False &&
-			pieceCol[GameBoard.pieces[SquareOffset(square, color, 11)]] ==
-				(color ? COLORS.WHITE : COLORS.BLACK)
-		) {
-			//Add pawn capture move
-		}
+		GeneratePawnCapture(square, color, 9);
+		GeneratePawnCapture(square, color, 11);
 
 		/* Pawn capture en passant*/
 		if (GameBoard.enPassant != SQUARES.NO_SQ) {
-			if (SquareOffset(square, color, 9) == GameBoard.enPassant) {
-				//add en Passant move
-			}
-			if (SquareOffset(square, color, 11) == GameBoard.enPassant) {
-				//add en Passant move
-			}
+			GeneratePawnCaptureEnPassant(square, color, 9);
+			GeneratePawnCaptureEnPassant(square, color, 11);
 		}
 	}
 
 	/* Castling */
+	GenerateCastleKingside(color);
+	GenerateCastleQueenside(color);
 
+	/* Non slide piece (knight and king) */
+	let pieceIndex = loopNonSlideIndex[color];
+	let piece = loopNonSlidePiece[pieceIndex++];
+
+	while (piece) {
+		for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+			square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
+
+			for (let i = 0; i < dirNum[piece]; i++)
+				GenerateNonSlideMove(square + pieceDir[piece][i], color);
+		}
+		piece = loopNonSlidePiece[pieceIndex++];
+	}
+};
+
+const GeneratePawnMove = (square, color) => {
+	/* Pawn moves up 1 square */
+	if (GameBoard.pieces[SquareOffset(square, color, 10)] == PIECES.EMPTY) {
+		//Add pawn move
+
+		/* Pawn moves up 2 squares */
+		if (
+			RanksBoard[square] == (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
+			GameBoard.pieces[SquareOffset(square, color, 20)] == PIECES.EMPTY
+		) {
+			//Add pawn start move (quiet move)
+		}
+	}
+};
+
+const GeneratePawnCapture = (square, color, offset) => {
+	if (
+		SquareOffboard(SquareOffset(square, color, offset)) == Bool.False &&
+		pieceCol[GameBoard.pieces[SquareOffset(square, color, offset)]] ==
+			(color ? COLORS.WHITE : COLORS.BLACK)
+	) {
+		//Add pawn capture move
+	}
+};
+
+const GeneratePawnCaptureEnPassant = (square, color, offset) => {
+	if (SquareOffset(square, color, offset) == GameBoard.enPassant) {
+		//add en Passant move
+	}
+};
+
+const GenerateCastleKingside = (color) => {
 	if (GameBoard.castlePerm & (CASTLEBIT.BKCA | CASTLEBIT.WKCA))
 		if (
 			GameBoard.pieces[color ? SQUARES.F8 : SQUARES.F1] == PIECES.EMPTY &&
@@ -111,6 +132,9 @@ const GenerateMoves = () => {
 			) {
 				//Add quiet move (castle) kingside
 			}
+};
+
+const GenerateCastleQueenside = (color) => {
 	if (GameBoard.castlePerm & (CASTLEBIT.BQCA | CASTLEBIT.WQCA))
 		if (
 			GameBoard.pieces[color ? SQUARES.B8 : SQUARES.B1] == PIECES.EMPTY &&
@@ -125,28 +149,17 @@ const GenerateMoves = () => {
 			) {
 				//Add quiet move (castle) queenside
 			}
+};
 
-	pieceType = color ? PIECES.bN : PIECES.wN;
-	let pieceIndex = loopNonSlideIndex[GameBoard.side];
-	let piece = loopNonSlidePiece[pieceIndex++];
-	while (piece) {
-		for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
-			square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
+const GenerateNonSlideMove = (current_square, color) => {
+	if (SquareOffboard(current_square)) return;
 
-			for (let i = 0; i < dirNum[piece]; i++) {
-				let current_square = square + pieceDir[piece][i];
-				let current_piece = GameBoard.pieces[current_square];
+	let current_piece = GameBoard.pieces[current_square];
 
-				if (SquareOffboard(current_square)) continue;
-
-				if (current_piece != PIECES.EMPTY)
-					if (pieceCol[current_piece] != color) {
-						//do
-					} else {
-						//something
-					}
-			}
+	if (current_piece != PIECES.EMPTY)
+		if (pieceCol[current_piece] != color) {
+			//add capture
+		} else {
+			//add quiet move
 		}
-		piece = loopNonSlidePiece[pieceIndex++];
-	}
 };
