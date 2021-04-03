@@ -48,7 +48,7 @@ const GenerateMoves = () => {
 	let pieceNum = null;
 	let color = GameBoard.side;
 
-	/* Pawn move */
+	/* Pawn */
 
 	let pieceType = color ? PIECES.bP : PIECES.wP; //white = 0 black = 1
 
@@ -75,9 +75,12 @@ const GenerateMoves = () => {
 	/* Non slide piece (knight and king) */
 	let pieceIndex = loopNonSlideIndex[color];
 	let piece = loopNonSlidePiece[pieceIndex++];
-	GenerateNonSlide(pieceIndex, piece);
+	GenerateBig(pieceIndex, piece, GenerateNonSlideMove);
 
 	/* Slide piece (rook, bishop and queen) */
+	pieceIndex = loopSlideIndex[color];
+	piece = loopSlidePiece[pieceIndex++];
+	GenerateBig(pieceIndex, piece, GenerateSlideMove);
 };
 
 const GeneratePawnMove = (square, color) => {
@@ -144,8 +147,8 @@ const GenerateCastleQueenside = (color) => {
 			}
 };
 
-const GenerateNonSlideMove = (current_square, color) => {
-	if (SquareOffboard(current_square)) return;
+const GenerateNonSlideMove = (current_square, color, direction) => {
+	if (SquareOffboard(current_square)) return console.log(direction);
 
 	let current_piece = GameBoard.pieces[current_square];
 
@@ -157,7 +160,22 @@ const GenerateNonSlideMove = (current_square, color) => {
 		}
 };
 
-const GenerateNonSlide = (pieceIndex, piece) => {
+const GenerateSlideMove = (current_square, color, direction) => {
+	let current_piece = GameBoard.pieces[current_square];
+
+	while (!SquareOffboard(current_square)) {
+		if (current_piece != PIECES.EMPTY) {
+			if (pieceCol[current_piece] != color) {
+				//add capture
+			}
+			return;
+		}
+		//add quiet move
+		current_square += direction;
+	}
+};
+
+const GenerateBig = (pieceIndex, piece, GenerateFunction) => {
 	while (piece) {
 		for (
 			let pieceNum = 0;
@@ -166,8 +184,10 @@ const GenerateNonSlide = (pieceIndex, piece) => {
 		) {
 			let square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 
-			for (let i = 0; i < dirNum[piece]; i++)
-				GenerateNonSlideMove(square + pieceDir[piece][i], color);
+			for (let i = 0; i < dirNum[piece]; i++) {
+				let direction = pieceDir[piece][i];
+				GenerateFunction(square + direction, color, direction);
+			}
 		}
 		piece = loopNonSlidePiece[pieceIndex++];
 	}

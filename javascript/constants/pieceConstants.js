@@ -234,3 +234,15 @@ const pieceDir = [
 
 const loopNonSlidePiece = [PIECES.wN, PIECES.wK, 0, PIECES.bN, PIECES.bK, 0];
 const loopNonSlideIndex = [0, 3];
+
+const loopSlidePiece = [
+	PIECES.wB,
+	PIECES.wR,
+	PIECES.wQ,
+	0,
+	PIECES.bB,
+	PIECES.bR,
+	PIECES.bQ,
+	0,
+];
+const loopSlideIndex = [0, 4];
