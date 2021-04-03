@@ -54,7 +54,7 @@ const GenerateMoves = () => {
 
 	let pieceType = color ? PIECES.bP : PIECES.wP; //white = 0 black = 1
 
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; pieceType++) {
+	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(pieceType, pieceNum)];
 
 		/* Pawn move */
@@ -88,8 +88,7 @@ const GenerateMoves = () => {
 const GeneratePawnMove = (square, color) => {
 	/* Pawn moves up 1 square */
 	if (GameBoard.pieces[SquareOffset(square, color, 10)] == PIECES.EMPTY) {
-		//Add pawn move
-
+		AddPawnCaptureOrQuietMove(square, targetSquare, PIECES.EMPTY, color);
 		/* Pawn moves up 2 squares */
 		if (
 			RanksBoard[square] == (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
@@ -108,13 +107,11 @@ const GeneratePawnMove = (square, color) => {
 };
 
 const GeneratePawnCapture = (square, color, offset) => {
-	if (
-		SquareOffboard(SquareOffset(square, color, offset)) == Bool.False &&
-		pieceCol[GameBoard.pieces[SquareOffset(square, color, offset)]] ==
-			(color ? COLORS.WHITE : COLORS.BLACK)
-	) {
-		//Add pawn capture move
-	}
+	const targetSquare = SquareOffset(square, color, offset);
+	const targetPiece = GameBoard.pieces[targetSquare];
+
+	if (!SquareOffboard(targetSquare) && pieceCol[targetPiece] == !color)
+		AddPawnCaptureOrQuietMove(square, targetSquare, targetPiece, color);
 };
 
 const GeneratePawnCaptureEnPassant = (square, color, offset) => {
@@ -130,21 +127,23 @@ const GeneratePawnCaptureEnPassant = (square, color, offset) => {
 };
 
 const GenerateCastleKingside = (color) => {
+	const targetEsquare = color ? SQUARES.E8 : SQUARES.E1;
+	const targetFsquare = color ? SQUARES.F8 : SQUARES.F1;
+	const targetGsquare = color ? SQUARES.G8 : SQUARES.G1;
+
 	if (GameBoard.castlePerm & (CASTLEBIT.BKCA | CASTLEBIT.WKCA))
 		if (
-			GameBoard.pieces[color ? SQUARES.F8 : SQUARES.F1] == PIECES.EMPTY &&
-			GameBoard.pieces[color ? SQUARES.G8 : SQUARES.F1] == PIECES.EMPTY
+			GameBoard.pieces[targetFsquare] == PIECES.EMPTY &&
+			GameBoard.pieces[targetGsquare] == PIECES.EMPTY
 		)
 			if (
-				SquareAttacked(color ? SQUARES.F8 : SQUARES.F1, !color) ==
-					Bool.False &&
-				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
-					Bool.False
+				SquareAttacked(targetFsquare, !color) == Bool.False &&
+				SquareAttacked(targetEsquare, !color) == Bool.False
 			)
 				AddQuietMove(
 					Move(
-						color ? SQUARES.E8 : SQUARES.E1,
-						color ? SQUARES.G8 : SQUARES.G1,
+						targetEsquare,
+						targetGsquare,
 						PIECES.EMPTY,
 						PIECES.EMPTY,
 						moveFlagCastle
@@ -153,22 +152,25 @@ const GenerateCastleKingside = (color) => {
 };
 
 const GenerateCastleQueenside = (color) => {
+	const targetBsquare = color ? SQUARES.B8 : SQUARES.B1;
+	const targetCsquare = color ? SQUARES.C8 : SQUARES.C1;
+	const targetDsquare = color ? SQUARES.D8 : SQUARES.D1;
+	const targetEsquare = color ? SQUARES.E8 : SQUARES.E1;
+
 	if (GameBoard.castlePerm & (CASTLEBIT.BQCA | CASTLEBIT.WQCA))
 		if (
-			GameBoard.pieces[color ? SQUARES.B8 : SQUARES.B1] == PIECES.EMPTY &&
-			GameBoard.pieces[color ? SQUARES.C8 : SQUARES.C1] == PIECES.EMPTY &&
-			GameBoard.pieces[color ? SQUARES.D8 : SQUARES.D1] == PIECES.EMPTY
+			GameBoard.pieces[targetBsquare] == PIECES.EMPTY &&
+			GameBoard.pieces[targetCsquare] == PIECES.EMPTY &&
+			GameBoard.pieces[targetDsquare] == PIECES.EMPTY
 		)
 			if (
-				SquareAttacked(color ? SQUARES.D8 : SQUARES.D1, !color) ==
-					Bool.False &&
-				SquareAttacked(color ? SQUARES.E8 : SQUARES.E1, !color) ==
-					Bool.False
+				SquareAttacked(targetDsquare, !color) == Bool.False &&
+				SquareAttacked(targetEsquare, !color) == Bool.False
 			)
 				AddQuietMove(
 					Move(
-						color ? SQUARES.E8 : SQUARES.E1,
-						color ? SQUARES.C8 : SQUARES.C1,
+						targetEsquare,
+						targetCsquare,
 						PIECES.EMPTY,
 						PIECES.EMPTY,
 						moveFlagCastle
@@ -185,13 +187,7 @@ const GenerateNonSlideMove = (square, color, direction) => {
 	if (current_piece != PIECES.EMPTY) {
 		if (pieceCol[current_piece] != color)
 			AddCaptureMove(
-				Move(
-					square,
-					current_square,
-					GameBoard.pieces[current_square],
-					PIECES.EMPTY,
-					0
-				)
+				Move(square, current_square, current_piece, PIECES.EMPTY, 0)
 			);
 	} else {
 		AddQuietMove(
@@ -206,17 +202,10 @@ const GenerateSlideMove = (square, color, direction) => {
 
 	while (!SquareOffboard(current_square)) {
 		if (current_piece != PIECES.EMPTY) {
-			if (pieceCol[current_piece] != color) {
+			if (pieceCol[current_piece] != color)
 				AddCaptureMove(
-					Move(
-						square,
-						current_square,
-						GameBoard.pieces[current_square],
-						PIECES.EMPTY,
-						0
-					)
+					Move(square, current_square, current_piece, PIECES.EMPTY, 0)
 				);
-			}
 			return;
 		}
 		AddQuietMove(
@@ -227,12 +216,9 @@ const GenerateSlideMove = (square, color, direction) => {
 };
 
 const GenerateBig = (pieceIndex, piece, GenerateFunction) => {
+	let pieceNum = 0;
 	while (piece) {
-		for (
-			let pieceNum = 0;
-			pieceNum < GameBoard.pieceNum[piece];
-			pieceNum++
-		) {
+		for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
 			let square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 
 			for (let i = 0; i < dirNum[piece]; i++) {
@@ -257,4 +243,22 @@ const AddQuietMove = (move) => {
 const AddEnPassantMove = (move) => {
 	GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
 	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
+};
+
+const AddPawnCaptureOrQuietMove = (from, to, captured, color) => {
+	const targetRank = color ? RANKS.RANK_2 : RANKS.RANK_7;
+
+	if (RanksBoard[from] == targetRank)
+		AddPawnPromotionMoves(from, to, captured, color);
+	else
+		captured
+			? AddCaptureMove(Move(from, to, captured, PIECES.EMPTY, 0))
+			: AddQuietMove(Move(from, to, captured, PIECES.EMPTY, 0));
+};
+
+const AddPawnPromotionMoves = (from, to, captured, color) => {
+	AddCaptureMove(Move(from, to, captured, color ? PIECES.bQ : PIECES.wQ, 0));
+	AddCaptureMove(Move(from, to, captured, color ? PIECES.bR : PIECES.wR, 0));
+	AddCaptureMove(Move(from, to, captured, color ? PIECES.bB : PIECES.wB, 0));
+	AddCaptureMove(Move(from, to, captured, color ? PIECES.bN : PIECES.wN, 0));
 };
