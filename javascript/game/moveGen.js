@@ -249,16 +249,18 @@ const AddPawnCaptureOrQuietMove = (from, to, captured, color) => {
 	const targetRank = color ? RANKS.RANK_2 : RANKS.RANK_7;
 
 	if (RanksBoard[from] == targetRank)
-		AddPawnPromotionMoves(from, to, captured, color);
+		captured
+			? AddPawnPromotionMoves(from, to, captured, color, AddCaptureMove)
+			: AddPawnPromotionMoves(from, to, captured, color, AddQuietMove);
 	else
 		captured
 			? AddCaptureMove(Move(from, to, captured, PIECES.EMPTY, 0))
 			: AddQuietMove(Move(from, to, captured, PIECES.EMPTY, 0));
 };
 
-const AddPawnPromotionMoves = (from, to, captured, color) => {
-	AddCaptureMove(Move(from, to, captured, color ? PIECES.bQ : PIECES.wQ, 0));
-	AddCaptureMove(Move(from, to, captured, color ? PIECES.bR : PIECES.wR, 0));
-	AddCaptureMove(Move(from, to, captured, color ? PIECES.bB : PIECES.wB, 0));
-	AddCaptureMove(Move(from, to, captured, color ? PIECES.bN : PIECES.wN, 0));
+const AddPawnPromotionMoves = (from, to, captured, color, PromotionMove) => {
+	PromotionMove(Move(from, to, captured, color ? PIECES.bQ : PIECES.wQ, 0));
+	PromotionMove(Move(from, to, captured, color ? PIECES.bR : PIECES.wR, 0));
+	PromotionMove(Move(from, to, captured, color ? PIECES.bB : PIECES.wB, 0));
+	PromotionMove(Move(from, to, captured, color ? PIECES.bN : PIECES.wN, 0));
 };
