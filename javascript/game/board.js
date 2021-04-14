@@ -1,4 +1,4 @@
-let GameBoard = {};
+const GameBoard = {};
 
 GameBoard.pieces = new Array(NUM_OF_SQ);
 GameBoard.pieceList = new Array(13 * 10);
