@@ -66,7 +66,6 @@ const PromotionChar = (promoted) => {
 };
 
 const PrintMoveList = () => {
-	let counter = 0;
 	console.log("Move List:");
 	for (
 		let index = GameBoard.moveListStart[GameBoard.ply];
@@ -75,9 +74,7 @@ const PrintMoveList = () => {
 	) {
 		let move = GameBoard.moveList[index];
 		console.log(PrintMove(move));
-		counter++;
 	}
-	console.log(counter);
 };
 
 const MakeCharFromNum = (number) => {
