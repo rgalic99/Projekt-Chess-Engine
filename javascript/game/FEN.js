@@ -11,7 +11,9 @@ const ParseFEN = (fenString) => {
 	fenCount = ParseCastle(fenString, fenCount);
 	fenCount = ParseEnPassant(fenString, fenCount);
 
-	GameBoard.posKey = GeneratePositionKey(); // generira hash poticije
+	GameBoard.posKey = 0;
+	InitHashKeys();
+	GeneratePositionKey(); // generira hash poticije
 	UpdateMaterialLists();
 };
 
@@ -140,20 +142,13 @@ const ParseEnPassant = (fenString, fenCount) => {
 };
 
 const GeneratePositionKey = () => {
-	let positionKey = 0;
-
 	for (let square = 0; square < 64; square++) {
 		let piece = GameBoard.pieces[GetSquare120(square)];
-		if (piece != PIECES.EMPTY)
-			positionKey ^= pieceKeys[piece * 120 + square]; //operacija XOR nad PositionKey vrijednosti za svaku figuru
+		if (piece != PIECES.EMPTY) HashPiece(piece, square); //hashiranje vrijednosti za svaku figuru
 	}
 
-	if (GameBoard.side == COLORS.WHITE) positionKey ^= sideKey;
-	//XOR sa stranom koja igra
-	if (GameBoard.enPassant != SQUARES.NO_SQ)
-		positionKey ^= pieceKeys[GameBoard.enPassant]; //XOR sa en passant kockom
+	if (GameBoard.side == COLORS.WHITE) HashSide(); //hashiranje sa stranom koja igra
+	if (GameBoard.enPassant != SQUARES.NO_SQ) HashEnPassant(); //hashiranje en passant kocke
 
-	positionKey ^= castleKeys[GameBoard.castlePerm]; //XOR sa pravima rokade
-
-	return positionKey;
+	HashCastle(); //hashiranje rokade
 };
