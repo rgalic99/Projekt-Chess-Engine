@@ -10,7 +10,8 @@ const GetDependencies = () => {
 	game/main.js
 	game/FEN.js
 	game/squareAttacked.js
-	game/moveGen.js`;
+	game/moveGen.js
+	game/makeMove.js`;
 	return links.split("\n");
 };
 
@@ -28,7 +29,7 @@ const ParseDependencies = () => {
 		let script = document.createElement("script");
 		script.src = `../javascript/${link}`;
 		document.getElementById("dependencies").appendChild(script);
-		Sleep(1);
+		Sleep(10);
 	});
 };
 
