@@ -22,3 +22,14 @@ const AddPieceToSquare = (piece, square) => {
 	const numOfPiece = GameBoard.pieceNum[piece]++;
 	GameBoard.pieceList[pieceIndex(piece, numOfPiece)] = square;
 };
+
+const MovePiece = (from, to) => {
+	const piece = GameBoard.pieces[from];
+	HashPiece(piece, from);
+	GameBoard.pieces[from] = PIECES.EMPTY;
+	HashPiece(piece, to);
+	GameBoard.pieces[to] = piece;
+
+	const index = GameBoard.pieceList.indexOf(from, PieceIndex(piece, 0));
+	GameBoard.pieceList[index] = to;
+};
