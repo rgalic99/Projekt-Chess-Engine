@@ -7,11 +7,11 @@ const GetDependencies = () => {
 	game/mainFunctions.js
 	game/pieceFunctions.js
 	game/board.js
-	game/main.js
 	game/FEN.js
 	game/squareAttacked.js
 	game/moveGen.js
-	game/makeMove.js`;
+	game/makeMove.js
+	game/main.js`;
 	return links.split("\n");
 };
 

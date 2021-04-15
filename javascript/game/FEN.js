@@ -3,9 +3,9 @@ const ParseFEN = (fenString) => {
 	ResetBoard();
 	let fenCount = 0; //indeks znaka u fenString-u
 
-	if (fenString == "") throw new Error("FEN is empty");
+	if (fenString == "") throw new Error("FEN is empty"); //! ako je FEN prazan
 	fenCount = ParsePieces(fenString, fenCount);
-	if (fenCount == -1) throw new Error("FEN is invalid"); //ako FEN nije valjan
+	if (fenCount == -1) throw new Error("FEN is invalid"); //! ako FEN nije valjan
 
 	fenCount = ParseSide(fenString, fenCount);
 	fenCount = ParseCastle(fenString, fenCount);
