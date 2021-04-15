@@ -11,3 +11,14 @@ const ClearPiece = (square) => {
 	GameBoard.pieceList[PieceIndex(piece, index)] =
 		GameBoard.pieceList[PieceIndex(piece, last)];
 };
+
+const AddPieceToSquare = (piece, square) => {
+	HashPiece(piece, square);
+
+	const color = pieceCol[piece];
+	GameBoard.pieces[square] = piece;
+	GameBoard.material[color] += pieceVal[piece];
+
+	const numOfPiece = GameBoard.pieceNum[piece]++;
+	GameBoard.pieceList[pieceIndex(piece, numOfPiece)] = square;
+};
