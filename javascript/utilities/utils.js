@@ -120,3 +120,51 @@ const PrintBoard = () => {
 	console.log(`en passant: ${PrintSquare(GameBoard.enPassant)}`);
 	console.log(`key: ${GameBoard.posKey.toString(16)}`);
 };
+
+const CheckBoard = () => {
+	const pieceNum = new Array(13).fill(0);
+	const material = new Array(2).fill(0);
+
+	for (let piece = PIECES.wP; piece <= PIECES.bk; piece++)
+		if (!CheckPieceNumArray(piece)) return Bool.False;
+
+	for (let square64 = 0; square64 < 64; square64++) {
+		let square120 = GetSquare120(square64);
+		let piece = GameBoard.pieces[square120];
+		pieceNum[piece]++;
+		material[pieceCol[piece]] += pieceVal[piece];
+	}
+
+	if (!ArrayEquals(pieceNum, GameBoard.pceNum)) {
+		console.log("Piece number error");
+		return Bool.False;
+	}
+
+	if (!ArrayEquals(material, GameBoard.material)) {
+		console.log("Material error");
+		return Bool.False;
+	}
+
+	const color = GameBoard.side;
+	if (color != COLORS.WHITE && color != COLORS.BLACK) {
+		console.log("GameBoard.side error");
+		return Bool.False;
+	}
+
+	return Bool.True;
+};
+
+const ArrayEquals = (a, b) => {
+	return a.every((val, index) => val === b[index]);
+};
+
+const CheckPieceNumArray = (piece) => {
+	for (let pieceNum = 0; pieceNum < GameBoard.pceNum[piece]; pieceNum++) {
+		let square120 = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
+		if (GameBoard.pieces[square120] != piece) {
+			console.log("Piece list error");
+			return Bool.False;
+		}
+	}
+	return Bool.True;
+};
