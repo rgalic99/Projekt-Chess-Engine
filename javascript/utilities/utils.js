@@ -36,12 +36,12 @@ const PrintSquare = (square) => {
 };
 
 const PrintSquare64 = (number64) => {
-	let squareString = "";
+	const squareStringNum = Math.ceil(number64 / 8);
+	const squareStringLetter = number64 - 8 * Math.floor(number64 / 8);
 
-	let squareStringNum = Math.ceil(number64 / 8);
-	let squareStringLetter = number64 - 8 * Math.floor(number64 / 8);
-
-	squareString = `${MakeCharFromNum(squareStringLetter)}${squareStringNum}`;
+	const squareString = `${MakeCharFromNum(
+		squareStringLetter
+	)}${squareStringNum}`;
 
 	return squareString;
 };
@@ -82,7 +82,7 @@ const MakeCharFromNum = (number) => {
 };
 
 const GetSquare120FromString = (string) => {
-	if (string != "No") {
+	if (string != "No" || string != "") {
 		let file = string[0].charCodeAt() - "a".charCodeAt();
 		let rank = string[1].charCodeAt() - "1".charCodeAt();
 		return FileRankToSquare(file, rank);

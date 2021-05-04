@@ -1,5 +1,5 @@
 const GetDependencies = () => {
-	let links = `utilities/utils.js
+	const links = `utilities/utils.js
 	utilities/button.js
 	constants/boardConstants.js
 	constants/gameConstants.js
@@ -24,7 +24,7 @@ const Sleep = (ms) => {
 };
 
 const ParseDependencies = () => {
-	let links = GetDependencies();
+	const links = GetDependencies();
 	links.forEach((link) => {
 		let script = document.createElement("script");
 		script.src = `../javascript/${link}`;

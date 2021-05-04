@@ -46,7 +46,7 @@ const GenerateMoves = () => {
 
 	let square = null;
 	let pieceNum = null;
-	let color = GameBoard.side;
+	const color = GameBoard.side;
 
 	/* Pawn */
 
