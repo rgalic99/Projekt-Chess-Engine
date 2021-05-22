@@ -33,3 +33,75 @@ const MovePiece = (from, to) => {
 	const index = GameBoard.pieceList.indexOf(from, PieceIndex(piece, 0));
 	GameBoard.pieceList[index] = to;
 };
+
+const MakeMove = (move) => {
+	const from = fromSquare(move);
+	const to = toSquare(move);
+
+	if (move & moveFlagEnPassant) ClearPiece(SquareOffset(to, 10));
+	else if (move & moveFlagCastle)
+		switch (to) {
+			case SQUARES.C1:
+				MovePiece(SQUARES.A1, SQUARES.D1);
+				break;
+			case SQUARES.C8:
+				MovePiece(SQUARES.A8, SQUARES.D8);
+				break;
+			case SQUARES.G1:
+				MovePiece(SQUARES.H1, SQUARES.F1);
+				break;
+			case SQUARES.G8:
+				MovePiece(SQUARES.H8, SQUARES.F8);
+				break;
+			default:
+				break;
+		}
+
+	if (GameBoard.enPassant != SQUARES.NO_SQ) HashEnPassant();
+
+	GameBoard.history[historyPly].move = move;
+	GameBoard.history[historyPly].fiftyMoveRule = GameBoard.fiftyMoveRule;
+	GameBoard.history[historyPly].enPassant = GameBoard.enPassant;
+	GameBoard.history[historyPly].castlePerm = GameBoard.castlePerm;
+
+	GameBoard.castlePerm &= castlePerm[from];
+	GameBoard.castlePerm &= castlePerm[to];
+	GameBoard.enPassant = SQUARES.NO_SQ;
+
+	HashCastle();
+
+	const captured = capturedPiece(move);
+	GameBoard.fiftyMoveRule++;
+
+	if (captured != PIECES.EMPTY) {
+		ClearPiece(to);
+		GameBoard.fiftyMoveRule = 0;
+	}
+
+	GameBoard.historyPly++;
+	GameBoard.ply++;
+
+	if (piecePawn[GameBoard.pieces[from]]) {
+		GameBoard.fiftyMoveRule = 0;
+		if (move & moveFlagPawnStart) {
+			GameBoard.enPassant = SquareOffset(from, 10);
+			HashEnPassant();
+		}
+	}
+
+	MovePiece(from, to);
+
+	const promoted = promotedPiece(move);
+	if (promoted != PIECES.EMPTY) {
+		ClearPiece(to);
+		AddPiece(to, promoted);
+	}
+	GameBoard.side ^= 1;
+	HashSide();
+
+	if (SquareAttacked(GameBoard.pieceList[PieceIndex(kings[side], 0)])) {
+		//TODO TakeMove()
+		return Bool.False;
+	}
+	return Bool.True;
+};

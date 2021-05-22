@@ -16,6 +16,7 @@ GameBoard.enPassant = 0; //prati en passant pravilo
 GameBoard.fiftyMoveRule = 0; //prati poteze po pravilu 50 poteza
 GameBoard.ply = 0;
 GameBoard.historyPly = 0;
+GameBoard.history = [];
 GameBoard.castlePerm = 0; //prati pravo rokade
 /*
 0001 => bijeli ima pravo rokade na strani kralja

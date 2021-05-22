@@ -24,3 +24,15 @@ const PopulateBoardArrays = () => {
 		}
 	}
 };
+
+const InitializeHistory = () => {
+	let = 0;
+	for (i = 0; i < MAX_GAME_MOVES; i++)
+		GameBoard.history.push({
+			move: noMove,
+			castlePerm: 0,
+			enPassant: 0,
+			fiftyMoveRule: 0,
+			posKey: 0,
+		});
+};
