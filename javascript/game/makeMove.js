@@ -59,10 +59,11 @@ const MakeMove = (move) => {
 
 	if (GameBoard.enPassant != SQUARES.NO_SQ) HashEnPassant();
 
-	GameBoard.history[historyPly].move = move;
-	GameBoard.history[historyPly].fiftyMoveRule = GameBoard.fiftyMoveRule;
-	GameBoard.history[historyPly].enPassant = GameBoard.enPassant;
-	GameBoard.history[historyPly].castlePerm = GameBoard.castlePerm;
+	GameBoard.history[GameBoard.historyPly].move = move;
+	GameBoard.history[GameBoard.historyPly].fiftyMoveRule =
+		GameBoard.fiftyMoveRule;
+	GameBoard.history[GameBoard.historyPly].enPassant = GameBoard.enPassant;
+	GameBoard.history[GameBoard.historyPly].castlePerm = GameBoard.castlePerm;
 
 	GameBoard.castlePerm &= castlePerm[from];
 	GameBoard.castlePerm &= castlePerm[to];
@@ -99,7 +100,11 @@ const MakeMove = (move) => {
 	GameBoard.side ^= 1;
 	HashSide();
 
-	if (SquareAttacked(GameBoard.pieceList[PieceIndex(kings[side], 0)])) {
+	if (
+		SquareAttacked(
+			GameBoard.pieceList[PieceIndex(kings[GameBoard.side], 0)]
+		)
+	) {
 		//TODO TakeMove()
 		return Bool.False;
 	}
