@@ -22,7 +22,7 @@ const PieceIndex = (piece, pieceNum) => {
 
 const SquareOffset = (square, offset) => {
 	const color = GameBoard.side;
-	return square + offset * (1 - 2 * color);
+	return square + offset * (1 - 2 * color); //white=0 / black=1
 };
 
 const SquareOffboard = (square) => {
@@ -135,12 +135,12 @@ const CheckBoard = () => {
 		material[pieceCol[piece]] += pieceVal[piece];
 	}
 
-	if (!ArrayEquals(pieceNum, GameBoard.pceNum)) {
+	if (ArrayEquals(pieceNum, GameBoard.pceNum)) {
 		console.log("Piece number error");
 		return Bool.False;
 	}
 
-	if (!ArrayEquals(material, GameBoard.material)) {
+	if (ArrayEquals(material, GameBoard.material)) {
 		console.log("Material error");
 		return Bool.False;
 	}
@@ -155,7 +155,9 @@ const CheckBoard = () => {
 };
 
 const ArrayEquals = (a, b) => {
-	return a.every((val, index) => val === b[index]);
+	if (a === b) return Bool.True;
+	if (a == null || b == null) return Bool.False;
+	if (a.length !== b.length) return Bool.False;
 };
 
 const CheckPieceNumArray = (piece) => {
