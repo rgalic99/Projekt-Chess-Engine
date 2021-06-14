@@ -23,5 +23,6 @@ const Init = () => {
 const InitBoard = () => {
 	InitBoardArrays();
 	InitializeHistory();
+	InitHashKeys();
 	PopulateBoardArrays();
 };

@@ -58,7 +58,7 @@ const MakeMove = (move) => {
 		}
 
 	if (GameBoard.enPassant != SQUARES.NO_SQ) HashEnPassant();
-
+	HashCastle();
 	GameBoard.history[GameBoard.historyPly].move = move;
 	GameBoard.history[GameBoard.historyPly].fiftyMoveRule =
 		GameBoard.fiftyMoveRule;

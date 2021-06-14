@@ -150,7 +150,10 @@ const CheckBoard = () => {
 		console.log("GameBoard.side error");
 		return Bool.False;
 	}
-
+	if (TestPositionKey() != GameBoard.posKey) {
+		console.log("Error GameBoard.posKey");
+		return Bool.False;
+	}
 	return Bool.True;
 };
 
