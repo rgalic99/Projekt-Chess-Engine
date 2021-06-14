@@ -1,41 +1,45 @@
 const ConsoleFiles = () => {
+	// ispis FileSquare
 	filesBoard.forEach((e, index) => {
 		console.log(`FileSquare ${index} : ${e}`);
 	});
 };
 
 const ConsoleRanks = () => {
+	// ispis RankSquare
 	ranksBoard.forEach((e, index) => {
 		console.log(`RankSquare ${index} : ${e}`);
 	});
 };
 
-const Bool = { False: 0, True: 1 };
+const Bool = { False: 0, True: 1 }; // Boolean
 
 const FileRankToSquare = (file, rank) => {
 	return 21 + file + rank * 10; // pronalazimo indeks kocke u matrici
 };
 
 const PieceIndex = (piece, pieceNum) => {
-	return piece * 10 + pieceNum; //vraća jedinstveni indeks neke figure
+	return piece * 10 + pieceNum; // vraća jedinstveni indeks neke figure
 };
 
 const SquareOffset = (square, offset) => {
 	const color = GameBoard.side;
-	return square + offset * (1 - 2 * color); //white=0 / black=1
+	return square + offset * (1 - 2 * color); // white=0 / black=1
 };
 
 const SquareOffboard = (square) => {
-	return filesBoard[square] == SQUARES.OFFBOARD;
+	return filesBoard[square] === SQUARES.OFFBOARD;
 };
 
 const PrintSquare = (square) => {
-	return square == SQUARES.NO_SQ
+	// ispis kocke u algebarskom formatu
+	return square === SQUARES.NO_SQ
 		? "No"
 		: `${fileChar[filesBoard[square]]}${rankChar[ranksBoard[square]]}`;
 };
 
 const PrintSquare64 = (number64) => {
+	// ispis kocke u algebarskom formatu
 	const squareStringNum = Math.ceil(number64 / 8);
 	const squareStringLetter = number64 - 8 * Math.floor(number64 / 8);
 
@@ -66,6 +70,7 @@ const PromotionChar = (promoted) => {
 };
 
 const PrintMoveList = () => {
+	// ispis liste poteza
 	console.log("Move List:");
 	for (
 		let index = GameBoard.moveListStart[GameBoard.ply];
@@ -91,6 +96,7 @@ const GetSquare120FromString = (string) => {
 };
 
 const PrintBoard = () => {
+	// ispis ploče
 	let line = "";
 	console.log("\nPloča:\n");
 
@@ -135,21 +141,26 @@ const CheckBoard = () => {
 		material[pieceCol[piece]] += pieceVal[piece];
 	}
 
+	// provjera jesu li sve figure na broju
 	if (ArrayEquals(pieceNum, GameBoard.pceNum)) {
 		console.log("Piece number error");
 		return Bool.False;
 	}
 
+	// provjera je li materijal isti
 	if (ArrayEquals(material, GameBoard.material)) {
 		console.log("Material error");
 		return Bool.False;
 	}
 
+	// provjera je li strana valjana
 	const color = GameBoard.side;
 	if (color != COLORS.WHITE && color != COLORS.BLACK) {
 		console.log("GameBoard.side error");
 		return Bool.False;
 	}
+
+	// provjera je li hash kluč ispravan
 	if (TestPositionKey() != GameBoard.posKey) {
 		console.log("Error GameBoard.posKey");
 		return Bool.False;
@@ -158,12 +169,14 @@ const CheckBoard = () => {
 };
 
 const ArrayEquals = (a, b) => {
+	// jesu li dva niza jednaka
 	if (a === b) return Bool.True;
 	if (a == null || b == null) return Bool.False;
 	if (a.length !== b.length) return Bool.False;
 };
 
 const CheckPieceNumArray = (piece) => {
+	// je li lista figura ispravna
 	for (let pieceNum = 0; pieceNum < GameBoard.pceNum[piece]; pieceNum++) {
 		let square120 = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		if (GameBoard.pieces[square120] != piece) {

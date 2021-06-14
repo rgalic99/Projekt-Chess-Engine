@@ -1,4 +1,5 @@
 const InitBoardArrays = () => {
+	// inicijalizacija nizova
 	board_120_to_64.fill(-1);
 	board_64_to_120.fill(-1);
 	filesBoard.fill(SQUARES.OFFBOARD);
@@ -18,16 +19,16 @@ const PopulateBoardArrays = () => {
 			filesBoard[square] = file; // popunjavamo filesBoard
 			ranksBoard[square] = rank; // popunjavamo ranksBoard
 
-			board_64_to_120[square64] = square;
-			board_120_to_64[square] = square64;
+			board_64_to_120[square64] = square; // popunjavamo board_64_to_120
+			board_120_to_64[square] = square64; // popunjavamo board_120_to_64
 			square64++;
 		}
 	}
 };
 
 const InitializeHistory = () => {
-	let = 0;
-	for (i = 0; i < MAX_GAME_MOVES; i++)
+	// inicijalizacija povijesti
+	for (let i = 0; i < MAX_GAME_MOVES; i++)
 		GameBoard.history.push({
 			move: noMove,
 			castlePerm: 0,

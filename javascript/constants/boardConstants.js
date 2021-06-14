@@ -17,7 +17,7 @@ const pieceChar = [
 	"♕",
 	"♔",
 ];
-//"-♙♘♗♖♕♔♟︎♞♝♜♛♚";
+// "-♙♘♗♖♕♔♟︎♞♝♜♛♚";
 const sideChar = "wb-";
 const rankChar = "12345678";
 const fileChar = "abcdefgh";
@@ -25,18 +25,18 @@ const fileChar = "abcdefgh";
 const filesBoard = new Array(NUM_OF_SQ);
 const ranksBoard = new Array(NUM_OF_SQ);
 
-const board_64_to_120 = new Array(64); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 120 kocaka
-const board_120_to_64 = new Array(NUM_OF_SQ); //niz koji sadrži korespodantni indeks kocke sa ploče koja ima 64 kocke
+const board_64_to_120 = new Array(64); // niz koji sadrži korespodantni indeks kocke sa ploče koja ima 120 kocaka
+const board_120_to_64 = new Array(NUM_OF_SQ); // niz koji sadrži korespodantni indeks kocke sa ploče koja ima 64 kocke
 
 const GetSquare64 = (square120) => {
-	return board_120_to_64[square120]; //vraća indeks kocke od 0-63
+	return board_120_to_64[square120]; // vraća indeks kocke od 0-63
 };
 
 const GetSquare120 = (square64) => {
-	return board_64_to_120[square64]; //vraća indeks kocke zadan preko formule 21 + file + rank * 10
+	return board_64_to_120[square64]; // vraća indeks kocke zadan preko formule 21 + file + rank * 10
 };
 
-//stupci
+// stupci
 const FILES = {
 	FILE_A: 0,
 	FILE_B: 1,
@@ -49,7 +49,7 @@ const FILES = {
 	FILE_NONE: 8,
 };
 
-//redci
+// redci
 const RANKS = {
 	RANK_1: 0,
 	RANK_2: 1,
@@ -62,7 +62,7 @@ const RANKS = {
 	RANK_NONE: 8,
 };
 
-//vrijednosti ključnih kocki u matrici
+// vrijednosti ključnih kocki u matrici
 const SQUARES = {
 	A1: 21,
 	B1: 22,

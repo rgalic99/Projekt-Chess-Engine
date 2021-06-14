@@ -8,20 +8,22 @@ const SquareAttacked = (square) => {
 };
 
 const AttackedByPawn = (square) => {
-	//white=0, black=1
+	// white=0, black=1
 	const color = GameBoard.side;
 	if (
 		GameBoard.pieces[SquareOffset(square, 11)] ==
-			(color ? PIECES.wP : PIECES.bP) || //if black is playing we check black pawns
+			(color ? PIECES.wP : PIECES.bP) || // if black is playing we check black pawns
 		GameBoard.pieces[SquareOffset(square, 9)] ==
-			(color ? PIECES.wP : PIECES.bP) //if white is playing we check white pawns
+			(color ? PIECES.wP : PIECES.bP) // if white is playing we check white pawns
 	)
 		return Bool.True;
 	return Bool.False;
 };
+
 const AttackedByKnight = (square) => {
 	return CheckKnightAndKing(square, knightDirection, pieceKnight);
 };
+
 const AttackedByKing = (square) => {
 	return CheckKnightAndKing(square, kingDirection, pieceKing);
 };
@@ -48,7 +50,7 @@ const CheckPiece = (piece, pieceArray) => {
 	return (
 		piece != SQUARES.OFFBOARD &&
 		pieceArray[piece] &&
-		pieceCol[piece] == GameBoard.side
+		pieceCol[piece] === GameBoard.side
 	);
 };
 
@@ -62,7 +64,6 @@ const CheckBishopAndRook = (square, directionArray, pieceArray) => {
 				if (CheckPiece(piece, pieceArray)) return Bool.True;
 				break;
 			}
-
 			target_square += directionArray[index];
 			piece = GameBoard.pieces[target_square];
 		}
@@ -71,6 +72,7 @@ const CheckBishopAndRook = (square, directionArray, pieceArray) => {
 };
 
 const PrintAttackedSquares = () => {
+	// ispis napadnutih kocki
 	console.log("\nAttacked:\n");
 	for (let rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
 		let line = `${rank + 1}  `;

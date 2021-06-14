@@ -2,43 +2,45 @@ const ClearPiece = (square) => {
 	const piece = GameBoard.pieces[square];
 	const color = pieceCol[piece];
 
-	HashPiece(piece, square);
-	GameBoard.pieces[square] = PIECES.EMPTY;
-	GameBoard.material[color] -= pieceVal[piece];
+	HashPiece(piece, square); // figura se hashira van kocke
+	GameBoard.pieces[square] = PIECES.EMPTY; // kocka se mijenja sa praznim mjestom
+	GameBoard.material[color] -= pieceVal[piece]; // materijal se umanjuje za vrijednost figure
 
 	const index = GameBoard.pieceList.indexOf(square, PieceIndex(piece, 0));
 	const last = --GameBoard.pieceNum[piece];
 	GameBoard.pieceList[PieceIndex(piece, index)] =
-		GameBoard.pieceList[PieceIndex(piece, last)];
+		GameBoard.pieceList[PieceIndex(piece, last)]; // na indeks figure postavlja se indeks zadnje figure tog tipa
 };
 
 const AddPieceToSquare = (piece, square) => {
-	HashPiece(piece, square);
+	HashPiece(piece, square); // figura se hashira u novu kocku
 
 	const color = pieceCol[piece];
-	GameBoard.pieces[square] = piece;
-	GameBoard.material[color] += pieceVal[piece];
+	GameBoard.pieces[square] = piece; // na kocku se stavlja figura
+	GameBoard.material[color] += pieceVal[piece]; // materijal se uvećava za vrijednost figure
 
-	const numOfPiece = GameBoard.pieceNum[piece]++;
-	GameBoard.pieceList[pieceIndex(piece, numOfPiece)] = square;
+	const numOfPiece = GameBoard.pieceNum[piece]++; // broj figura se uvećava za jedan
+	GameBoard.pieceList[pieceIndex(piece, numOfPiece)] = square; // pamti se kocka na kojoj se figura nalazi
 };
 
 const MovePiece = (from, to) => {
 	const piece = GameBoard.pieces[from];
-	HashPiece(piece, from);
-	GameBoard.pieces[from] = PIECES.EMPTY;
-	HashPiece(piece, to);
-	GameBoard.pieces[to] = piece;
+	HashPiece(piece, from); // figura se hashira van kocke
+	GameBoard.pieces[from] = PIECES.EMPTY; // kocka se mijenja sa praznim mjestom
+	HashPiece(piece, to); // figura se hashira u novu kocku
+	GameBoard.pieces[to] = piece; // na kocku se stavlja figura
 
 	const index = GameBoard.pieceList.indexOf(from, PieceIndex(piece, 0));
-	GameBoard.pieceList[index] = to;
+	GameBoard.pieceList[index] = to; // pamti se kocka na kojoj se figura nalazi
 };
 
 const MakeMove = (move) => {
 	const from = fromSquare(move);
 	const to = toSquare(move);
 
+	// ako je potez enPassant
 	if (move & moveFlagEnPassant) ClearPiece(SquareOffset(to, 10));
+	// ako je potez rokada
 	else if (move & moveFlagCastle)
 		switch (to) {
 			case SQUARES.C1:
@@ -57,18 +59,24 @@ const MakeMove = (move) => {
 				break;
 		}
 
+	// ako je enPassant moguć hashira se
 	if (GameBoard.enPassant != SQUARES.NO_SQ) HashEnPassant();
+	// hasira se pravo rokade
 	HashCastle();
+
+	// ažurira se povijest
 	GameBoard.history[GameBoard.historyPly].move = move;
 	GameBoard.history[GameBoard.historyPly].fiftyMoveRule =
 		GameBoard.fiftyMoveRule;
 	GameBoard.history[GameBoard.historyPly].enPassant = GameBoard.enPassant;
 	GameBoard.history[GameBoard.historyPly].castlePerm = GameBoard.castlePerm;
 
+	// ažurira se pravo rokade
 	GameBoard.castlePerm &= castlePerm[from];
 	GameBoard.castlePerm &= castlePerm[to];
 	GameBoard.enPassant = SQUARES.NO_SQ;
 
+	// hasira se pravo rokade
 	HashCastle();
 
 	const captured = capturedPiece(move);
@@ -76,35 +84,36 @@ const MakeMove = (move) => {
 
 	if (captured != PIECES.EMPTY) {
 		ClearPiece(to);
-		GameBoard.fiftyMoveRule = 0;
+		GameBoard.fiftyMoveRule = 0; // resetiranje pravila 50 poteza
 	}
 
 	GameBoard.historyPly++;
 	GameBoard.ply++;
 
 	if (piecePawn[GameBoard.pieces[from]]) {
-		GameBoard.fiftyMoveRule = 0;
+		GameBoard.fiftyMoveRule = 0; // resetiranje pravila 50 poteza
 		if (move & moveFlagPawnStart) {
-			GameBoard.enPassant = SquareOffset(from, 10);
-			HashEnPassant();
+			GameBoard.enPassant = SquareOffset(from, 10); // postavlja se kocka za enPassant
+			HashEnPassant(); // hasira se enPassant
 		}
 	}
 
 	MovePiece(from, to);
 
+	// obrada poteza u slučaju promocije
 	const promoted = promotedPiece(move);
 	if (promoted != PIECES.EMPTY) {
 		ClearPiece(to);
 		AddPiece(to, promoted);
 	}
+
+	// promjena strane
 	GameBoard.side ^= 1;
 	HashSide();
+	const side = GameBoard.side;
 
-	if (
-		SquareAttacked(
-			GameBoard.pieceList[PieceIndex(kings[GameBoard.side], 0)]
-		)
-	) {
+	// provjera je li potez moguć
+	if (SquareAttacked(GameBoard.pieceList[PieceIndex(kings[side], 0)])) {
 		//TODO TakeMove()
 		return Bool.False;
 	}

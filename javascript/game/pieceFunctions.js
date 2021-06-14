@@ -1,4 +1,5 @@
 const UpdateMaterialLists = () => {
+	// broji se materijal za obje strane
 	GameBoard.pieceList.fill(PIECES.EMPTY);
 	GameBoard.material.fill(0);
 	GameBoard.pieceNum.fill(0);
@@ -9,9 +10,8 @@ const UpdateMaterialLists = () => {
 		if (piece != PIECES.EMPTY) {
 			color = pieceCol[piece];
 			GameBoard.material[color] += pieceVal[piece];
-			GameBoard.pieceList[
-				PieceIndex(piece, GameBoard.pieceNum[piece])
-			] = square;
+			GameBoard.pieceList[PieceIndex(piece, GameBoard.pieceNum[piece])] =
+				square;
 			GameBoard.pieceNum[piece]++;
 		}
 	}
@@ -19,6 +19,7 @@ const UpdateMaterialLists = () => {
 };
 
 const PrintPieceList = () => {
+	// ispis svih figura na njihovim kockama
 	for (let piece = PIECES.wP; piece <= PIECES.bK; piece++)
 		for (let pieceNum; pieceNum < GameBoard.pieceNum[piece]; pieceNum++)
 			console.log(

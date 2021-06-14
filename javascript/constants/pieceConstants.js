@@ -24,11 +24,11 @@ const PIECES = {
 	bK: 12,
 };
 
-//vrijedonsti figure (pijun je 100)
+// vrijedonsti figure (pijun je 100)
 const pieceVal = [
 	0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000,
 ];
-//je li figura velika (ne pijun) ili ne
+// je li figura velika (ne pijun) ili ne
 const pieceBig = [
 	Bool.False,
 	Bool.False,
@@ -45,7 +45,7 @@ const pieceBig = [
 	Bool.True,
 ];
 
-//je li figura major / velika (kraljica ili top)
+// je li figura major / velika (kraljica ili top)
 const pieceMaj = [
 	Bool.False,
 	Bool.False,
@@ -62,7 +62,7 @@ const pieceMaj = [
 	Bool.True,
 ];
 
-//je li figura minor / mala (konj ili lovac)
+// je li figura minor / mala (konj ili lovac)
 const pieceMin = [
 	Bool.False,
 	Bool.False,
@@ -79,7 +79,7 @@ const pieceMin = [
 	Bool.False,
 ];
 
-//boje za sve figure
+// boje za sve figure
 const pieceCol = [
 	COLORS.BOTH,
 	COLORS.WHITE,
@@ -96,7 +96,7 @@ const pieceCol = [
 	COLORS.BLACK,
 ];
 
-//koje su figure pijuni
+// koje su figure pijuni
 const piecePawn = [
 	Bool.False,
 	Bool.True,
@@ -113,7 +113,7 @@ const piecePawn = [
 	Bool.False,
 ];
 
-//koje su figure konji
+// koje su figure konji
 const pieceKnight = [
 	Bool.False,
 	Bool.False,
@@ -147,7 +147,7 @@ const pieceKing = [
 	Bool.True,
 ];
 
-//koje su figure kraljica ili top
+// koje su figure kraljica ili top
 const pieceRookQueen = [
 	Bool.False,
 	Bool.False,
@@ -164,7 +164,7 @@ const pieceRookQueen = [
 	Bool.False,
 ];
 
-//koje su figure kraljica ili lovac
+// koje su figure kraljica ili lovac
 const pieceBishopQueen = [
 	Bool.False,
 	Bool.False,
@@ -181,7 +181,7 @@ const pieceBishopQueen = [
 	Bool.False,
 ];
 
-//da li se figura "kliže" (može se micati neograničeno u nekom smjeru)
+// da li se figura "kliže" (može se micati neograničeno u nekom smjeru)
 const pieceSlides = [
 	Bool.False,
 	Bool.False,
@@ -198,6 +198,7 @@ const pieceSlides = [
 	Bool.False,
 ];
 
+// konstante koje opisuju udaljenost odredišne kocke
 const knightDirection = [-21, -19, -12, -8, 8, 12, 19, 21];
 const rookDirection = [-10, -1, 1, 10];
 const bishopDirection = [-11, -9, 9, 11];

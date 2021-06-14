@@ -3,14 +3,14 @@ $(() => {
 	Init();
 	ParseFEN(START_FEN);
 	PrintBoard();
-	/* 	GenerateMoves();
+	GenerateMoves();
 	CheckBoard();
 	MakeMove(GameBoard.moveList[0]);
 	PrintBoard();
 	CheckBoard();
 	TakeMove();
 	PrintBoard();
-	CheckBoard(); */
+	CheckBoard();
 	//GenerateMoves();
 	//PrintMoveList();
 });
