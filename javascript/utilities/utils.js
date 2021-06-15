@@ -24,7 +24,7 @@ const PieceIndex = (piece, pieceNum) => {
 
 const SquareOffset = (square, offset) => {
 	const color = GameBoard.side;
-	return square + offset * (1 - 2 * color); // white=0 / black=1
+	return square + offset * (2 * color - 1); // white=0 / black=1
 };
 
 const SquareOffboard = (square) => {

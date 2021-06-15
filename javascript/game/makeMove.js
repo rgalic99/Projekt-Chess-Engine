@@ -20,7 +20,7 @@ const AddPieceToSquare = (piece, square) => {
 	GameBoard.material[color] += pieceVal[piece]; // materijal se uvećava za vrijednost figure
 
 	const numOfPiece = GameBoard.pieceNum[piece]++; // broj figura se uvećava za jedan
-	GameBoard.pieceList[pieceIndex(piece, numOfPiece)] = square; // pamti se kocka na kojoj se figura nalazi
+	GameBoard.pieceList[PieceIndex(piece, numOfPiece)] = square; // pamti se kocka na kojoj se figura nalazi
 };
 
 const MovePiece = (from, to) => {
@@ -93,7 +93,7 @@ const MakeMove = (move) => {
 	if (piecePawn[GameBoard.pieces[from]]) {
 		GameBoard.fiftyMoveRule = 0; // resetiranje pravila 50 poteza
 		if (move & moveFlagPawnStart) {
-			GameBoard.enPassant = SquareOffset(from, 10); // postavlja se kocka za enPassant
+			GameBoard.enPassant = SquareOffset(from, -10); // postavlja se kocka za enPassant
 			HashEnPassant(); // hasira se enPassant
 		}
 	}
@@ -104,7 +104,7 @@ const MakeMove = (move) => {
 	const promoted = promotedPiece(move);
 	if (promoted != PIECES.EMPTY) {
 		ClearPiece(to);
-		AddPiece(to, promoted);
+		AddPieceToSquare(to, promoted);
 	}
 
 	// promjena strane

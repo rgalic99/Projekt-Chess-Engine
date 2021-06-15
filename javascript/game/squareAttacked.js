@@ -11,10 +11,10 @@ const AttackedByPawn = (square) => {
 	// white=0, black=1
 	const color = GameBoard.side;
 	if (
-		GameBoard.pieces[SquareOffset(square, 11)] ==
-			(color ? PIECES.wP : PIECES.bP) || // if black is playing we check black pawns
-		GameBoard.pieces[SquareOffset(square, 9)] ==
-			(color ? PIECES.wP : PIECES.bP) // if white is playing we check white pawns
+		GameBoard.pieces[SquareOffset(square, 11)] ===
+			(color ? PIECES.bP : PIECES.wP) || // if black is playing we check black pawns
+		GameBoard.pieces[SquareOffset(square, 9)] ===
+			(color ? PIECES.bP : PIECES.wP) // if white is playing we check white pawns
 	)
 		return Bool.True;
 	return Bool.False;

@@ -81,19 +81,19 @@ const GenerateMoves = () => {
 const GeneratePawnMove = (square) => {
 	const color = GameBoard.side;
 	/* Pawn moves up 1 square */
-	if (GameBoard.pieces[SquareOffset(square, 10)] === PIECES.EMPTY) {
-		const targetSquare = SquareOffset(square, 10);
+	if (GameBoard.pieces[SquareOffset(square, -10)] === PIECES.EMPTY) {
+		const targetSquare = SquareOffset(square, -10);
 
 		AddPawnCaptureOrQuietMove(square, targetSquare, PIECES.EMPTY);
 		/* Pawn moves up 2 squares */
 		if (
 			ranksBoard[square] === (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
-			GameBoard.pieces[SquareOffset(square, 20)] === PIECES.EMPTY
+			GameBoard.pieces[SquareOffset(square, -20)] === PIECES.EMPTY
 		)
 			AddQuietMove(
 				Move(
 					square,
-					SquareOffset(square, 20),
+					SquareOffset(square, -20),
 					PIECES.EMPTY,
 					PIECES.EMPTY,
 					moveFlagPawnStart
@@ -104,7 +104,7 @@ const GeneratePawnMove = (square) => {
 
 const GeneratePawnCapture = (square, offset) => {
 	const color = GameBoard.side;
-	const targetSquare = SquareOffset(square, offset);
+	const targetSquare = SquareOffset(square, -offset);
 	const targetPiece = GameBoard.pieces[targetSquare];
 
 	if (!SquareOffboard(targetSquare) && pieceCol[targetPiece] != color)
@@ -112,7 +112,7 @@ const GeneratePawnCapture = (square, offset) => {
 };
 
 const GeneratePawnCaptureEnPassant = (square, offset) => {
-	const enPassantSquare = SquareOffset(square, offset);
+	const enPassantSquare = SquareOffset(square, -offset);
 
 	if (enPassantSquare === GameBoard.enPassant)
 		AddEnPassantMove(
