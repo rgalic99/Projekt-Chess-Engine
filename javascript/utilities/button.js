@@ -15,6 +15,5 @@ $("button")
 	.click(() => {
 		let string = $(".fenInput").val();
 		ParseFEN(string);
-		PrintBoard();
-		PrintAttackedSquares();
+		PerftTest(1);
 	});

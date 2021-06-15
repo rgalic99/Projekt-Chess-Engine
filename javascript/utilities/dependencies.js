@@ -1,6 +1,7 @@
 const GetDependencies = () => {
 	const links = `utilities/utils.js
 	utilities/button.js
+	utilities/perft.js
 	constants/boardConstants.js
 	constants/gameConstants.js
 	constants/pieceConstants.js

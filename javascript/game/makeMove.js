@@ -114,7 +114,7 @@ const MakeMove = (move) => {
 
 	// provjera je li potez moguć
 	if (SquareAttacked(GameBoard.pieceList[PieceIndex(kings[side], 0)])) {
-		//TODO TakeMove()
+		TakeMove();
 		return Bool.False;
 	}
 	return Bool.True;
