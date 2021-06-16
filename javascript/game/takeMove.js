@@ -32,7 +32,7 @@ const TakeMove = () => {
 	const color = GameBoard.side;
 	// ako je potez enPassant
 	if (move & moveFlagEnPassant)
-		AddPieceToSquare(SquareOffset(to, 10), !color ? PIECES.bP : PIECES.wP);
+		AddPieceToSquare(SquareOffset(to, 10), color ? PIECES.wP : PIECES.bP);
 	// ako je potez rokada
 	else if (move & moveFlagCastle)
 		switch (to) {
@@ -63,9 +63,6 @@ const TakeMove = () => {
 
 	if (promoted != PIECES.EMPTY) {
 		ClearPiece(from);
-		AddPieceToSquare(
-			from,
-			pieceCol[promoted] === COLORS.WHITE ? PIECES.wP : PIECES.bP
-		);
+		AddPieceToSquare(from, pieceCol[promoted] ? PIECES.bP : PIECES.wP);
 	}
 };

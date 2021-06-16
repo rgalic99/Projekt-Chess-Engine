@@ -46,8 +46,7 @@ const GenerateMoves = () => {
 
 	let square = null;
 	let pieceNum = null;
-	const color = GameBoard.side;
-
+	let color = GameBoard.side;
 	/* Pawn */
 
 	let pieceType = color ? PIECES.bP : PIECES.wP; //white = 0 black = 1
@@ -81,15 +80,15 @@ const GenerateMoves = () => {
 const GeneratePawnMove = (square) => {
 	const color = GameBoard.side;
 	/* Pawn moves up 1 square */
-	if (GameBoard.pieces[SquareOffset(square, -10)] === PIECES.EMPTY) {
-		const targetSquare = SquareOffset(square, -10);
-
+	const targetSquare = SquareOffset(square, -10);
+	if (GameBoard.pieces[targetSquare] == PIECES.EMPTY) {
 		AddPawnCaptureOrQuietMove(square, targetSquare, PIECES.EMPTY);
+
 		/* Pawn moves up 2 squares */
 		if (
-			ranksBoard[square] === (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
-			GameBoard.pieces[SquareOffset(square, -20)] === PIECES.EMPTY
-		)
+			ranksBoard[square] == (color ? RANKS.RANK_7 : RANKS.RANK_2) &&
+			GameBoard.pieces[SquareOffset(square, -20)] == PIECES.EMPTY
+		) {
 			AddQuietMove(
 				Move(
 					square,
@@ -99,6 +98,7 @@ const GeneratePawnMove = (square) => {
 					moveFlagPawnStart
 				)
 			);
+		}
 	}
 };
 
@@ -107,14 +107,18 @@ const GeneratePawnCapture = (square, offset) => {
 	const targetSquare = SquareOffset(square, -offset);
 	const targetPiece = GameBoard.pieces[targetSquare];
 
-	if (!SquareOffboard(targetSquare) && pieceCol[targetPiece] != color)
+	if (
+		!SquareOffboard(targetSquare) &&
+		pieceCol[targetPiece] != color &&
+		GameBoard.pieces[targetSquare] != PIECES.EMPTY
+	)
 		AddPawnCaptureOrQuietMove(square, targetSquare, targetPiece);
 };
 
 const GeneratePawnCaptureEnPassant = (square, offset) => {
 	const enPassantSquare = SquareOffset(square, -offset);
 
-	if (enPassantSquare === GameBoard.enPassant)
+	if (enPassantSquare == GameBoard.enPassant)
 		AddEnPassantMove(
 			square,
 			enPassantSquare,
@@ -132,12 +136,12 @@ const GenerateCastleKingside = () => {
 
 	if (GameBoard.castlePerm & (CASTLEBIT.BKCA | CASTLEBIT.WKCA))
 		if (
-			GameBoard.pieces[targetFsquare] === PIECES.EMPTY &&
-			GameBoard.pieces[targetGsquare] === PIECES.EMPTY
+			GameBoard.pieces[targetFsquare] == PIECES.EMPTY &&
+			GameBoard.pieces[targetGsquare] == PIECES.EMPTY
 		)
 			if (
-				SquareAttacked(targetFsquare, !color) === Bool.False &&
-				SquareAttacked(targetEsquare, !color) === Bool.False
+				SquareAttacked(targetFsquare, !color) == Bool.False &&
+				SquareAttacked(targetEsquare, !color) == Bool.False
 			)
 				AddQuietMove(
 					Move(
@@ -159,13 +163,13 @@ const GenerateCastleQueenside = () => {
 
 	if (GameBoard.castlePerm & (CASTLEBIT.BQCA | CASTLEBIT.WQCA))
 		if (
-			GameBoard.pieces[targetBsquare] === PIECES.EMPTY &&
-			GameBoard.pieces[targetCsquare] === PIECES.EMPTY &&
-			GameBoard.pieces[targetDsquare] === PIECES.EMPTY
+			GameBoard.pieces[targetBsquare] == PIECES.EMPTY &&
+			GameBoard.pieces[targetCsquare] == PIECES.EMPTY &&
+			GameBoard.pieces[targetDsquare] == PIECES.EMPTY
 		)
 			if (
-				SquareAttacked(targetDsquare, !color) === Bool.False &&
-				SquareAttacked(targetEsquare, !color) === Bool.False
+				SquareAttacked(targetDsquare, !color) == Bool.False &&
+				SquareAttacked(targetEsquare, !color) == Bool.False
 			)
 				AddQuietMove(
 					Move(
@@ -219,6 +223,7 @@ const GenerateSlideMove = (square, direction) => {
 };
 
 const GenerateBig = (GenerateFunction, loopPieceIndex, loopPieceArray) => {
+	const color = GameBoard.side;
 	let pieceIndex = loopPieceIndex[color];
 	let piece = loopPieceArray[pieceIndex++];
 	let pieceNum = 0;
@@ -254,7 +259,7 @@ const AddPawnCaptureOrQuietMove = (from, to, captured) => {
 	const color = GameBoard.side;
 	const targetRank = color ? RANKS.RANK_2 : RANKS.RANK_7;
 
-	if (ranksBoard[from] === targetRank)
+	if (ranksBoard[from] == targetRank)
 		captured
 			? AddPawnPromotionMoves(from, to, captured, AddCaptureMove)
 			: AddPawnPromotionMoves(from, to, captured, AddQuietMove);

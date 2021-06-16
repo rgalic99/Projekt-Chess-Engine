@@ -3,9 +3,9 @@ const ParseFEN = (fenString) => {
 	ResetBoard();
 	let fenCount = 0; // indeks znaka u fenString-u
 
-	if (fenString === "") throw new Error("FEN is empty"); //! ako je FEN prazan
+	if (fenString == "") throw new Error("FEN is empty"); //! ako je FEN prazan
 	fenCount = ParsePieces(fenString, fenCount);
-	if (fenCount === -1) throw new Error("FEN is invalid"); //! ako FEN nije valjan
+	if (fenCount == -1) throw new Error("FEN is invalid"); //! ako FEN nije valjan
 
 	fenCount = ParseSide(fenString, fenCount);
 	fenCount = ParseCastle(fenString, fenCount);
@@ -99,7 +99,7 @@ const AddPiece = (count, square, piece) => {
 };
 
 const ParseSide = (fenString, fenCount) => {
-	GameBoard.side = fenString[fenCount] === "w" ? COLORS.WHITE : COLORS.BLACK; // parsiraj čiji je red
+	GameBoard.side = fenString[fenCount] == "w" ? COLORS.WHITE : COLORS.BLACK; // parsiraj čiji je red
 	fenCount += 2; // pomak za 2 karaktera
 	return fenCount;
 };
@@ -147,7 +147,7 @@ const GeneratePositionKey = () => {
 			HashPiece(piece, square); // hashiranje vrijednosti za svaku figuru
 	}
 
-	if (GameBoard.side === COLORS.WHITE) HashSide(); // hashiranje sa stranom koja igra
+	if (GameBoard.side == COLORS.WHITE) HashSide(); // hashiranje sa stranom koja igra
 	if (GameBoard.enPassant != SQUARES.NO_SQ) HashEnPassant(); // hashiranje en passant kocke
 
 	HashCastle(); // hashiranje rokade
@@ -161,7 +161,7 @@ const TestPositionKey = () => {
 			key ^= pieceKeys[piece * 120 + square]; // hashiranje vrijednosti za svaku figuru
 	}
 
-	if (GameBoard.side === COLORS.WHITE) key ^= sideKey[0]; // hashiranje sa stranom koja igra
+	if (GameBoard.side == COLORS.WHITE) key ^= sideKey[0]; // hashiranje sa stranom koja igra
 	if (GameBoard.enPassant != SQUARES.NO_SQ) key ^= pieceKeys[GameBoard.enPas]; // hashiranje en passant kocke
 
 	key ^= castleKeys[GameBoard.castlePerm]; // hashiranje rokade

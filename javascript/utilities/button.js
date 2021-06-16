@@ -1,5 +1,5 @@
 const CheckButton = () => {
-	if (document.getElementById("textsend").value === "") {
+	if (document.getElementById("textsend").value == "") {
 		$("button").first().removeClass("setFenButton");
 		$("button").first().addClass("setFenButtonDisabled");
 		$("button").first().prop("disabled", true);
@@ -15,5 +15,6 @@ $("button")
 	.click(() => {
 		let string = $(".fenInput").val();
 		ParseFEN(string);
-		PerftTest(1);
+		PerftTest(2);
+		PrintPieceList();
 	});

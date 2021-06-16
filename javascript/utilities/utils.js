@@ -28,12 +28,12 @@ const SquareOffset = (square, offset) => {
 };
 
 const SquareOffboard = (square) => {
-	return filesBoard[square] === SQUARES.OFFBOARD;
+	return filesBoard[square] == SQUARES.OFFBOARD;
 };
 
 const PrintSquare = (square) => {
 	// ispis kocke u algebarskom formatu
-	return square === SQUARES.NO_SQ
+	return square == SQUARES.NO_SQ
 		? "No"
 		: `${fileChar[filesBoard[square]]}${rankChar[ranksBoard[square]]}`;
 };
@@ -170,7 +170,7 @@ const CheckBoard = () => {
 
 const ArrayEquals = (a, b) => {
 	// jesu li dva niza jednaka
-	if (a === b) return Bool.True;
+	if (a == b) return Bool.True;
 	if (a == null || b == null) return Bool.False;
 	if (a.length !== b.length) return Bool.False;
 };

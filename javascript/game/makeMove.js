@@ -38,6 +38,7 @@ const MakeMove = (move) => {
 	const from = fromSquare(move);
 	const to = toSquare(move);
 
+	GameBoard.history[GameBoard.historyPly].posKey = GameBoard.posKey;
 	// ako je potez enPassant
 	if (move & moveFlagEnPassant) ClearPiece(SquareOffset(to, 10));
 	// ako je potez rokada
@@ -113,7 +114,7 @@ const MakeMove = (move) => {
 	const side = GameBoard.side;
 
 	// provjera je li potez moguć
-	if (SquareAttacked(GameBoard.pieceList[PieceIndex(kings[side], 0)])) {
+	if (SquareAttacked(GameBoard.pieceList[PieceIndex(kings[side], 0)], side)) {
 		TakeMove();
 		return Bool.False;
 	}
