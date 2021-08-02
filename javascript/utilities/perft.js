@@ -13,11 +13,10 @@ const Perft = (depth) => {
 		index++
 	) {
 		let move = GameBoard.moveList[index];
-		if (MakeMove(move) == Bool.False) console.log("a");
-		else {
-			Perft(depth - 1);
-			TakeMove();
-		}
+		if (MakeMove(move) == Bool.False) continue;
+
+		Perft(depth - 1);
+		TakeMove();
 	}
 
 	return;
@@ -39,18 +38,15 @@ const PerftTest = (depth) => {
 		index++
 	) {
 		let move = GameBoard.moveList[index];
-		if (MakeMove(move) == Bool.False) {
-		} else {
-			moveNum++;
-			currentNodes = perftLeafNodes;
+		if (MakeMove(move) == Bool.False) continue;
 
-			Perft(depth - 1);
-			TakeMove();
-			oldNodes = perftLeafNodes - currentNodes;
-			console.log(
-				"move:" + moveNum + " " + PrintMove(move) + " " + oldNodes
-			);
-		}
+		moveNum++;
+		currentNodes = perftLeafNodes;
+
+		Perft(depth - 1);
+		TakeMove();
+		oldNodes = perftLeafNodes - currentNodes;
+		console.log("move:" + moveNum + " " + PrintMove(move) + " " + oldNodes);
 	}
 
 	console.log("Test Complete : " + perftLeafNodes + " leaf nodes visited");
