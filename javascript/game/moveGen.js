@@ -110,7 +110,7 @@ const GeneratePawnCapture = (square, offset) => {
 	if (
 		!SquareOffboard(targetSquare) &&
 		pieceCol[targetPiece] != color &&
-		GameBoard.pieces[targetSquare] != PIECES.EMPTY
+		targetPiece != PIECES.EMPTY
 	)
 		AddPawnCaptureOrQuietMove(square, targetSquare, targetPiece);
 };

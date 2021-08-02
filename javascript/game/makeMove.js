@@ -12,7 +12,7 @@ const ClearPiece = (square) => {
 		GameBoard.pieceList[PieceIndex(piece, last)]; // na indeks figure postavlja se indeks zadnje figure tog tipa
 };
 
-const AddPieceToSquare = (piece, square) => {
+const AddPiece = (piece, square) => {
 	HashPiece(piece, square); // figura se hashira u novu kocku
 
 	const color = pieceCol[piece];
@@ -105,7 +105,7 @@ const MakeMove = (move) => {
 	const promoted = promotedPiece(move);
 	if (promoted != PIECES.EMPTY) {
 		ClearPiece(to);
-		AddPieceToSquare(to, promoted);
+		AddPiece(to, promoted);
 	}
 
 	// promjena strane
