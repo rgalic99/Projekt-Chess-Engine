@@ -72,13 +72,14 @@ const PromotionChar = (promoted) => {
 const PrintMoveList = () => {
 	// ispis liste poteza
 	console.log("Move List:");
+	let num = 0;
 	for (
 		let index = GameBoard.moveListStart[GameBoard.ply];
 		index < GameBoard.moveListStart[GameBoard.ply + 1];
 		index++
 	) {
 		let move = GameBoard.moveList[index];
-		console.log(PrintMove(move));
+		console.log("Move:" + ++num + ":" + PrintMove(move));
 	}
 };
 

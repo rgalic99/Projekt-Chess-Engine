@@ -13,7 +13,7 @@ const Perft = (depth) => {
 		index++
 	) {
 		let move = GameBoard.moveList[index];
-		if (MakeMove(move) == Bool.False) continue;
+		if (!MakeMove(move)) continue;
 
 		Perft(depth - 1);
 		TakeMove();
@@ -38,7 +38,7 @@ const PerftTest = (depth) => {
 		index++
 	) {
 		let move = GameBoard.moveList[index];
-		if (MakeMove(move) == Bool.False) continue;
+		if (!MakeMove(move)) continue;
 
 		moveNum++;
 		currentNodes = perftLeafNodes;

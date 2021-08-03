@@ -120,11 +120,13 @@ const GeneratePawnCaptureEnPassant = (square, offset) => {
 
 	if (enPassantSquare == GameBoard.enPassant)
 		AddEnPassantMove(
-			square,
-			enPassantSquare,
-			PIECES.EMPTY,
-			PIECES.EMPTY,
-			moveFlagEnPassant
+			Move(
+				square,
+				enPassantSquare,
+				PIECES.EMPTY,
+				PIECES.EMPTY,
+				moveFlagEnPassant
+			)
 		);
 };
 
