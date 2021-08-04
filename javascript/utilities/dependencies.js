@@ -12,6 +12,7 @@ const GetDependencies = () => {
 	game/squareAttacked.js
 	game/moveGen.js
 	game/makeMove.js
+	game/search.js
 	game/main.js`;
 	return links.split("\n");
 };
