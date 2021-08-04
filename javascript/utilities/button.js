@@ -16,6 +16,6 @@ $("button")
 		let string = $(".fenInput").val();
 		ParseFEN(string);
 		let num = $(".depthInput").val();
-		PerftTest(num);
+		//PerftTest(num);
 		PrintPieceList();
 	});
