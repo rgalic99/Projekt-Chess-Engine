@@ -15,6 +15,15 @@ const CheckUp = () => {
 		SearchController.stop = Bool.True;
 };
 
+const IsRepetiton = () => {
+	let index = GameBoard.historyPly - GameBoard.fiftyMoveRule;
+	for (index; index < GameBoard.historyPly - 1; index++)
+		if (GameBoard.posKey == GameBoard.history[index].posKey)
+			return Bool.True;
+
+	return Bool.False;
+};
+
 const AlpfaBeta = (alpha, beta, depth) => {
 	if (depth <= 0) return; //TODO Evaluation()
 
@@ -22,7 +31,8 @@ const AlpfaBeta = (alpha, beta, depth) => {
 
 	SearchController.nodes++;
 
-	//TODO Check repetiton and 50 move rule
+	if (IsRepetiton() || (GameBoard.fiftyMoveRule >= 100 && GameBoard.ply != 0))
+		return 0;
 
 	if (GameBoard.ply > MAX_DEPTH - 1) return; //TODO Evaluation()
 
