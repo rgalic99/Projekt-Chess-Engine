@@ -83,7 +83,7 @@ const ParsePieces = (fenString, fenCount) => {
 				console.log("FEN error");
 				return -1;
 		}
-		AddPiece(count, FileRankToSquare(file, rank), piece); // dodavanje figure na kocku ili dodavanje count praznih kocki
+		AddPieceFromFEN(count, FileRankToSquare(file, rank), piece); // dodavanje figure na kocku ili dodavanje count praznih kocki
 		file += count; // pomak za 1 ili broj praznih polja
 		fenCount++; // pomak za 1 karakter
 	}
@@ -91,7 +91,7 @@ const ParsePieces = (fenString, fenCount) => {
 	return fenCount;
 };
 
-const AddPiece = (count, square, piece) => {
+const AddPieceFromFEN = (count, square, piece) => {
 	for (let i = 0; i < count; i++) {
 		GameBoard.pieces[square] = piece; // dodavanje figure ili više praznih kocaka
 		square++;

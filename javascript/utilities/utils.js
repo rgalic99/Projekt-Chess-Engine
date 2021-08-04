@@ -27,6 +27,10 @@ const SquareOffset = (square, offset) => {
 	return square + offset * (2 * color - 1); // white=0 / black=1
 };
 
+const SquareOffset1 = (square, offset, color) => {
+	return square + offset * (2 * color - 1); // white=0 / black=1
+};
+
 const SquareOffboard = (square) => {
 	return filesBoard[square] == SQUARES.OFFBOARD;
 };
@@ -72,13 +76,14 @@ const PromotionChar = (promoted) => {
 const PrintMoveList = () => {
 	// ispis liste poteza
 	console.log("Move List:");
+	let num = 0;
 	for (
 		let index = GameBoard.moveListStart[GameBoard.ply];
 		index < GameBoard.moveListStart[GameBoard.ply + 1];
 		index++
 	) {
 		let move = GameBoard.moveList[index];
-		console.log(PrintMove(move));
+		console.log("Move:" + ++num + ":" + PrintMove(move));
 	}
 };
 
