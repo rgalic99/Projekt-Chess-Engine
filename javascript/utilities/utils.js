@@ -27,6 +27,10 @@ const SquareOffset = (square, offset) => {
 	return square + offset * (2 * color - 1); // white=0 / black=1
 };
 
+const SquareOffset1 = (square, offset, color) => {
+	return square + offset * (2 * color - 1); // white=0 / black=1
+};
+
 const SquareOffboard = (square) => {
 	return filesBoard[square] == SQUARES.OFFBOARD;
 };
