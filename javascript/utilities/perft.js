@@ -28,7 +28,6 @@ const PerftTest = (depth) => {
 	perftLeafNodes = 0;
 
 	GenerateMoves();
-	PrintMoveList();
 	let moveNum = 0;
 	let currentNodes = 0;
 	let oldNodes = 0;
