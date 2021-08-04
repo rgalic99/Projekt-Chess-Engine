@@ -110,7 +110,7 @@ const GeneratePawnCapture = (square, offset) => {
 	if (
 		!SquareOffboard(targetSquare) &&
 		pieceCol[targetPiece] != color &&
-		GameBoard.pieces[targetSquare] != PIECES.EMPTY
+		targetPiece != PIECES.EMPTY
 	)
 		AddPawnCaptureOrQuietMove(square, targetSquare, targetPiece);
 };
@@ -120,11 +120,13 @@ const GeneratePawnCaptureEnPassant = (square, offset) => {
 
 	if (enPassantSquare == GameBoard.enPassant)
 		AddEnPassantMove(
-			square,
-			enPassantSquare,
-			PIECES.EMPTY,
-			PIECES.EMPTY,
-			moveFlagEnPassant
+			Move(
+				square,
+				enPassantSquare,
+				PIECES.EMPTY,
+				PIECES.EMPTY,
+				moveFlagEnPassant
+			)
 		);
 };
 
@@ -133,53 +135,96 @@ const GenerateCastleKingside = () => {
 	const targetEsquare = color ? SQUARES.E8 : SQUARES.E1;
 	const targetFsquare = color ? SQUARES.F8 : SQUARES.F1;
 	const targetGsquare = color ? SQUARES.G8 : SQUARES.G1;
+	const targetHsquare = color ? SQUARES.H8 : SQUARES.H1;
+	const king = color ? PIECES.bK : PIECES.wK;
+	const rook = color ? PIECES.bR : PIECES.wR;
 
-	if (GameBoard.castlePerm & (CASTLEBIT.BKCA | CASTLEBIT.WKCA))
-		if (
-			GameBoard.pieces[targetFsquare] == PIECES.EMPTY &&
-			GameBoard.pieces[targetGsquare] == PIECES.EMPTY
-		)
-			if (
-				SquareAttacked(targetFsquare, !color) == Bool.False &&
-				SquareAttacked(targetEsquare, !color) == Bool.False
+	if (
+		GameBoard.castlePerm & CASTLEBIT.WKCA &&
+		GameBoard.pieces[targetEsquare] == king &&
+		GameBoard.pieces[targetFsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetGsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetHsquare] == rook &&
+		!SquareAttacked(targetFsquare, COLORS.BLACK) &&
+		!SquareAttacked(targetEsquare, COLORS.BLACK)
+	)
+		AddQuietMove(
+			Move(
+				targetEsquare,
+				targetGsquare,
+				PIECES.EMPTY,
+				PIECES.EMPTY,
+				moveFlagCastle
 			)
-				AddQuietMove(
-					Move(
-						targetEsquare,
-						targetGsquare,
-						PIECES.EMPTY,
-						PIECES.EMPTY,
-						moveFlagCastle
-					)
-				);
+		);
+	if (
+		GameBoard.castlePerm & CASTLEBIT.BKCA &&
+		GameBoard.pieces[targetEsquare] == king &&
+		GameBoard.pieces[targetFsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetGsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetHsquare] == rook &&
+		!SquareAttacked(targetFsquare, COLORS.WHITE) &&
+		!SquareAttacked(targetEsquare, COLORS.WHITE)
+	)
+		AddQuietMove(
+			Move(
+				targetEsquare,
+				targetGsquare,
+				PIECES.EMPTY,
+				PIECES.EMPTY,
+				moveFlagCastle
+			)
+		);
 };
 
 const GenerateCastleQueenside = () => {
 	const color = GameBoard.side;
+	const targetAsquare = color ? SQUARES.A8 : SQUARES.A1;
 	const targetBsquare = color ? SQUARES.B8 : SQUARES.B1;
 	const targetCsquare = color ? SQUARES.C8 : SQUARES.C1;
 	const targetDsquare = color ? SQUARES.D8 : SQUARES.D1;
 	const targetEsquare = color ? SQUARES.E8 : SQUARES.E1;
+	const king = color ? PIECES.bK : PIECES.wK;
+	const rook = color ? PIECES.bR : PIECES.wR;
 
-	if (GameBoard.castlePerm & (CASTLEBIT.BQCA | CASTLEBIT.WQCA))
-		if (
-			GameBoard.pieces[targetBsquare] == PIECES.EMPTY &&
-			GameBoard.pieces[targetCsquare] == PIECES.EMPTY &&
-			GameBoard.pieces[targetDsquare] == PIECES.EMPTY
-		)
-			if (
-				SquareAttacked(targetDsquare, !color) == Bool.False &&
-				SquareAttacked(targetEsquare, !color) == Bool.False
+	if (
+		GameBoard.castlePerm & CASTLEBIT.WQCA &&
+		GameBoard.pieces[targetAsquare] == rook &&
+		GameBoard.pieces[targetBsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetCsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetDsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetEsquare] == king &&
+		!SquareAttacked(targetDsquare, COLORS.BLACK) &&
+		!SquareAttacked(targetEsquare, COLORS.BLACK)
+	)
+		AddQuietMove(
+			Move(
+				targetEsquare,
+				targetCsquare,
+				PIECES.EMPTY,
+				PIECES.EMPTY,
+				moveFlagCastle
 			)
-				AddQuietMove(
-					Move(
-						targetEsquare,
-						targetCsquare,
-						PIECES.EMPTY,
-						PIECES.EMPTY,
-						moveFlagCastle
-					)
-				);
+		);
+	if (
+		GameBoard.castlePerm & CASTLEBIT.BQCA &&
+		GameBoard.pieces[targetAsquare] == rook &&
+		GameBoard.pieces[targetBsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetCsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetDsquare] == PIECES.EMPTY &&
+		GameBoard.pieces[targetEsquare] == king &&
+		!SquareAttacked(targetDsquare, COLORS.WHITE) &&
+		!SquareAttacked(targetEsquare, COLORS.WHITE)
+	)
+		AddQuietMove(
+			Move(
+				targetEsquare,
+				targetCsquare,
+				PIECES.EMPTY,
+				PIECES.EMPTY,
+				moveFlagCastle
+			)
+		);
 };
 
 const GenerateNonSlideMove = (square, direction) => {
