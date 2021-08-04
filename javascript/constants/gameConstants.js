@@ -7,6 +7,7 @@ const CASTLEBIT = { WKCA: 1, WQCA: 2, BKCA: 4, BQCA: 8 };
 const MAX_GAME_MOVES = 2048; // broj mogućih poteza u svakoj igri
 const MAX_POSITION_MOVES = 256; // broj poteza u danoj poziciji
 const MAX_DEPTH = 64; // maksimalna dubina do koje će ići računalo
+const Mate = 29000;
 
 const RAND_32 = () => {
 	return (
