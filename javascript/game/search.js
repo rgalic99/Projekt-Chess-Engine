@@ -10,10 +10,16 @@ SearchController.stop;
 SearchController.best;
 SearchController.thinking;
 
+const CheckUp = () => {
+	if ($.now() - SearchController.start > SearchController.time)
+		SearchController.stop = Bool.True;
+};
+
 const AlpfaBeta = (alpha, beta, depth) => {
 	if (depth <= 0) return; //TODO Evaluation()
 
-	//TODO Check Time
+	if (SearchController.nodes & (2047 == 0)) CheckUp();
+
 	SearchController.nodes++;
 
 	//TODO Check repetiton and 50 move rule
@@ -36,6 +42,7 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		moveNum < GameBoard.moveListStart[GameBoard.ply + 1];
 		moveNum++
 	) {
+		//TODO Pick next best move
 		move = GameBoard.moveList[moveNum];
 		if (!MakeMove(move)) continue;
 
