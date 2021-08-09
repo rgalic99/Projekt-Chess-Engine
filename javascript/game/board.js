@@ -33,6 +33,10 @@ GameBoard.moveListStart = new Array(MAX_DEPTH); // lista svih poteza u početnoj
 GameBoard.moveList = new Array(MAX_POSITION_MOVES * MAX_DEPTH); // lista svih poteza
 GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH); // lista rezultata poteza
 
+// PV tablica
+GameBoard.PvTable = [];
+GameBoard.PvArray = new Array(MAX_DEPTH);
+
 const ResetBoard = () => {
 	GameBoard.pieces.fill(SQUARES.OFFBOARD);
 	for (let index = 0; index < 64; index++)

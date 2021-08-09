@@ -36,4 +36,11 @@ const InitializeHistory = () => {
 			fiftyMoveRule: 0,
 			posKey: 0,
 		});
+
+	// inicijalizacija PV tablice
+	for (let i = 0; i < PvEntries; i++)
+		GameBoard.PvTable.push({
+			move: noMove,
+			posKey: 0,
+		});
 };
