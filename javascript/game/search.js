@@ -34,7 +34,7 @@ const AlpfaBeta = (alpha, beta, depth) => {
 	if (IsRepetiton() || (GameBoard.fiftyMoveRule >= 100 && GameBoard.ply != 0))
 		return 0;
 
-	if (GameBoard.ply > MAX_DEPTH - 1) return; //TODO Evaluation()
+	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition();
 
 	let score = -Infinity;
 	GenerateMoves();
