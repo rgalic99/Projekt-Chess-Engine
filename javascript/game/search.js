@@ -25,7 +25,7 @@ const IsRepetiton = () => {
 };
 
 const AlpfaBeta = (alpha, beta, depth) => {
-	if (depth <= 0) return; //TODO Evaluation()
+	if (depth <= 0) return EvalPosition();
 
 	if (SearchController.nodes & (2047 == 0)) CheckUp();
 
