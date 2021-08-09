@@ -13,6 +13,7 @@ const GetDependencies = () => {
 	game/moveGen.js
 	game/makeMove.js
 	game/evaluate.js
+	game/pvtable.js
 	game/search.js
 	game/main.js`;
 	return links.split("\n");
