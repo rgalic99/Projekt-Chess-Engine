@@ -2,7 +2,6 @@ $(() => {
 	Sleep(30);
 	Init();
 	ParseFEN(START_FEN);
-	PrintBoard();
 });
 
 const Init = () => {

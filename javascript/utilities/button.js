@@ -17,5 +17,5 @@ $("button")
 		ParseFEN(string);
 		let num = $(".depthInput").val();
 		//PerftTest(num);
-		PrintPieceList();
+		SearchPosition();
 	});
