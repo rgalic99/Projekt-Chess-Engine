@@ -147,7 +147,7 @@ const CheckBoard = () => {
 	}
 
 	// provjera jesu li sve figure na broju
-	if (ArrayEquals(pieceNum, GameBoard.pceNum)) {
+	if (ArrayEquals(pieceNum, GameBoard.pieceNum)) {
 		console.log("Piece number error");
 		return Bool.False;
 	}
@@ -182,7 +182,7 @@ const ArrayEquals = (a, b) => {
 
 const CheckPieceNumArray = (piece) => {
 	// je li lista figura ispravna
-	for (let pieceNum = 0; pieceNum < GameBoard.pceNum[piece]; pieceNum++) {
+	for (let pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
 		let square120 = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		if (GameBoard.pieces[square120] != piece) {
 			console.log("Piece list error");
