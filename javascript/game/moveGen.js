@@ -37,6 +37,21 @@ const Move = (from, to, captured, promoted, flag) => {
 	return from | (to << 7) | (captured << 14) | (promoted << 20) | flag;
 };
 
+const MoveExists = (move) => {
+	GenerateMoves();
+	for (
+		let index = GameBoard.moveListStart[GameBoard.ply];
+		index < GameBoard.moveListStart[GameBoard.ply + 1];
+		index++
+	) {
+		let moveFound = GameBoard.moveList[index];
+		if (MakeMove(moveFound) == Bool.False) continue;
+		TakeMove();
+		if (move == moveFound) return Bool.True;
+	}
+	return Bool.False;
+};
+
 const GenerateMoves = () => {
 	//	GameBoard.moveListStart -> indeks prvog poteza u nekom ply-u
 	//	GameBoard.moveList -> lista svih poteza

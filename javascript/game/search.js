@@ -20,8 +20,12 @@ const CheckUp = () => {
 };
 
 const IsRepetiton = () => {
-	let index = GameBoard.historyPly - GameBoard.fiftyMoveRule;
-	for (index; index < GameBoard.historyPly - 1; index++)
+	let index = 0;
+	for (
+		index = GameBoard.historyPly - GameBoard.fiftyMoveRule;
+		index < GameBoard.historyPly - 1;
+		index++
+	)
 		if (GameBoard.posKey == GameBoard.history[index].posKey)
 			return Bool.True;
 
@@ -29,11 +33,11 @@ const IsRepetiton = () => {
 };
 
 const AlpfaBeta = (alpha, beta, depth) => {
+	SearchController.nodes++;
+
 	if (depth <= 0) return EvalPosition();
 
 	if (SearchController.nodes & (2047 == 0)) CheckUp();
-
-	SearchController.nodes++;
 
 	if (IsRepetiton() || (GameBoard.fiftyMoveRule >= 100 && GameBoard.ply != 0))
 		return 0;
@@ -45,7 +49,7 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		GameBoard.pieceList[PieceIndex(kings[side], 0)],
 		!side
 	);
-	inCheck && depth++;
+	if (inCheck) depth++;
 
 	let score = -Infinity;
 	GenerateMoves();
@@ -65,7 +69,7 @@ const AlpfaBeta = (alpha, beta, depth) => {
 	) {
 		//TODO Pick next best move
 		move = GameBoard.moveList[moveNum];
-		if (!MakeMove(move)) continue;
+		if (MakeMove(move) == Bool.False) continue;
 
 		legal++;
 		score = -AlpfaBeta(-beta, -alpha, depth - 1);
@@ -86,7 +90,9 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		}
 	}
 
-	if (!legal) return inCheck ? -Mate + GameBoard.ply : 0;
+	if (!legal)
+		if (inCheck) return -Mate + GameBoard.ply;
+		else return 0;
 
 	if (alpha != oldAlpha) StorePvMove(bestMove);
 
@@ -109,15 +115,34 @@ const SearchPosition = () => {
 	let bestMove = noMove;
 	let bestScore = -Infinity;
 	let currentDepth = 0;
+	let pvNum = 0;
+	let i = 0;
 
 	ClearForSearch();
 	for (
 		currentDepth = 1;
-		currentDepth <= SearchController.depth;
+		currentDepth <= /*SearchController.depth*/ 5;
 		currentDepth++
 	) {
-		//TODO Alfa Beta
+		bestScore = AlpfaBeta(-Infinity, Infinity, currentDepth);
 		if (SearchController.stop == Bool.True) break;
+
+		bestMove = ProbePvTable();
+		let line =
+			"Depth: " +
+			currentDepth +
+			" Best Move: " +
+			PrintMove(bestMove) +
+			" Score: " +
+			bestScore +
+			" Nodes: " +
+			SearchController.nodes;
+
+		pvNum = GetPvLine(currentDepth);
+		for (i = 0; i < pvNum; i++)
+			line += " " + PrintMove(GameBoard.PvArray[i]);
+
+		console.log(line);
 	}
 
 	SearchController.best = bestMove;
