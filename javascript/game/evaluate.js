@@ -74,16 +74,16 @@ const EvalPosition = () => {
 	piece = PIECES.wQ;
 	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
-		score += RookTable[GetSquare64(square)] / 2;
+		score += RookTable[GetSquare64(square)];
 	}
 	piece = PIECES.bQ;
 	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
-		score -= RookTable[Mirror64(GetSquare64(square))] / 2;
+		score -= RookTable[Mirror64(GetSquare64(square))];
 	}
 
-	if (GameBoard.pieceNum[wB] >= 2) score += BishopPair;
-	if (GameBoard.pieceNum[bB] >= 2) score -= BishopPair;
+	if (GameBoard.pieceNum[PIECES.wB] >= 2) score += BishopPair;
+	if (GameBoard.pieceNum[PIECES.bB] >= 2) score -= BishopPair;
 
 	return GameBoard.side ? -score : score;
 };
