@@ -37,6 +37,10 @@ GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH); // lista rezul
 GameBoard.PvTable = [];
 GameBoard.PvArray = new Array(MAX_DEPTH);
 
+// Pretraga
+GameBoard.searchHistory = new Array(13 * NUM_OF_SQ);
+GameBoard.searchKillers = new Array(3 * MAX_DEPTH);
+
 const ResetBoard = () => {
 	GameBoard.pieces.fill(SQUARES.OFFBOARD);
 	for (let index = 0; index < 64; index++)

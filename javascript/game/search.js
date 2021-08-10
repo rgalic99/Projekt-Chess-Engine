@@ -10,6 +10,10 @@ SearchController.stop;
 SearchController.best;
 SearchController.thinking;
 
+const ClearPvTable = () => {
+	GameBoard.PvTable.fill({ move: noMove, posKey: 0 }, 0, PvEntries);
+};
+
 const CheckUp = () => {
 	if ($.now() - SearchController.start > SearchController.time)
 		SearchController.stop = Bool.True;
@@ -35,6 +39,13 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		return 0;
 
 	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition();
+
+	let side = GameBoard.side;
+	let inCheck = SquareAttacked(
+		GameBoard.pieceList[PieceIndex(kings[side], 0)],
+		!side
+	);
+	inCheck && depth++;
 
 	let score = -Infinity;
 	GenerateMoves();
@@ -74,11 +85,24 @@ const AlpfaBeta = (alpha, beta, depth) => {
 			//TODO Update history table
 		}
 	}
-	//TODO MateCheck
 
-	if (alpha != oldAlpha) return; //TODO store PV move
+	if (!legal) return inCheck ? -Mate + GameBoard.ply : 0;
+
+	if (alpha != oldAlpha) StorePvMove(bestMove);
 
 	return alpha;
+};
+
+const ClearForSearch = () => {
+	GameBoard.searchHistory.fill(0, 0, 13 * NUM_OF_SQ);
+	GameBoard.searchKillers.fill(0, 0, 3 * MAX_DEPTH);
+	ClearPvTable();
+	GameBoard.ply = 0;
+	SearchController.nodes = 0;
+	SearchController.failHigh = 0;
+	SearchController.failHighFirst = 0;
+	SearchController.start = $.now();
+	SearchController.stop = 0;
 };
 
 const SearchPosition = () => {
@@ -86,6 +110,7 @@ const SearchPosition = () => {
 	let bestScore = -Infinity;
 	let currentDepth = 0;
 
+	ClearForSearch();
 	for (
 		currentDepth = 1;
 		currentDepth <= SearchController.depth;
