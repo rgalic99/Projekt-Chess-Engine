@@ -4,8 +4,7 @@ const GetPvLine = (depth) => {
 	while (move != noMove && count < depth) {
 		if (MoveExists(move)) {
 			MakeMove(move);
-			GameBoard.PvArray[count] = move;
-			count++;
+			GameBoard.PvArray[count++] = move;
 		} else break;
 		move = ProbePvTable();
 	}

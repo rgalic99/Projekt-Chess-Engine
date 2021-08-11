@@ -199,10 +199,10 @@ const pieceSlides = [
 ];
 
 // konstante koje opisuju udaljenost odredišne kocke
-const knightDirection = [-21, -19, -12, -8, 8, 12, 19, 21];
-const rookDirection = [-10, -1, 1, 10];
-const bishopDirection = [-11, -9, 9, 11];
-const kingDirection = [-11, -10, -9, -1, 1, 9, 10, 11];
+const knightDirection = [-8, -19, -21, -12, 8, 19, 21, 12];
+const rookDirection = [-1, -10, 10, 1];
+const bishopDirection = [-9, -11, 11, 9];
+const kingDirection = [-1, -10, 1, 10, -9, -11, 11, 9];
 
 const dirNum = [0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8];
 const pieceDir = [
