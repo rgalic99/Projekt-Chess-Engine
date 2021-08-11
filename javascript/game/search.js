@@ -21,11 +21,10 @@ const CheckUp = () => {
 
 const IsRepetiton = () => {
 	let index = 0;
-	for (
-		index = GameBoard.historyPly - GameBoard.fiftyMoveRule;
-		index < GameBoard.historyPly - 1;
-		index++
-	)
+	let start = GameBoard.historyPly - GameBoard.fiftyMoveRule;
+	let end = GameBoard.historyPly - 1;
+
+	for (index = start; index < end; index++)
 		if (GameBoard.posKey == GameBoard.history[index].posKey)
 			return Bool.True;
 
@@ -62,11 +61,11 @@ const AlpfaBeta = (alpha, beta, depth) => {
 
 	//TODO Get PV move
 	//TODO Order PV move
-	for (
-		moveNum = GameBoard.moveListStart[GameBoard.ply];
-		moveNum < GameBoard.moveListStart[GameBoard.ply + 1];
-		moveNum++
-	) {
+
+	let start = GameBoard.moveListStart[GameBoard.ply];
+	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+
+	for (moveNum = start; moveNum < end; moveNum++) {
 		//TODO Pick next best move
 		move = GameBoard.moveList[moveNum];
 		if (MakeMove(move) == Bool.False) continue;
@@ -90,9 +89,10 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		}
 	}
 
-	if (!legal)
+	if (!legal) {
 		if (inCheck) return -Mate + GameBoard.ply;
 		else return 0;
+	}
 
 	if (alpha != oldAlpha) StorePvMove(bestMove);
 
@@ -119,11 +119,10 @@ const SearchPosition = () => {
 	let i = 0;
 
 	ClearForSearch();
-	for (
-		currentDepth = 1;
-		currentDepth <= /*SearchController.depth*/ 5;
-		currentDepth++
-	) {
+
+	let targetDepth = /*SearchController.depth*/ 5;
+
+	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
 		bestScore = AlpfaBeta(-Infinity, Infinity, currentDepth);
 		if (SearchController.stop == Bool.True) break;
 

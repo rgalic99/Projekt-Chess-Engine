@@ -36,8 +36,12 @@ const AttackedByRookOrQueen = (square, color) => {
 };
 
 const CheckKnightAndKing = (square, directionArray, pieceArray, color) => {
-	for (let index = 0; index < directionArray.length; index++) {
-		let piece = GameBoard.pieces[square + directionArray[index]];
+	let index = 0;
+	let length = directionArray.length;
+	let piece = PIECES.EMPTY;
+
+	for (index = 0; index < length; index++) {
+		piece = GameBoard.pieces[square + directionArray[index]];
 		if (CheckPiece(piece, pieceArray, color)) {
 			return Bool.True;
 		}
@@ -54,9 +58,14 @@ const CheckPiece = (piece, pieceArray, color) => {
 };
 
 const CheckBishopAndRook = (square, directionArray, pieceArray, color) => {
-	for (let index = 0; index < directionArray.length; index++) {
-		let target_square = square + directionArray[index];
-		let piece = GameBoard.pieces[target_square];
+	let index = 0;
+	let target_square = 0;
+	let piece = 0;
+	let length = directionArray.length;
+
+	for (index = 0; index < length; index++) {
+		target_square = square + directionArray[index];
+		piece = GameBoard.pieces[target_square];
 
 		while (piece != SQUARES.OFFBOARD) {
 			if (piece != PIECES.EMPTY) {

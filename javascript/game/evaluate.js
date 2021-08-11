@@ -30,54 +30,84 @@ const EvalPosition = () => {
 	let square = SQUARES.NO_SQ;
 	let pieceNum = 0;
 	let piece = PIECES.EMPTY;
+	let limit = 0;
 
 	piece = PIECES.wP;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score += PawnTable[GetSquare64(square)];
 	}
+
 	piece = PIECES.bP;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score -= PawnTable[Mirror64(GetSquare64(square))];
 	}
+
 	piece = PIECES.wN;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score += KnightTable[GetSquare64(square)];
 	}
+
 	piece = PIECES.bN;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score -= KnightTable[Mirror64(GetSquare64(square))];
 	}
+
 	piece = PIECES.wR;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score += RookTable[GetSquare64(square)];
 	}
+
 	piece = PIECES.bR;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score -= RookTable[Mirror64(GetSquare64(square))];
 	}
+
 	piece = PIECES.wB;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score += BishopTable[GetSquare64(square)];
 	}
+
 	piece = PIECES.bB;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score -= BishopTable[Mirror64(GetSquare64(square))];
 	}
+
 	piece = PIECES.wQ;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score += RookTable[GetSquare64(square)];
 	}
+
 	piece = PIECES.bQ;
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+	limit = GameBoard.pieceNum[piece];
+
+	for (pieceNum = 0; pieceNum < limit; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 		score -= RookTable[Mirror64(GetSquare64(square))];
 	}

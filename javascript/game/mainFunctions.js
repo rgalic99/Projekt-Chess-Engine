@@ -28,19 +28,17 @@ const PopulateBoardArrays = () => {
 
 const InitializeHistory = () => {
 	// inicijalizacija povijesti
-	for (let i = 0; i < MAX_GAME_MOVES; i++)
-		GameBoard.history.push({
-			move: noMove,
-			castlePerm: 0,
-			enPassant: 0,
-			fiftyMoveRule: 0,
-			posKey: 0,
-		});
+	GameBoard.history.fill({
+		move: noMove,
+		castlePerm: 0,
+		enPassant: 0,
+		fiftyMoveRule: 0,
+		posKey: 0,
+	});
 
 	// inicijalizacija PV tablice
-	for (let i = 0; i < PvEntries; i++)
-		GameBoard.PvTable.push({
-			move: noMove,
-			posKey: 0,
-		});
+	GameBoard.PvTable.fill({
+		move: noMove,
+		posKey: 0,
+	});
 };

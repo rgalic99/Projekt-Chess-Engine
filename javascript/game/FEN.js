@@ -141,7 +141,8 @@ const ParseEnPassant = (fenString, fenCount) => {
 };
 
 const GeneratePositionKey = () => {
-	for (let square = 0; square < 120; square++) {
+	let square = 0;
+	for (square = 0; square < 120; square++) {
 		let piece = GameBoard.pieces[square];
 		if (piece != PIECES.EMPTY && piece != SQUARES.OFFBOARD)
 			HashPiece(piece, square); // hashiranje vrijednosti za svaku figuru
@@ -155,8 +156,10 @@ const GeneratePositionKey = () => {
 
 const TestPositionKey = () => {
 	let key = 0;
-	for (let square = 0; square < 120; square++) {
-		let piece = GameBoard.pieces[square];
+	let square = 0;
+	let piece = 0;
+	for (square = 0; square < 120; square++) {
+		piece = GameBoard.pieces[square];
 		if (piece != PIECES.EMPTY && piece != SQUARES.OFFBOARD)
 			key ^= pieceKeys[piece * 120 + square]; // hashiranje vrijednosti za svaku figuru
 	}

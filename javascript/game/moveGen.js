@@ -39,12 +39,13 @@ const Move = (from, to, captured, promoted, flag) => {
 
 const MoveExists = (move) => {
 	GenerateMoves();
-	for (
-		let index = GameBoard.moveListStart[GameBoard.ply];
-		index < GameBoard.moveListStart[GameBoard.ply + 1];
-		index++
-	) {
-		let moveFound = GameBoard.moveList[index];
+	let index = 0;
+	let moveFound = noMove;
+	let start = GameBoard.moveListStart[GameBoard.ply];
+	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+
+	for (index = start; index < end; index++) {
+		moveFound = GameBoard.moveList[index];
 		if (MakeMove(moveFound) == Bool.False) continue;
 		TakeMove();
 		if (move == moveFound) return Bool.True;
@@ -65,7 +66,8 @@ const GenerateMoves = () => {
 	/* Pawn */
 
 	let pieceType = color ? PIECES.bP : PIECES.wP; //white = 0 black = 1
-	for (pieceNum = 0; pieceNum < GameBoard.pieceNum[pieceType]; pieceNum++) {
+	let pawn_num = GameBoard.pieceNum[pieceType];
+	for (pieceNum = 0; pieceNum < pawn_num; pieceNum++) {
 		square = GameBoard.pieceList[PieceIndex(pieceType, pieceNum)];
 
 		/* Pawn move */
@@ -287,11 +289,14 @@ const GenerateBig = (GenerateFunction, loopPieceIndex, loopPieceArray) => {
 	let pieceIndex = loopPieceIndex[color];
 	let piece = loopPieceArray[pieceIndex++];
 	let pieceNum = 0;
+	let amount = GameBoard.pieceNum[piece];
+	let i = 0;
+
 	while (piece) {
-		for (pieceNum = 0; pieceNum < GameBoard.pieceNum[piece]; pieceNum++) {
+		for (pieceNum = 0; pieceNum < amount; pieceNum++) {
 			let square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 
-			for (let i = 0; i < dirNum[piece]; i++) {
+			for (i = 0; i < dirNum[piece]; i++) {
 				let direction = pieceDir[piece][i];
 				GenerateFunction(square, direction);
 			}

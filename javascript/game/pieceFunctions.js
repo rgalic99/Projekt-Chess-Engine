@@ -3,10 +3,13 @@ const UpdateMaterialLists = () => {
 	GameBoard.pieceList.fill(PIECES.EMPTY);
 	GameBoard.material.fill(0);
 	GameBoard.pieceNum.fill(0);
+	let i = 0;
+	let square = 0;
+	let piece = 0;
 
-	for (let i = 0; i < 64; i++) {
-		let square = GetSquare120(i);
-		let piece = GameBoard.pieces[square];
+	for (i = 0; i < 64; i++) {
+		square = GetSquare120(i);
+		piece = GameBoard.pieces[square];
 		if (piece != PIECES.EMPTY) {
 			color = pieceCol[piece];
 			GameBoard.material[color] += pieceVal[piece];
