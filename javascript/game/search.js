@@ -11,7 +11,11 @@ SearchController.best;
 SearchController.thinking;
 
 const ClearPvTable = () => {
-	GameBoard.PvTable.fill({ move: noMove, posKey: 0 }, 0, PvEntries);
+	let i = 0;
+	for (i = 0; i < PvEntries; i++) {
+		GameBoard.PvTable[i].move = noMove;
+		GameBoard.PvTable[i].posKey = 0;
+	}
 };
 
 const CheckUp = () => {
@@ -100,8 +104,8 @@ const AlpfaBeta = (alpha, beta, depth) => {
 };
 
 const ClearForSearch = () => {
-	GameBoard.searchHistory.fill(0, 0, 13 * NUM_OF_SQ);
-	GameBoard.searchKillers.fill(0, 0, 3 * MAX_DEPTH);
+	GameBoard.searchHistory.fill(0);
+	GameBoard.searchKillers.fill(0);
 	ClearPvTable();
 	GameBoard.ply = 0;
 	SearchController.nodes = 0;
@@ -117,6 +121,7 @@ const SearchPosition = () => {
 	let currentDepth = 0;
 	let pvNum = 0;
 	let i = 0;
+	let line = "";
 
 	ClearForSearch();
 
@@ -127,7 +132,7 @@ const SearchPosition = () => {
 		if (SearchController.stop == Bool.True) break;
 
 		bestMove = ProbePvTable();
-		let line =
+		line =
 			"Depth: " +
 			currentDepth +
 			" Best Move: " +

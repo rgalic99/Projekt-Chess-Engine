@@ -17,7 +17,7 @@ GameBoard.enPassant = 0; // prati en passant pravilo
 GameBoard.fiftyMoveRule = 0; // prati poteze po pravilu 50 poteza
 GameBoard.ply = 0; // prati polupotez
 GameBoard.historyPly = 0; // pamti prethodne polupoteze
-GameBoard.history = new Array(MAX_GAME_MOVES); // pamti prethodne poteze
+GameBoard.history = []; // pamti prethodne poteze
 GameBoard.castlePerm = 0; // prati pravo rokade
 /*
 0001 => bijeli ima pravo rokade na strani kralja
@@ -34,7 +34,7 @@ GameBoard.moveList = new Array(MAX_POSITION_MOVES * MAX_DEPTH); // lista svih po
 GameBoard.moveScores = new Array(MAX_POSITION_MOVES * MAX_DEPTH); // lista rezultata poteza
 
 // PV tablica
-GameBoard.PvTable = new Array(PvEntries);
+GameBoard.PvTable = [];
 GameBoard.PvArray = new Array(MAX_DEPTH);
 
 // Pretraga
