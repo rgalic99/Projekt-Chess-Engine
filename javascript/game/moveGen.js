@@ -297,7 +297,7 @@ const GenerateNonSlideMove = (square, direction) => {
 	}
 };
 
-const GenerateNonSlideMoveCapture = () => {
+const GenerateNonSlideMoveCapture = (square, direction) => {
 	const color = GameBoard.side;
 	let target_square = square + direction;
 	if (SquareOffboard(target_square)) return;
@@ -333,7 +333,7 @@ const GenerateSlideMove = (square, direction) => {
 	}
 };
 
-GenerateSlideMoveCapture = () => {
+GenerateSlideMoveCapture = (square, direction) => {
 	const color = GameBoard.side;
 	let target_square = square + direction;
 
