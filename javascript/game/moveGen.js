@@ -37,6 +37,20 @@ const Move = (from, to, captured, promoted, flag) => {
 	return from | (to << 7) | (captured << 14) | (promoted << 20) | flag;
 };
 
+const MvvLvaValue = [
+	0, 100, 200, 300, 400, 500, 600, 0, 100, 200, 300, 400, 500, 600,
+];
+const MvvLvaScores = new Array(14 * 14);
+
+const InitMvvLva = () => {
+	let attacker = 0;
+	let victim = 0;
+	for (attacker = PIECES.wP; attacker <= PIECES.bK; attacker++)
+		for (victim = PIECES.wP; victim <= PIECES.bK; victim++)
+			MvvLvaScores[victim * 14 + attacker] =
+				MvvLvaValue[victim] + 6 - MvvLvaValue[attacker] / 100;
+};
+
 const MoveExists = (move) => {
 	GenerateMoves();
 	let index = 0;
@@ -376,7 +390,10 @@ const GenerateBig = (GenerateFunction, loopPieceIndex, loopPieceArray) => {
 
 const AddCaptureMove = (move) => {
 	GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
-	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
+	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] =
+		MvvLvaScores[
+			capturedPiece(move) * 14 + GameBoard.pieces[fromSquare(move)]
+		] + 1000000;
 };
 
 const AddQuietMove = (move) => {
@@ -386,7 +403,8 @@ const AddQuietMove = (move) => {
 
 const AddEnPassantMove = (move) => {
 	GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
-	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
+	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] =
+		105 + 1000000;
 };
 
 const AddPawnCaptureOrQuietMove = (from, to, captured) => {

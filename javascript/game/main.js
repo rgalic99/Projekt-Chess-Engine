@@ -14,4 +14,5 @@ const InitBoard = () => {
 	InitializeHistory();
 	InitHashKeys();
 	PopulateBoardArrays();
+	InitMvvLva();
 };
