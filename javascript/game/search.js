@@ -10,6 +10,31 @@ SearchController.stop;
 SearchController.best;
 SearchController.thinking;
 
+const PickNextMove = (moveNum) => {
+	let i = 0;
+	let bestScore = -1;
+	let bestNum = moveNum;
+	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+
+	for (i = moveNum; i < end; i++) {
+		if (GameBoard.moveScores[i] > bestScore) {
+			bestScore = GameBoard.moveScores[i];
+			bestNum = i;
+		}
+	}
+	if (bestNum != moveNum) {
+		let temp = 0;
+
+		temp = GameBoard.moveScores[moveNum];
+		GameBoard.moveScores[moveNum] = GameBoard.moveScores[bestNum];
+		GameBoard.moveScores[bestNum] = temp;
+
+		temp = GameBoard.moveList[moveNum];
+		GameBoard.moveList[moveNum] = GameBoard.moveList[bestNum];
+		GameBoard.moveList[bestNum] = temp;
+	}
+};
+
 const ClearPvTable = () => {
 	let i = 0;
 	for (i = 0; i < PvEntries; i++) {
@@ -68,7 +93,7 @@ const Quiescence = (alpfa, beta) => {
 	let end = GameBoard.moveListStart[GameBoard.ply + 1];
 
 	for (moveNum = start; moveNum < end; moveNum++) {
-		//TODO Pick next best move
+		PickNextMove();
 		move = GameBoard.moveList[moveNum];
 		if (MakeMove(move) == Bool.False) continue;
 
@@ -121,7 +146,7 @@ const AlpfaBeta = (alpfa, beta, depth) => {
 	let end = GameBoard.moveListStart[GameBoard.ply + 1];
 
 	for (moveNum = start; moveNum < end; moveNum++) {
-		//TODO Pick next best move
+		PickNextMove();
 		move = GameBoard.moveList[moveNum];
 		if (MakeMove(move) == Bool.False) continue;
 
