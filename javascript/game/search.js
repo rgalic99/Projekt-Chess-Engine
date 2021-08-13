@@ -37,12 +37,11 @@ const IsRepetiton = () => {
 
 const AlpfaBeta = (alpha, beta, depth) => {
 	SearchController.nodes++;
-
 	if (depth <= 0) return EvalPosition();
 
 	if (SearchController.nodes & (2047 == 0)) CheckUp();
 
-	if (IsRepetiton() || (GameBoard.fiftyMoveRule >= 100 && GameBoard.ply != 0))
+	if (GameBoard.ply != 0 && (IsRepetiton() || GameBoard.fiftyMoveRule >= 100))
 		return 0;
 
 	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition();
@@ -50,7 +49,7 @@ const AlpfaBeta = (alpha, beta, depth) => {
 	let side = GameBoard.side;
 	let inCheck = SquareAttacked(
 		GameBoard.pieceList[PieceIndex(kings[side], 0)],
-		!side
+		side ^ 1
 	);
 	if (inCheck) depth++;
 
@@ -93,7 +92,7 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		}
 	}
 
-	if (!legal) {
+	if (legal == 0) {
 		if (inCheck) return -Mate + GameBoard.ply;
 		else return 0;
 	}
@@ -125,7 +124,7 @@ const SearchPosition = () => {
 
 	ClearForSearch();
 
-	let targetDepth = /*SearchController.depth*/ 5;
+	let targetDepth = /*SearchController.depth*/ 8;
 
 	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
 		bestScore = AlpfaBeta(-Infinity, Infinity, currentDepth);
@@ -143,6 +142,7 @@ const SearchPosition = () => {
 			SearchController.nodes;
 
 		pvNum = GetPvLine(currentDepth);
+		line += " PV:";
 		for (i = 0; i < pvNum; i++)
 			line += " " + PrintMove(GameBoard.PvArray[i]);
 
