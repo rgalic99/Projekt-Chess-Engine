@@ -53,6 +53,41 @@ const MoveExists = (move) => {
 	return Bool.False;
 };
 
+const GenerateCaptures = () => {
+	GameBoard.moveListStart[GameBoard.ply + 1] =
+		GameBoard.moveListStart[GameBoard.ply];
+
+	let square = null;
+	let pieceNum = null;
+	let color = GameBoard.side;
+
+	let pieceType = color ? PIECES.bP : PIECES.wP; //white = 0 black = 1
+	let pawn_num = GameBoard.pieceNum[pieceType];
+
+	for (pieceNum = 0; pieceNum < pawn_num; pieceNum++) {
+		square = GameBoard.pieceList[PieceIndex(pieceType, pieceNum)];
+		/* Pawn capture */
+		GeneratePawnCapture(square, 9);
+		GeneratePawnCapture(square, 11);
+
+		/* Pawn capture en passant*/
+		if (GameBoard.enPassant != SQUARES.NO_SQ) {
+			GeneratePawnCaptureEnPassant(square, 9);
+			GeneratePawnCaptureEnPassant(square, 11);
+		}
+	}
+
+	/* Non slide piece (knight and king) */
+	GenerateBig(
+		GenerateNonSlideMoveCapture,
+		loopNonSlideIndex,
+		loopNonSlidePiece
+	);
+
+	/* Slide piece (rook, bishop and queen) */
+	GenerateBig(GenerateSlideMoveCapture, loopSlideIndex, loopSlidePiece);
+};
+
 const GenerateMoves = () => {
 	//	GameBoard.moveListStart -> indeks prvog poteza u nekom ply-u
 	//	GameBoard.moveList -> lista svih poteza
@@ -262,6 +297,20 @@ const GenerateNonSlideMove = (square, direction) => {
 	}
 };
 
+const GenerateNonSlideMoveCapture = () => {
+	const color = GameBoard.side;
+	let target_square = square + direction;
+	if (SquareOffboard(target_square)) return;
+
+	let target_piece = GameBoard.pieces[target_square];
+	if (target_piece != PIECES.EMPTY) {
+		if (pieceCol[target_piece] != color)
+			AddCaptureMove(
+				Move(square, target_square, target_piece, PIECES.EMPTY, 0)
+			);
+	}
+};
+
 const GenerateSlideMove = (square, direction) => {
 	const color = GameBoard.side;
 	let target_square = square + direction;
@@ -280,6 +329,25 @@ const GenerateSlideMove = (square, direction) => {
 		AddQuietMove(
 			Move(square, target_square, PIECES.EMPTY, PIECES.EMPTY, 0)
 		);
+		target_square += direction;
+	}
+};
+
+GenerateSlideMoveCapture = () => {
+	const color = GameBoard.side;
+	let target_square = square + direction;
+
+	while (!SquareOffboard(target_square)) {
+		let target_piece = GameBoard.pieces[target_square];
+
+		if (target_piece != PIECES.EMPTY) {
+			if (pieceCol[target_piece] != color) {
+				AddCaptureMove(
+					Move(square, target_square, target_piece, PIECES.EMPTY, 0)
+				);
+			}
+			return;
+		}
 		target_square += direction;
 	}
 };
