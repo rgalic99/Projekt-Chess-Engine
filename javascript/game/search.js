@@ -35,16 +35,68 @@ const IsRepetiton = () => {
 	return Bool.False;
 };
 
-const AlpfaBeta = (alpfa, beta, depth) => {
-	SearchController.nodes++;
-	if (depth <= 0) return EvalPosition();
-
+const PositionCheck = () => {
 	if (SearchController.nodes & (2047 == 0)) CheckUp();
+
+	SearchController.nodes++;
 
 	if (GameBoard.ply != 0 && (IsRepetiton() || GameBoard.fiftyMoveRule >= 100))
 		return 0;
 
 	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition();
+};
+
+const Quiescence = (alpfa, beta) => {
+	PositionCheck();
+	let score = EvalPosition();
+
+	if (score >= beta) return beta;
+
+	if (score > alpfa) alpfa = score;
+
+	GenerateCaptures();
+	let moveNum = 0;
+	let legal = 0;
+	let oldAlpfa = alpfa;
+	let bestMove = noMove;
+	let move = noMove;
+
+	//TODO Get PV move
+	//TODO Order PV move
+
+	let start = GameBoard.moveListStart[GameBoard.ply];
+	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+
+	for (moveNum = start; moveNum < end; moveNum++) {
+		//TODO Pick next best move
+		move = GameBoard.moveList[moveNum];
+		if (MakeMove(move) == Bool.False) continue;
+
+		legal++;
+		score = -Quiescence(-beta, -alpfa);
+		TakeMove();
+
+		if (SearchController.stop == Bool.True) return 0;
+
+		if (score > alpfa) {
+			if (score >= beta) {
+				if (legal == 1) SearchController.failHighFirst++;
+				SearchController.failHigh++;
+				return beta;
+			}
+			alpfa = score;
+			bestMove = move;
+		}
+	}
+	if (alpfa != oldAlpfa) StorePvMove(bestMove);
+
+	return alpfa;
+};
+
+const AlpfaBeta = (alpfa, beta, depth) => {
+	if (depth <= 0) return Quiescence(alpfa, beta);
+
+	PositionCheck();
 
 	let side = GameBoard.side;
 	let inCheck = SquareAttacked(
@@ -124,7 +176,7 @@ const SearchPosition = () => {
 
 	ClearForSearch();
 
-	let targetDepth = /*SearchController.depth*/ 8;
+	let targetDepth = /*SearchController.depth*/ 5;
 
 	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
 		bestScore = AlpfaBeta(-Infinity, Infinity, currentDepth);
