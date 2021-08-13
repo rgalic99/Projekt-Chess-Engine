@@ -35,7 +35,7 @@ const IsRepetiton = () => {
 	return Bool.False;
 };
 
-const AlpfaBeta = (alpha, beta, depth) => {
+const AlpfaBeta = (alpfa, beta, depth) => {
 	SearchController.nodes++;
 	if (depth <= 0) return EvalPosition();
 
@@ -58,7 +58,7 @@ const AlpfaBeta = (alpha, beta, depth) => {
 
 	let moveNum = 0;
 	let legal = 0;
-	let oldAlpha = alpha;
+	let oldAlpfa = alpfa;
 	let bestMove = noMove;
 	let move = noMove;
 
@@ -74,19 +74,19 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		if (MakeMove(move) == Bool.False) continue;
 
 		legal++;
-		score = -AlpfaBeta(-beta, -alpha, depth - 1);
+		score = -AlpfaBeta(-beta, -alpfa, depth - 1);
 		TakeMove();
 
 		if (SearchController.stop == Bool.True) return 0;
 
-		if (score > alpha) {
+		if (score > alpfa) {
 			if (score >= beta) {
 				if (legal == 1) SearchController.failHighFirst++;
 				SearchController.failHigh++;
 				//TODO Update killer moves
 				return beta;
 			}
-			alpha = score;
+			alpfa = score;
 			bestMove = move;
 			//TODO Update history table
 		}
@@ -97,9 +97,9 @@ const AlpfaBeta = (alpha, beta, depth) => {
 		else return 0;
 	}
 
-	if (alpha != oldAlpha) StorePvMove(bestMove);
+	if (alpfa != oldAlpfa) StorePvMove(bestMove);
 
-	return alpha;
+	return alpfa;
 };
 
 const ClearForSearch = () => {
