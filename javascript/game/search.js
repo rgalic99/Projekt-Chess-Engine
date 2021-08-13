@@ -208,20 +208,21 @@ const SearchPosition = () => {
 		if (SearchController.stop == Bool.True) break;
 
 		bestMove = ProbePvTable();
-		line =
-			"Depth: " +
-			currentDepth +
-			" Best Move: " +
-			PrintMove(bestMove) +
-			" Score: " +
-			bestScore +
-			" Nodes: " +
-			SearchController.nodes;
+		line = `Depth:${currentDepth}\n
+Best Move:${PrintMove(bestMove)}\n
+Score:${bestScore}\n 
+Nodes:${SearchController.nodes}\n`;
 
 		pvNum = GetPvLine(currentDepth);
-		line += " PV:";
+		line += `\nPV:`;
 		for (i = 0; i < pvNum; i++)
-			line += " " + PrintMove(GameBoard.PvArray[i]);
+			line += ` ${PrintMove(GameBoard.PvArray[i])}`;
+
+		if (currentDepth != 1)
+			line += `\nOrdering:${(
+				(SearchController.failHighFirst / SearchController.failHigh) *
+				100
+			).toFixed(2)}%`;
 
 		console.log(line);
 	}
