@@ -289,10 +289,11 @@ const GenerateBig = (GenerateFunction, loopPieceIndex, loopPieceArray) => {
 	let pieceIndex = loopPieceIndex[color];
 	let piece = loopPieceArray[pieceIndex++];
 	let pieceNum = 0;
-	let amount = GameBoard.pieceNum[piece];
+	let amount = 0;
 	let i = 0;
 
 	while (piece) {
+		amount = GameBoard.pieceNum[piece];
 		for (pieceNum = 0; pieceNum < amount; pieceNum++) {
 			let square = GameBoard.pieceList[PieceIndex(piece, pieceNum)];
 
