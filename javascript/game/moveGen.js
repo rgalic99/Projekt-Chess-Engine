@@ -398,7 +398,22 @@ const AddCaptureMove = (move) => {
 
 const AddQuietMove = (move) => {
 	GameBoard.moveList[GameBoard.moveListStart[GameBoard.ply + 1]] = move;
-	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]++] = 0;
+	GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]] = 0;
+	if (move == GameBoard.searchKillers[GameBoard.ply])
+		GameBoard.moveScores[
+			GameBoard.moveListStart[GameBoard.ply + 1]
+		] = 900000;
+	else if (move == GameBoard.searchKillers[GameBoard.ply + MAX_DEPTH])
+		GameBoard.moveScores[
+			GameBoard.moveListStart[GameBoard.ply + 1]
+		] = 800000;
+	else
+		GameBoard.moveScores[GameBoard.moveListStart[GameBoard.ply + 1]] =
+			GameBoard.searchHistory[
+				GameBoard.pieces[fromSquare(move)] * NUM_OF_SQ + toSquare(move)
+			];
+
+	GameBoard.moveListStart[GameBoard.ply + 1]++;
 };
 
 const AddEnPassantMove = (move) => {

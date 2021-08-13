@@ -86,9 +86,6 @@ const Quiescence = (alpfa, beta) => {
 	let bestMove = noMove;
 	let move = noMove;
 
-	//TODO Get PV move
-	//TODO Order PV move
-
 	let start = GameBoard.moveListStart[GameBoard.ply];
 	let end = GameBoard.moveListStart[GameBoard.ply + 1];
 
@@ -139,11 +136,18 @@ const AlpfaBeta = (alpfa, beta, depth) => {
 	let bestMove = noMove;
 	let move = noMove;
 
-	//TODO Get PV move
-	//TODO Order PV move
-
 	let start = GameBoard.moveListStart[GameBoard.ply];
 	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+
+	let pvMove = ProbePvTable();
+	if (pvMove != noMove) {
+		for (moveNum = start; moveNum < end; moveNum++) {
+			if (GameBoard.moveList[moveNum] == pvMove) {
+				GameBoard.moveScores[moveNum] = 2000000;
+				break;
+			}
+		}
+	}
 
 	for (moveNum = start; moveNum < end; moveNum++) {
 		PickNextMove();
@@ -160,12 +164,21 @@ const AlpfaBeta = (alpfa, beta, depth) => {
 			if (score >= beta) {
 				if (legal == 1) SearchController.failHighFirst++;
 				SearchController.failHigh++;
-				//TODO Update killer moves
+				if ((move & moveFlagCapture) == 0) {
+					GameBoard.searchKillers[MAX_DEPTH + GameBoard.ply] =
+						GameBoard.searchKillers[GameBoard.ply];
+					GameBoard.searchKillers[GameBoard.ply] = move;
+				}
 				return beta;
+			}
+			if ((move & moveFlagCapture) == 0) {
+				GameBoard.searchHistory[
+					GameBoard.pieces[fromSquare(move)] * NUM_OF_SQ +
+						toSquare(move)
+				] += depth * depth;
 			}
 			alpfa = score;
 			bestMove = move;
-			//TODO Update history table
 		}
 	}
 
