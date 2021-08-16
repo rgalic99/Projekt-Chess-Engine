@@ -38,7 +38,7 @@ const Move = (from, to, captured, promoted, flag) => {
 };
 
 const MvvLvaValue = [
-	0, 100, 200, 300, 400, 500, 600, 0, 100, 200, 300, 400, 500, 600,
+	0, 100, 200, 300, 400, 500, 600, 100, 200, 300, 400, 500, 600,
 ];
 const MvvLvaScores = new Array(14 * 14);
 
