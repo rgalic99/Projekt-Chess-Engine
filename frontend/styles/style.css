@@ -133,6 +133,7 @@ body {
 	position: absolute;
 	width: 60px;
 	height: 60px;
+	caret-color: transparent;
 }
 
 .Dark {
@@ -199,6 +200,7 @@ body {
 
 .Piece {
 	position: absolute;
+	caret-color: transparent;
 }
 
 .info {
