@@ -12,7 +12,7 @@ body {
 	font-size: 16px;
 	--main-button-color: #e6776d;
 	--main-button-gradient: #f37b73;
-	--main-button-shadow: #e67a73;
+	--main-button-shadow: #da6961;
 	--background-color: #cc99ec;
 	--background-gradient: #7c84f3;
 	--main-button-disabled: #e0e0e0;
@@ -22,7 +22,7 @@ body {
 	--selected-square: #216778;
 
 	background: linear-gradient(
-		123deg,
+		90deg,
 		var(--background-color) 0%,
 		var(--background-gradient) 100%
 	);
@@ -45,7 +45,8 @@ body {
 	color: white;
 	font-family: Arial;
 	font-size: 17px;
-	padding: 7px 25px;
+	margin-bottom: 8px;
+	padding: 9px;
 	text-decoration: none;
 	text-shadow: 0px 1px 0px #b23e35;
 }
@@ -67,11 +68,10 @@ body {
 }
 
 .fenInput {
-	margin-top: 10px;
 	text-align: center;
 	padding: 7px;
 	margin-right: 5px;
-	width: 480px;
+	width: 460px;
 	font-size: 16px;
 	border-width: 1px;
 	border-color: white;
@@ -110,7 +110,7 @@ body {
 	color: white;
 	font-family: Arial;
 	font-size: 17px;
-	padding: 7px 25px;
+	padding: 9px;
 	text-decoration: none;
 	text-shadow: 0px 1px 0px var(--main-button-disabled-gradient);
 }
@@ -126,7 +126,7 @@ body {
 .EngineOutput {
 	position: absolute;
 	left: 600px;
-	top: 250px;
+	top: 80px;
 }
 
 .Square {
@@ -199,4 +199,46 @@ body {
 
 .Piece {
 	position: absolute;
+}
+
+.info {
+	border-width: 1px;
+	border-color: white;
+	border-style: solid;
+	border-radius: 10px;
+
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	padding: 0.2rem 1rem;
+	margin: 1rem;
+	background-color: var(--main-button-color);
+	color: white;
+	height: 480px;
+}
+
+.EngineOutput {
+	background-color: var(--main-button-shadow);
+	position: absolute;
+	top: 62px;
+	left: 540px;
+}
+
+.info2 {
+	border-width: 1px;
+	border-color: white;
+	border-style: solid;
+	border-radius: 10px;
+	align-items: center;
+	padding: 0.6rem;
+	display: flex;
+	width: 663px;
+	justify-content: space-between;
+	background-color: var(--main-button-shadow);
+	color: white;
+}
+.screen {
+	position: absolute;
+	top: 20px;
+	left: 300px;
 }

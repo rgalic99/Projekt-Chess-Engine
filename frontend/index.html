@@ -7,8 +7,8 @@
 		<link rel="stylesheet" href="styles/style.css" />
 	</head>
 	<body>
-		<h1>Šah</h1>
-		<div class="fenInputDiv">
+		<h1>Šah</h1><div class="screen">
+		<div class="fenInputDiv info2">
 			FEN:<br />
 			<input type="text"
 				class="fenInput"
@@ -22,24 +22,24 @@
 			</button>
 		</div>
 		<div class="board"></div>
-		<div class="EngineOutput">Vrijeme mišljenja <br/><select name="Thinking time" id="ThinkingTime">
+		<span><div class="EngineOutput info">Vrijeme mišljenja <select name="Thinking time" id="ThinkingTime" class="info3">
 		<option value="1">1s</option>
 		<option value="2">2s</option>
 		<option value="4">4s</option>
 		<option value="6">6s</option>
 		<option value="8">8s</option>
-		<option value="10">10s</option></select><br/><br/><br/>
-		<span id="BestOut"></span>Najbolji potez:<br/>
-		<span id="DepthOut">Dubina:</span><br/>
-		<span id="ScoreOut">Rezultat:</span><br/>
-		<span id="NodesOut">Čvorovi:</span><br/>
-		<span id="OrderingOut">Premještanje</span><br/>
-		<span id="TimeOut">Vrijeme</span><br/><br/>
-		<button type="button" id="SearchButtom">Odigraj potez</button><br>
-		<button type="button" id="NewGameButtom">Nova igra</button><br>
-		<button type="button" id="FlipButtom">Okreni ploču</button><br><br>
-		<button type="button" id="TakeButtom">Vrati nazad</button><br><br><br>
-		<span id="GameStatus"></span>
+		<option value="10">10s</option></select></span>
+		<div class="info"><div id="BestOut"></div>Najbolji potez:
+		<div id="DepthOut">Dubina:</div>
+		<div id="ScoreOut">Rezultat:</div>
+		<div id="NodesOut">Čvorovi:</div>
+		<div id="OrderingOut">Premještanje:</div>
+		<div id="TimeOut">Vrijeme:</div></div>
+		<button type="button" id="SearchButtom" class="setFenButton">Odigraj potez</button>
+		<button type="button" id="NewGameButtom" class="setFenButton">Nova igra</button>
+		<button type="button" id="FlipButtom" class="setFenButton">Okreni ploču</button>
+		<button type="button" id="TakeButtom" class="setFenButton">Vrati nazad</button>
+		<span id="GameStatus"></span></div>
 	</div>
 	</body>
 	<footer>
