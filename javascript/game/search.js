@@ -48,7 +48,7 @@ const CheckUp = () => {
 		SearchController.stop = Bool.True;
 };
 
-const IsRepetiton = () => {
+const IsRepetition = () => {
 	let index = 0;
 	let start = GameBoard.historyPly - GameBoard.fiftyMoveRule;
 	let end = GameBoard.historyPly - 1;
@@ -60,19 +60,19 @@ const IsRepetiton = () => {
 	return Bool.False;
 };
 
-const PositionCheck = () => {
-	if (SearchController.nodes & (2047 == 0)) CheckUp();
+const Quiescence = (alpfa, beta) => {
+	if ((SearchController.nodes & 2047) == 0) CheckUp();
 
 	SearchController.nodes++;
 
-	if (GameBoard.ply != 0 && (IsRepetiton() || GameBoard.fiftyMoveRule >= 100))
+	if (
+		GameBoard.ply != 0 &&
+		(IsRepetition() || GameBoard.fiftyMoveRule >= 100)
+	)
 		return 0;
 
 	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition();
-};
 
-const Quiescence = (alpfa, beta) => {
-	PositionCheck();
 	let score = EvalPosition();
 
 	if (score >= beta) return beta;
@@ -118,7 +118,17 @@ const Quiescence = (alpfa, beta) => {
 const AlpfaBeta = (alpfa, beta, depth) => {
 	if (depth <= 0) return Quiescence(alpfa, beta);
 
-	PositionCheck();
+	if ((SearchController.nodes & 2047) == 0) CheckUp();
+
+	SearchController.nodes++;
+
+	if (
+		GameBoard.ply != 0 &&
+		(IsRepetition() || GameBoard.fiftyMoveRule >= 100)
+	)
+		return 0;
+
+	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition();
 
 	let side = GameBoard.side;
 	let inCheck = SquareAttacked(
