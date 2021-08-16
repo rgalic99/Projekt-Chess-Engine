@@ -1,9 +1,13 @@
 .board {
-	width: 32rem;
-	height: 32rem;
-	margin: 1rem;
-	justify-content: center;
+	position: relative;
+	top: 20px;
+	left: 60px;
+	width: 480px;
+	height: 480px;
+	border-style: solid;
+	border-width: 2px;
 }
+
 body {
 	font-size: 16px;
 	--main-button-color: #e6776d;
@@ -18,10 +22,7 @@ body {
 		var(--background-color) 0%,
 		var(--background-gradient) 100%
 	);
-}
-img {
-	max-width: 100%;
-	max-height: 100%;
+	width: 1200px;
 }
 
 .setFenButton {
@@ -56,11 +57,17 @@ img {
 	top: 2px;
 }
 
+.fenInputDiv {
+	position: relative;
+	left: 60px;
+}
+
 .fenInput {
 	margin-top: 10px;
 	text-align: center;
 	padding: 7px;
-	width: 550px;
+	margin-right: 5px;
+	width: 480px;
 	font-size: 16px;
 	border-width: 1px;
 	border-color: white;
@@ -112,23 +119,8 @@ img {
 	background-color: var(--main-button-disabled-gradient);
 }
 
-.depthInput {
-	margin-top: 10px;
-	text-align: center;
-	padding: 7px;
-	width: 30px;
-	font-size: 16px;
-	border-width: 1px;
-	border-color: white;
-	box-shadow: 3px 4px 0px 0px var(--main-button-shadow);
-	background: linear-gradient(
-		75deg,
-		var(--main-button-color) 5%,
-		var(--main-button-gradient) 100%
-	);
-	background-color: var(--main-button-color);
-	color: white;
-	border-style: solid;
-	border-radius: 15px;
-	text-shadow: 0px 0px 0px white;
+.EngineOutput {
+	position: absolute;
+	left: 600px;
+	top: 250px;
 }

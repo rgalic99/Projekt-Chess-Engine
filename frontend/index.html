@@ -17,14 +17,30 @@
 				onpaste="CheckButton()"
 				spellcheck="false"
 			></input>
-			<input type="text"
-				class="depthInput"
-			></input>
 			<button type="button" id="button" class="setFenButtonDisabled">
 				Unesi poziciju
 			</button>
 		</div>
-		<div class="board"><img src="resources/board.png" /></div>
+		<div class="board"></div>
+		<div class="EngineOutput">Vrijeme mišljenja <br/><select name="Thinking time" id="ThinkingTime">
+		<option value="1">1s</option>
+		<option value="2">2s</option>
+		<option value="4">4s</option>
+		<option value="6">6s</option>
+		<option value="8">8s</option>
+		<option value="10">10s</option></select><br/><br/><br/>
+		<span id="BestOut"></span>Najbolji potez:<br/>
+		<span id="DepthOut">Dubina:</span><br/>
+		<span id="ScoreOut">Rezultat:</span><br/>
+		<span id="NodesOut">Čvorovi:</span><br/>
+		<span id="OrderingOut">Premještanje</span><br/>
+		<span id="TimeOut">Vrijeme</span><br/><br/>
+		<button type="button" id="SearchButtom">Odigraj potez</button><br>
+		<button type="button" id="NewGameButtom">Nova igra</button><br>
+		<button type="button" id="FlipButtom">Okreni ploču</button><br><br>
+		<button type="button" id="TakeButtom">Vrati nazad</button><br><br><br>
+		<span id="GameStatus"></span>
+	</div>
 	</body>
 	<footer>
 		<div id="dependencies"></div>
