@@ -90,7 +90,7 @@ const Quiescence = (alpha, beta) => {
 	let end = GameBoard.moveListStart[GameBoard.ply + 1];
 
 	for (moveNum = start; moveNum < end; moveNum++) {
-		PickNextMove();
+		PickNextMove(moveNum);
 		move = GameBoard.moveList[moveNum];
 		if (MakeMove(move) == Bool.False) continue;
 
@@ -160,7 +160,7 @@ const AlphaBeta = (alpha, beta, depth) => {
 	}
 
 	for (moveNum = start; moveNum < end; moveNum++) {
-		PickNextMove();
+		PickNextMove(moveNum);
 		move = GameBoard.moveList[moveNum];
 		if (MakeMove(move) == Bool.False) continue;
 
@@ -224,7 +224,7 @@ const SearchPosition = () => {
 
 	ClearForSearch();
 
-	let targetDepth = /*SearchController.depth*/ 5;
+	let targetDepth = /*SearchController.depth*/ 6;
 
 	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
 		bestScore = AlphaBeta(-Infinity, Infinity, currentDepth);
