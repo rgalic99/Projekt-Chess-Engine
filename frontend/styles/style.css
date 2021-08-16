@@ -17,6 +17,10 @@ body {
 	--background-gradient: #7c84f3;
 	--main-button-disabled: #e0e0e0;
 	--main-button-disabled-gradient: #a8a8a8;
+	--dark-square: #5fbcd3;
+	--light-square: #afdde9;
+	--selected-square: #216778;
+
 	background: linear-gradient(
 		123deg,
 		var(--background-color) 0%,
@@ -123,4 +127,72 @@ body {
 	position: absolute;
 	left: 600px;
 	top: 250px;
+}
+
+.Square {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+}
+
+.Dark {
+	background-color: var(--dark-square);
+}
+
+.Light {
+	background-color: var(--light-square);
+}
+
+.SqSelected {
+	background-color: var(--selected-square);
+}
+
+.rank1 {
+	top: 420px;
+}
+.rank2 {
+	top: 360px;
+}
+.rank3 {
+	top: 300px;
+}
+.rank4 {
+	top: 240px;
+}
+.rank5 {
+	top: 180px;
+}
+.rank6 {
+	top: 120px;
+}
+.rank7 {
+	top: 60px;
+}
+.rank8 {
+	top: 0px;
+}
+
+.file1 {
+	left: 0px;
+}
+.file2 {
+	left: 60px;
+}
+.file3 {
+	left: 120px;
+}
+.file4 {
+	left: 180px;
+}
+.file5 {
+	left: 240px;
+}
+.file6 {
+	left: 300px;
+}
+.file7 {
+	left: 360px;
+}
+.file8 {
+	left: 420px;
 }

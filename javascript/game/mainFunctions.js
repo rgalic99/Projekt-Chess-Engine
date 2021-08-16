@@ -45,3 +45,25 @@ const InitializeHistory = () => {
 			posKey: 0,
 		});
 };
+
+const InitBoardSquares = () => {
+	let light = 1;
+	let rank = 0;
+	let file = 0;
+	let rankName = "";
+	let fileName = "";
+	let lightString = "";
+	let divString = "";
+
+	for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
+		light ^= 1;
+		rankName = `rank${rank + 1}`;
+		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
+			fileName = `file${file + 1}`;
+			lightString = light ? "Dark" : "Light";
+			light ^= 1;
+			divString = `<div class="Square ${rankName} ${fileName} ${lightString}"/>`;
+			$(".board").append(divString);
+		}
+	}
+};

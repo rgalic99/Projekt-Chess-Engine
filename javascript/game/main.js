@@ -15,4 +15,5 @@ const InitBoard = () => {
 	InitHashKeys();
 	PopulateBoardArrays();
 	InitMvvLva();
+	InitBoardSquares();
 };
