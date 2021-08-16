@@ -57,3 +57,13 @@ const HashCastle = () => {
 const HashSide = () => {
 	GameBoard.posKey ^= sideKey[0];
 };
+
+const GameController = {};
+
+GameController.engineSide = COLORS.BOTH;
+GameController.playerSide = COLORS.BOTH;
+GameController.gameOver = Bool.False;
+
+const UserMove = {};
+UserMove.from = SQUARES.NO_SQ;
+UserMove.to = SQUARES.NO_SQ;
