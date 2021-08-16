@@ -1,7 +1,7 @@
 $(() => {
 	Sleep(30);
 	Init();
-	ParseFEN(START_FEN);
+	NewGame(START_FEN);
 });
 
 const Init = () => {

@@ -10,12 +10,7 @@ const CheckButton = () => {
 	}
 };
 
-$("button")
-	.first()
-	.click(() => {
-		let string = $(".fenInput").val();
-		ParseFEN(string);
-		let num = $(".depthInput").val();
-		//PerftTest(num);
-		SearchPosition();
-	});
+$("#button").click(() => {
+	let string = $(".fenInput").val();
+	NewGame(string);
+});

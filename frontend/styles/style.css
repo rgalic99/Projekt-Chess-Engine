@@ -196,3 +196,7 @@ body {
 .file8 {
 	left: 420px;
 }
+
+.Piece {
+	position: absolute;
+}
