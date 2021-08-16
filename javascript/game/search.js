@@ -60,7 +60,7 @@ const IsRepetition = () => {
 	return Bool.False;
 };
 
-const Quiescence = (alpfa, beta) => {
+const Quiescence = (alpha, beta) => {
 	if ((SearchController.nodes & 2047) == 0) CheckUp();
 
 	SearchController.nodes++;
@@ -77,12 +77,12 @@ const Quiescence = (alpfa, beta) => {
 
 	if (score >= beta) return beta;
 
-	if (score > alpfa) alpfa = score;
+	if (score > alpha) alpha = score;
 
 	GenerateCaptures();
 	let moveNum = 0;
 	let legal = 0;
-	let oldAlpfa = alpfa;
+	let oldAlpha = alpha;
 	let bestMove = noMove;
 	let move = noMove;
 
@@ -95,28 +95,28 @@ const Quiescence = (alpfa, beta) => {
 		if (MakeMove(move) == Bool.False) continue;
 
 		legal++;
-		score = -Quiescence(-beta, -alpfa);
+		score = -Quiescence(-beta, -alpha);
 		TakeMove();
 
 		if (SearchController.stop == Bool.True) return 0;
 
-		if (score > alpfa) {
+		if (score > alpha) {
 			if (score >= beta) {
 				if (legal == 1) SearchController.failHighFirst++;
 				SearchController.failHigh++;
 				return beta;
 			}
-			alpfa = score;
+			alpha = score;
 			bestMove = move;
 		}
 	}
-	if (alpfa != oldAlpfa) StorePvMove(bestMove);
+	if (alpha != oldAlpha) StorePvMove(bestMove);
 
-	return alpfa;
+	return alpha;
 };
 
-const AlpfaBeta = (alpfa, beta, depth) => {
-	if (depth <= 0) return Quiescence(alpfa, beta);
+const AlphaBeta = (alpha, beta, depth) => {
+	if (depth <= 0) return Quiescence(alpha, beta);
 
 	if ((SearchController.nodes & 2047) == 0) CheckUp();
 
@@ -142,7 +142,7 @@ const AlpfaBeta = (alpfa, beta, depth) => {
 
 	let moveNum = 0;
 	let legal = 0;
-	let oldAlpfa = alpfa;
+	let oldAlpha = alpha;
 	let bestMove = noMove;
 	let move = noMove;
 
@@ -165,12 +165,12 @@ const AlpfaBeta = (alpfa, beta, depth) => {
 		if (MakeMove(move) == Bool.False) continue;
 
 		legal++;
-		score = -AlpfaBeta(-beta, -alpfa, depth - 1);
+		score = -AlphaBeta(-beta, -alpha, depth - 1);
 		TakeMove();
 
 		if (SearchController.stop == Bool.True) return 0;
 
-		if (score > alpfa) {
+		if (score > alpha) {
 			if (score >= beta) {
 				if (legal == 1) SearchController.failHighFirst++;
 				SearchController.failHigh++;
@@ -187,7 +187,7 @@ const AlpfaBeta = (alpfa, beta, depth) => {
 						toSquare(move)
 				] += depth * depth;
 			}
-			alpfa = score;
+			alpha = score;
 			bestMove = move;
 		}
 	}
@@ -197,9 +197,9 @@ const AlpfaBeta = (alpfa, beta, depth) => {
 		else return 0;
 	}
 
-	if (alpfa != oldAlpfa) StorePvMove(bestMove);
+	if (alpha != oldAlpha) StorePvMove(bestMove);
 
-	return alpfa;
+	return alpha;
 };
 
 const ClearForSearch = () => {
@@ -227,7 +227,7 @@ const SearchPosition = () => {
 	let targetDepth = /*SearchController.depth*/ 5;
 
 	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
-		bestScore = AlpfaBeta(-Infinity, Infinity, currentDepth);
+		bestScore = AlphaBeta(-Infinity, Infinity, currentDepth);
 		if (SearchController.stop == Bool.True) break;
 
 		bestMove = ProbePvTable();
