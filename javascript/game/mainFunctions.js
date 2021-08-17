@@ -72,6 +72,7 @@ const NewGame = (fenString) => {
 	ClearAllPieces();
 	ParseFEN(fenString);
 	SetInitalBoardPieces();
+	CheckAndSet();
 };
 
 const ClearAllPieces = () => {

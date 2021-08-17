@@ -57,6 +57,7 @@ const MakeUserMove = () => {
 		if (parsedMove != noMove) {
 			MakeMove(parsedMove);
 			MovePieceGUI(parsedMove);
+			CheckAndSet();
 		}
 		DeSelectSquare(UserMove.from);
 		DeSelectSquare(UserMove.to);
@@ -182,5 +183,105 @@ const MovePieceGUI = (move) => {
 	else if (promotedPiece(move)) {
 		RemovePieceGUI(to);
 		AddPieceGUI(to, promotedPiece(move));
+	}
+};
+
+const DrawMaterial = () => {
+	if (
+		GameBoard.pieceNum[PIECES.wP] != 0 ||
+		GameBoard.pieceNum[PIECES.bP] != 0
+	)
+		Bool.False;
+	if (
+		GameBoard.pieceNum[PIECES.wQ] != 0 ||
+		GameBoard.pieceNum[PIECES.bQ] != 0
+	)
+		Bool.False;
+	if (
+		GameBoard.pieceNum[PIECES.wR] != 0 ||
+		GameBoard.pieceNum[PIECES.bR] != 0
+	)
+		Bool.False;
+
+	if (GameBoard.pieceNum[PIECES.wN] > 1 || GameBoard.pieceNum[PIECES.bN] > 1)
+		Bool.False;
+	if (GameBoard.pieceNum[PIECES.wB] > 1 || GameBoard.pieceNum[PIECES.bB] > 1)
+		Bool.False;
+
+	if (
+		GameBoard.pieceNum[PIECES.wN] != 0 ||
+		GameBoard.pieceNum[PIECES.wB] != 0
+	)
+		Bool.False;
+
+	if (
+		GameBoard.pieceNum[PIECES.bN] != 0 ||
+		GameBoard.pieceNum[PIECES.bB] != 0
+	)
+		Bool.False;
+
+	return Bool.True;
+};
+
+const ThreeFoldRepetition = () => {
+	let i,
+		repetition = 0;
+	for (i = 0; i < GameBoard.historyPly; i++)
+		if (GameBoard.history[i].posKey == GameBoard.posKey) repetition++;
+	return repetition;
+};
+
+const CheckResult = () => {
+	if (GameBoard.fiftyMoveRule >= 100) {
+		$("#GameStatus").text("Igra je neriješena! (pravilo 50 poteza)");
+		return Bool.True;
+	}
+	if (ThreeFoldRepetition() >= 2) {
+		$("#GameStatus").text(
+			"Igra je neriješena! (pravilo ponavljanja poteza)"
+		);
+		return Bool.True;
+	}
+	if (GameBoard.fiftyMoveRule >= 100) {
+		$("#GameStatus").text("Igra je neriješena! (Nedovoljno materijala)");
+		return Bool.True;
+	}
+
+	GenerateMoves();
+	let moveNum = 0;
+	let found = 0;
+	let start = GameBoard.moveListStart[GameBoard.ply];
+	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+
+	for (moveNum = start; moveNum < end; moveNum++) {
+		if (!MakeMove(GameBoard.moveList[moveNum])) continue;
+		found++;
+		TakeMove();
+		break;
+	}
+	if (found) return Bool.False;
+
+	let side = GameBoard.side;
+	let inCheck = SquareAttacked(
+		GameBoard.pieceList[PieceIndex(kings[side], 0)],
+		side ^ 1
+	);
+
+	if (inCheck) {
+		$("#GameStatus").text(
+			side
+				? "Igra gotova! Bijeli je pobjedio!"
+				: "Igra gotova! Crni je pobjedio!"
+		);
+	} else $("#GameStatus").text("Igra je neriješena! (pat)");
+
+	return Bool.True;
+};
+
+const CheckAndSet = () => {
+	if (CheckResult()) GameController.gameOver = Bool.True;
+	else {
+		GameController.gameOver = Bool.False;
+		$("#GameStatus").text("");
 	}
 };
