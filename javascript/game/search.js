@@ -224,7 +224,7 @@ const SearchPosition = () => {
 
 	ClearForSearch();
 
-	let targetDepth = /*SearchController.depth*/ 6;
+	let targetDepth = MAX_DEPTH;
 
 	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
 		bestScore = AlphaBeta(-Infinity, Infinity, currentDepth);
