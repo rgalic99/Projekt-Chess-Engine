@@ -46,16 +46,50 @@ const DeSelectSquare = (square) => {
 };
 
 const MakeUserMove = () => {
+	let parsedMove = noMove;
+
 	if (UserMove.from != SQUARES.NO_SQ && UserMove.to != SQUARES.NO_SQ) {
 		console.log(
 			`User move: ${PrintSquare(UserMove.from)}${PrintSquare(
 				UserMove.to
 			)}`
 		);
+
+		parsedMove = ParseMove(UserMove.from, UserMove.to);
+		if (parsedMove != noMove) {
+			MakeMove(parsedMove);
+			PrintBoard();
+		}
 		DeSelectSquare(UserMove.from);
 		DeSelectSquare(UserMove.to);
-		UserMove.from = SQUARES.NO_SQ;
 
+		UserMove.from = SQUARES.NO_SQ;
 		UserMove.to = SQUARES.NO_SQ;
 	}
+};
+
+const ParseMove = (from, to) => {
+	GenerateMoves();
+
+	let i = 0;
+	let move = noMove;
+	let found = Bool.False;
+	let start = GameBoard.moveListStart[GameBoard.ply];
+	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+
+	for (i = start; i < end; i++) {
+		move = GameBoard.moveList[i];
+		if (fromSquare(move) == from && toSquare(move) == to) {
+			found = Bool.True;
+			break;
+		}
+	}
+	if (found) {
+		if (!MakeMove(move)) {
+			return noMove;
+		}
+		TakeMove();
+		return move;
+	}
+	return noMove;
 };
