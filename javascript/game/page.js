@@ -29,8 +29,11 @@ $(document).on("click", ".Piece", (e) => {
 const SetSelectedSquare = (square) => {
 	$(".Square").each(function () {
 		if (
-			ranksBoard[square] == 7 - Math.round($(this).position().top) / 60 &&
-			filesBoard[square] == Math.round($(this).position().left / 60)
+			PieceIsOnSquare(
+				square,
+				$(this).position().top,
+				$(this).position().left
+			)
 		)
 			$(this).addClass("SqSelected");
 	});
@@ -38,8 +41,11 @@ const SetSelectedSquare = (square) => {
 const DeSelectSquare = (square) => {
 	$(".Square").each(function () {
 		if (
-			ranksBoard[square] == 7 - Math.round($(this).position().top) / 60 &&
-			filesBoard[square] == Math.round($(this).position().left / 60)
+			PieceIsOnSquare(
+				square,
+				$(this).position().top,
+				$(this).position().left
+			)
 		)
 			$(this).removeClass("SqSelected");
 	});
@@ -92,4 +98,41 @@ const ParseMove = (from, to) => {
 		return move;
 	}
 	return noMove;
+};
+
+const PieceIsOnSquare = (square, top, left) => {
+	if (
+		ranksBoard[square] == 7 - Math.round(top) / 60 &&
+		filesBoard[square] == Math.round(left / 60)
+	)
+		return Bool.True;
+	return Bool.False;
+};
+
+const RemovePieceGUI = (square) => {
+	$(".Piece").each(function () {
+		if (
+			PieceIsOnSquare(
+				square,
+				$(this).position().top,
+				$(this).position().left
+			)
+		)
+			$(this).remove();
+	});
+};
+
+const AddPieceGUI = (square, piece) => {
+	let pieceFileName,
+		imageString = "";
+	let file = filesBoard[square];
+	let rank = ranksBoard[square];
+	rankName = `rank${rank + 1}`;
+	fileName = `file${file + 1}`;
+
+	pieceFileName = `./resources/${sideChar[pieceCol[piece]]}${
+		pieceCharacter[piece]
+	}.png`;
+	imageString = `<image src="${pieceFileName}" class="Piece ${rankName} ${fileName}"/>`;
+	$(".board").append(imageString);
 };

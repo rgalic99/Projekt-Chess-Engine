@@ -82,26 +82,12 @@ const SetInitalBoardPieces = () => {
 	let square = 0;
 	let square120 = 0;
 	let piece = 0;
-	let file,
-		rank = 0;
-	let fileName,
-		rankName,
-		imageString,
-		pieceFileName = "";
+
 	for (square = 0; square < 64; square++) {
 		square120 = GetSquare120(square);
 		piece = GameBoard.pieces[square120];
-		file = filesBoard[square120];
-		rank = ranksBoard[square120];
 
-		if (piece >= PIECES.wP && piece <= PIECES.bK) {
-			rankName = `rank${rank + 1}`;
-			fileName = `file${file + 1}`;
-			pieceFileName = `./resources/${sideChar[pieceCol[piece]]}${
-				pieceCharacter[piece]
-			}.png`;
-			imageString = `<image src="${pieceFileName}" class="Piece ${rankName} ${fileName}"/>`;
-			$(".board").append(imageString);
-		}
+		if (piece >= PIECES.wP && piece <= PIECES.bK)
+			AddPieceGUI(square120, piece);
 	}
 };
