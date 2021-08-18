@@ -2,23 +2,7 @@ const NUM_OF_SQ = 120;
 
 const START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-const pieceCharacter = ".PNBRQKpnbrqk";
-const pieceChar = [
-	"- ",
-	"♟",
-	"♞",
-	"♝",
-	"♜",
-	"♛",
-	"♚",
-	"♙",
-	"♘",
-	"♗",
-	"♖",
-	"♕",
-	"♔",
-];
-// "-♙♘♗♖♕♔♟︎♞♝♜♛♚";
+const pieceChar = ".PNBRQKpnbrqk";
 const sideChar = "wb-";
 const rankChar = "12345678";
 const fileChar = "abcdefgh";

@@ -28,56 +28,6 @@ const PIECES = {
 const pieceVal = [
 	0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000,
 ];
-// je li figura velika (ne pijun) ili ne
-const pieceBig = [
-	Bool.False,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-];
-
-// je li figura major / velika (kraljica ili top)
-const pieceMaj = [
-	Bool.False,
-	Bool.False,
-	Bool.False,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.False,
-	Bool.False,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-];
-
-// je li figura minor / mala (konj ili lovac)
-const pieceMin = [
-	Bool.False,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.False,
-	Bool.False,
-	Bool.False,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.False,
-	Bool.False,
-	Bool.False,
-];
 
 // boje za sve figure
 const pieceCol = [
@@ -181,23 +131,6 @@ const pieceBishopQueen = [
 	Bool.False,
 ];
 
-// da li se figura "kliže" (može se micati neograničeno u nekom smjeru)
-const pieceSlides = [
-	Bool.False,
-	Bool.False,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.False,
-	Bool.False,
-	Bool.False,
-	Bool.True,
-	Bool.True,
-	Bool.True,
-	Bool.False,
-];
-
 // konstante koje opisuju udaljenost odredišne kocke
 const knightDirection = [-8, -19, -21, -12, 8, 19, 21, 12];
 const rookDirection = [-1, -10, 1, 10];
@@ -205,6 +138,7 @@ const bishopDirection = [-9, -11, 11, 9];
 const kingDirection = [-1, -10, 1, 10, -9, -11, 11, 9];
 
 const dirNum = [0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8];
+
 const pieceDir = [
 	0,
 	0,

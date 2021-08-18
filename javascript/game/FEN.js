@@ -154,21 +154,3 @@ const GeneratePositionKey = () => {
 
 	HashCastle(); // hashiranje rokade
 };
-
-const TestPositionKey = () => {
-	let key = 0;
-	let square = 0;
-	let piece = 0;
-	for (square = 0; square < 120; square++) {
-		piece = GameBoard.pieces[square];
-		if (piece != PIECES.EMPTY && square != SQUARES.OFFBOARD)
-			key ^= pieceKeys[piece * 120 + square]; // hashiranje vrijednosti za svaku figuru
-	}
-
-	if (GameBoard.side == COLORS.WHITE) key ^= sideKey[0]; // hashiranje sa stranom koja igra
-	if (GameBoard.enPassant != SQUARES.NO_SQ)
-		key ^= pieceKeys[GameBoard.enPassant]; // hashiranje en passant kocke
-
-	key ^= castleKeys[GameBoard.castlePerm]; // hashiranje rokade
-	return key;
-};

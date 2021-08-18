@@ -127,7 +127,7 @@ const AddPieceGUI = (square, piece) => {
 	fileName = `file${file + 1}`;
 
 	pieceFileName = `./resources/${sideChar[pieceCol[piece]]}${
-		pieceCharacter[piece]
+		pieceChar[piece]
 	}.png`;
 	imageString = `<image src="${pieceFileName}" class="Piece ${rankName} ${fileName}"/>`;
 	$(".board").append(imageString);

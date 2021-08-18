@@ -78,17 +78,3 @@ const CheckBishopAndRook = (square, directionArray, pieceArray, color) => {
 	}
 	return Bool.False;
 };
-
-const PrintAttackedSquares = () => {
-	// ispis napadnutih kocki
-	console.log("\nAttacked:\n");
-	for (let rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
-		let line = `${rank + 1}  `;
-		for (let file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-			let square = FileRankToSquare(file, rank);
-			let piece = SquareAttacked(square, GameBoard.side) ? "X" : "-";
-			line += ` ${piece} `;
-		}
-		console.log(line);
-	}
-};

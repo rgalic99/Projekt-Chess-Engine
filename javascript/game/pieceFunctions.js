@@ -18,16 +18,4 @@ const UpdateMaterialLists = () => {
 			GameBoard.pieceNum[piece]++;
 		}
 	}
-	PrintPieceList();
-};
-
-const PrintPieceList = () => {
-	// ispis svih figura na njihovim kockama
-	for (let piece = PIECES.wP; piece <= PIECES.bK; piece++)
-		for (let pieceNum; pieceNum < GameBoard.pieceNum[piece]; pieceNum++)
-			console.log(
-				`Piece ${pieceChar[piece]} on ${PrintSquare(
-					GameBoard.pieceList[PieceIndex(piece, pieceNum)]
-				)}`
-			);
 };
