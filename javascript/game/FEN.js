@@ -3,9 +3,13 @@ const ParseFEN = (fenString) => {
 	ResetBoard();
 	let fenCount = 0; // indeks znaka u fenString-u
 
-	if (fenString == "") throw new Error("FEN is empty"); //! ako je FEN prazan
+	if (fenString == "") fenString = START_FEN; //! ako je FEN prazan
 	fenCount = ParsePieces(fenString, fenCount);
-	if (fenCount == -1) throw new Error("FEN is invalid"); //! ako FEN nije valjan
+	if (fenCount == -1) {
+		fenString = START_FEN;
+		fenCount = ParsePieces(fenString, 0);
+	}
+	fenString = START_FEN; //! ako FEN nije valjan
 
 	fenCount = ParseSide(fenString, fenCount);
 	fenCount = ParseCastle(fenString, fenCount);
@@ -78,7 +82,6 @@ const ParsePieces = (fenString, fenCount) => {
 				fenCount++; // pomak za 1 karakter
 				continue;
 			default:
-				console.log("FEN error");
 				return -1;
 		}
 		AddPieceFromFEN(count, FileRankToSquare(file, rank), piece); // dodavanje figure na kocku ili dodavanje count praznih kocki

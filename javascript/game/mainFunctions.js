@@ -83,7 +83,7 @@ const SetInitalBoardPieces = () => {
 	let square = 0;
 	let square120 = 0;
 	let piece = 0;
-
+	ClearAllPieces();
 	for (square = 0; square < 64; square++) {
 		square120 = GetSquare120(square);
 		piece = GameBoard.pieces[square120];
