@@ -217,39 +217,42 @@ const ClearForSearch = () => {
 const SearchPosition = () => {
 	let bestMove = noMove;
 	let bestScore = -Infinity;
+	let score = -Infinity;
 	let currentDepth = 0;
-	let pvNum = 0;
-	let i = 0;
-	let line = "";
-
 	ClearForSearch();
 
-	let targetDepth = MAX_DEPTH;
+	let targetDepth = 8;
 
 	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
-		bestScore = AlphaBeta(-Infinity, Infinity, currentDepth);
+		score = AlphaBeta(-Infinity, Infinity, currentDepth);
 		if (SearchController.stop == Bool.True) break;
-
+		bestScore = score;
 		bestMove = ProbePvTable();
-		line = `Depth:${currentDepth}\n
-Best Move:${PrintMove(bestMove)}\n
-Score:${bestScore}\n 
-Nodes:${SearchController.nodes}\n`;
-
-		pvNum = GetPvLine(currentDepth);
-		line += `\nPV:`;
-		for (i = 0; i < pvNum; i++)
-			line += ` ${PrintMove(GameBoard.PvArray[i])}`;
-
-		if (currentDepth != 1)
-			line += `\nOrdering:${(
-				(SearchController.failHighFirst / SearchController.failHigh) *
-				100
-			).toFixed(2)}%`;
-
-		console.log(line);
 	}
 
 	SearchController.best = bestMove;
 	SearchController.thinking = Bool.False;
+	UpdateDOM(bestScore, currentDepth);
+};
+
+const UpdateDOM = (score, depth) => {
+	let scoreText = `Rezultat: ${(score / 100).toFixed(2)}`;
+	let targetScore = Mate - MAX_DEPTH;
+	let sideScore = Math.abs(score);
+	if (sideScore > targetScore) {
+		let mateMoves = Mate - sideScore - 1;
+		scoreText = `Rezultat: Mat u ${mateMoves} potez`;
+		if (mateMoves != 1) scoreText += "a";
+	}
+
+	$("#BestOut").text(`Najbolji potez: ${PrintMove(SearchController.best)}`);
+	$("#DepthOut").text(`Dubina: ${depth}`);
+	$("#ScoreOut").text(scoreText);
+	$("#NodesOut").text(`Čvorovi: ${SearchController.nodes}`);
+	let order = SearchController.failHighFirst / SearchController.failHigh;
+	order = isNaN(order) ? 0 : order;
+	$("#OrderingOut").text(`Premještanje: ${(order * 100).toFixed(2)}%`);
+	$("#TimeOut").text(
+		`Vrijeme: ${(($.now() - SearchController.start) / 1000).toFixed(1)}s`
+	);
 };

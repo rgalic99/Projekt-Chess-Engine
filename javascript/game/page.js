@@ -58,6 +58,7 @@ const MakeUserMove = () => {
 			MakeMove(parsedMove);
 			MovePieceGUI(parsedMove);
 			CheckAndSet();
+			PreSearch();
 		}
 		DeSelectSquare(UserMove.from);
 		DeSelectSquare(UserMove.to);
@@ -224,9 +225,11 @@ const DrawMaterial = () => {
 };
 
 const ThreeFoldRepetition = () => {
-	let i,
-		repetition = 0;
-	for (i = 0; i < GameBoard.historyPly; i++)
+	let i = 0;
+	let repetition = 0;
+	let start = GameBoard.historyPly - GameBoard.fiftyMoveRule;
+	let end = GameBoard.historyPly - 1;
+	for (i = start; i < end; i++)
 		if (GameBoard.history[i].posKey == GameBoard.posKey) repetition++;
 	return repetition;
 };
@@ -236,7 +239,7 @@ const CheckResult = () => {
 		$("#GameStatus").text("Igra je neriješena! (pravilo 50 poteza)");
 		return Bool.True;
 	}
-	if (ThreeFoldRepetition() >= 2) {
+	if (ThreeFoldRepetition() >= 16) {
 		$("#GameStatus").text(
 			"Igra je neriješena! (pravilo ponavljanja poteza)"
 		);
@@ -279,9 +282,46 @@ const CheckResult = () => {
 };
 
 const CheckAndSet = () => {
-	if (CheckResult()) GameController.gameOver = Bool.True;
-	else {
-		GameController.gameOver = Bool.False;
-		$("#GameStatus").text("");
+	GameController.gameOver = CheckResult();
+	!GameController.gameOver &&
+		$("#GameStatus").text(
+			"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+		);
+};
+
+const PreSearch = () => {
+	if (GameController.gameOver == Bool.False) {
+		SearchController.thinking = Bool.True;
+		setTimeout(function () {
+			StartSearch();
+		}, 200);
 	}
+};
+
+$(".MoveNow").click(() => {
+	GameController.playerSide = GameBoard.side ^ 1;
+	PreSearch();
+});
+$(".NewGame").click(() => {
+	NewGame(START_FEN);
+});
+
+$(".TakeBack").click(() => {
+	if (GameBoard.historyPly > 0) {
+		TakeMove();
+		GameBoard.ply = 0;
+		SetInitalBoardPieces();
+	}
+});
+
+const StartSearch = () => {
+	SearchController.depth = MAX_DEPTH;
+	let thinkingTime = $("#ThinkingTime").val();
+
+	SearchController.time = parseInt(thinkingTime) * 1000;
+	SearchPosition();
+
+	MakeMove(SearchController.best);
+	MovePieceGUI(SearchController.best);
+	CheckAndSet();
 };
