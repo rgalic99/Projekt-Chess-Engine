@@ -5,13 +5,9 @@ const ParseFEN = (fenString) => {
 
 	if (fenString == "") fenString = START_FEN; //! ako je FEN prazan
 	fenCount = ParsePieces(fenString, fenCount);
-	if (fenCount == -1) {
-		fenString = START_FEN;
-		fenCount = ParsePieces(fenString, 0);
-	}
-	fenString = START_FEN; //! ako FEN nije valjan
+	if (fenCount == -1) ParseFEN(START_FEN); //! ako FEN nije valjan
 
-	fenCount = ParseSide(fenString, fenCount);
+	fenCount = ParseSide(fenString, 0);
 	fenCount = ParseCastle(fenString, fenCount);
 	fenCount = ParseEnPassant(fenString, fenCount);
 
@@ -100,6 +96,12 @@ const AddPieceFromFEN = (count, square, piece) => {
 };
 
 const ParseSide = (fenString, fenCount) => {
+	let i = 0;
+	while (fenString[i] != " ") {
+		fenCount++;
+		i++;
+	}
+	fenCount++;
 	GameBoard.side = fenString[fenCount] == "w" ? COLORS.WHITE : COLORS.BLACK; // parsiraj čiji je red
 	fenCount += 2; // pomak za 2 karaktera
 	return fenCount;
@@ -199,10 +201,10 @@ const ReverseString = (s) => {
 
 const MakeCastleChar = () => {
 	let castleString = "";
-	castleString += GameBoard.castlePerm & CASTLEBIT.BKCA ? castleChar[0] : "";
-	castleString += GameBoard.castlePerm & CASTLEBIT.BQCA ? castleChar[1] : "";
-	castleString += GameBoard.castlePerm & CASTLEBIT.WKCA ? castleChar[2] : "";
-	castleString += GameBoard.castlePerm & CASTLEBIT.WQCA ? castleChar[3] : "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.WKCA ? castleChar[0] : "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.WQCA ? castleChar[1] : "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.BKCA ? castleChar[2] : "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.BQCA ? castleChar[3] : "";
 
 	return castleString;
 };

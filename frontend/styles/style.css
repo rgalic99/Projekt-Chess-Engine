@@ -6,6 +6,7 @@
 	height: 480px;
 	border-style: solid;
 	border-width: 2px;
+	background-color: whitesmoke;
 }
 
 body {
@@ -18,9 +19,9 @@ body {
 	--background-gradient: #7c84f3;
 	--main-button-disabled: #e0e0e0;
 	--main-button-disabled-gradient: #a8a8a8;
-	--dark-square: #5fbcd3;
-	--light-square: #afdde9;
-	--selected-square: #216778;
+	--light-square: #f5faf9;
+	--dark-square: #5d5fd8;
+	--selected-square: #6fcf8c;
 
 	background: linear-gradient(
 		90deg,
@@ -126,6 +127,51 @@ body {
 	caret-color: transparent;
 }
 
+.Move {
+	position: absolute;
+	border-radius: 50%;
+
+	background: var(--selected-square);
+	width: 30px;
+	height: 30px;
+	top: 50%;
+	left: 50%;
+	margin: -15px 0 0 -15px;
+}
+
+.Capture {
+	position: absolute;
+	border-radius: 50%;
+
+	background: var(--main-button-color);
+	width: 60px;
+	height: 60px;
+	top: 50%;
+	left: 50%;
+	margin: -30px 0 0 -30px;
+}
+
+.InCapture {
+	position: absolute;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	top: 50%;
+	left: 50%;
+	margin: -25px 0 0 -25px;
+}
+
+.InCheck {
+	position: absolute;
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	top: 50%;
+	left: 50%;
+	background-color: red;
+	margin: -50% 0 0 -50%;
+}
+
 .Dark {
 	background-color: var(--dark-square);
 }
@@ -206,12 +252,13 @@ body {
 	margin: 1rem;
 	background-color: var(--main-button-color);
 	color: white;
-	height: 480px;
+	height: 466.5px;
 }
 
 .EngineOutput {
 	background-color: var(--main-button-shadow);
 	position: relative;
+	padding: 1rem 1rem 0rem 1rem;
 	top: -480px;
 	left: 540px;
 	width: 180px;
@@ -251,9 +298,10 @@ body {
 	position: relative;
 	top: -480px;
 	left: 60px;
-	padding: 0.4rem;
-	width: 480px;
+	padding: 7px;
+	width: 694px;
 	margin-bottom: 0;
+	text-align: center;
 }
 
 .info4 {
@@ -271,4 +319,5 @@ body {
 	position: relative;
 	left: -16px;
 	width: 145px;
+	height: 200px;
 }

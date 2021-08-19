@@ -6,6 +6,8 @@ const ClickedSquare = (x, y) => {
 	let rank = 7 - Math.floor((y - boardY - 90) / 60);
 	let square = FileRankToSquare(file, rank);
 	SetSelectedSquare(square);
+	SetAttackedSquares(square);
+	AddCheck();
 	return square;
 };
 
@@ -13,6 +15,7 @@ $(document).on("click", ".Square", (e) => {
 	if (UserMove.from != SQUARES.NO_SQ) {
 		UserMove.to = ClickedSquare(e.pageX, e.pageY);
 		MakeUserMove();
+		AddCheck();
 	}
 });
 
@@ -36,6 +39,61 @@ const SetSelectedSquare = (square) => {
 			$(this).addClass("SqSelected");
 	});
 };
+
+const SetAttackedSquares = (square) => {
+	GenerateMoves();
+	let start = GameBoard.moveListStart[GameBoard.ply];
+	let end = GameBoard.moveListStart[GameBoard.ply + 1];
+	let from = SQUARES.NO_SQ;
+	let move = noMove;
+
+	for (i = start; i < end; i++) {
+		move = GameBoard.moveList[i];
+		from = fromSquare(move);
+		if (from == square) {
+			if (!MakeMove(move)) continue;
+			TakeMove();
+			let to = toSquare(move);
+			if (GameBoard.pieces[to] == PIECES.EMPTY) SetAttackedSquare(to);
+			else SetCaptureSquare(to);
+		}
+	}
+};
+
+const SetAttackedSquare = (square) => {
+	$(".Square").each(function () {
+		if (
+			PieceIsOnSquare(
+				square,
+				$(this).position().top,
+				$(this).position().left
+			)
+		)
+			$(this).append("<div class='Move'/>");
+	});
+};
+
+const SetCaptureSquare = (square) => {
+	$(".Square").each(function () {
+		if (
+			PieceIsOnSquare(
+				square,
+				$(this).position().top,
+				$(this).position().left
+			)
+		) {
+			if ($(this).hasClass("Light"))
+				$(this).append(
+					"<div class='Capture'><div class='InCapture Light'></div></div>"
+				);
+			else
+				$(this).append(
+					"<div class='Capture'><div class='InCapture Dark'></div></div>"
+				);
+		}
+	});
+};
+
 const DeSelectSquare = (square) => {
 	$(".Square").each(function () {
 		if (
@@ -49,6 +107,11 @@ const DeSelectSquare = (square) => {
 	});
 };
 
+const DeSelectAttacks = () => {
+	$(".Move").remove();
+	$(".Capture").remove();
+};
+
 const MakeUserMove = () => {
 	let parsedMove = noMove;
 
@@ -57,15 +120,21 @@ const MakeUserMove = () => {
 		if (parsedMove != noMove) {
 			MakeMove(parsedMove);
 			MovePieceGUI(parsedMove);
+			RemoveCheck();
 			CheckAndSet();
 			PreSearch();
 		}
+		DeSelectAttacks();
 		DeSelectSquare(UserMove.from);
 		DeSelectSquare(UserMove.to);
 
 		UserMove.from = SQUARES.NO_SQ;
 		UserMove.to = SQUARES.NO_SQ;
 	}
+};
+
+const RemoveCheck = () => {
+	$(".InCheck").remove();
 };
 
 const ParseMove = (from, to) => {
@@ -308,17 +377,41 @@ $(".TakeBack").click(() => {
 		TakeMove();
 		GameBoard.ply = 0;
 		SetInitalBoardPieces();
+		RemoveCheck();
 	}
 });
 
 const StartSearch = () => {
 	SearchController.depth = MAX_DEPTH;
 	let thinkingTime = $("#ThinkingTime").val();
-
+	AddCheck();
 	SearchController.time = parseInt(thinkingTime) * 1000;
 	SearchPosition();
 
 	MakeMove(SearchController.best);
 	MovePieceGUI(SearchController.best);
+	RemoveCheck();
+	DeSelectAttacks();
+	AddCheck();
 	CheckAndSet();
+};
+
+const AddCheck = () => {
+	let side = GameBoard.side;
+	let piece = PieceIndex(kings[side], 0);
+	let square = GameBoard.pieceList[piece];
+	let inCheck = SquareAttacked(square, side ^ 1);
+	let rankName,
+		fileName = "";
+	let file = filesBoard[square];
+	let rank = ranksBoard[square];
+	rankName = `rank${rank + 1}`;
+	fileName = `file${file + 1}`;
+
+	if (inCheck) {
+		$(".Square").each(function () {
+			if ($(this).hasClass(rankName) && $(this).hasClass(fileName))
+				$(this).append("<div class='InCheck'/>");
+		});
+	}
 };

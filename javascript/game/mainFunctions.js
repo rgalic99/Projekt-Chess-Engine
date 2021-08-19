@@ -73,6 +73,8 @@ const NewGame = (fenString) => {
 	ParseFEN(fenString);
 	SetInitalBoardPieces();
 	CheckAndSet();
+	DeSelectAttacks();
+	RemoveCheck();
 };
 
 const ClearAllPieces = () => {
