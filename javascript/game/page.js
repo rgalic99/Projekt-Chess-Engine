@@ -283,16 +283,13 @@ const CheckResult = () => {
 
 const CheckAndSet = () => {
 	GameController.gameOver = CheckResult();
-	!GameController.gameOver &&
-		$("#GameStatus").text(
-			"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-		);
+	!GameController.gameOver && $("#GameStatus").text(`${MakeFEN()}`);
 };
 
 const PreSearch = () => {
 	if (GameController.gameOver == Bool.False) {
 		SearchController.thinking = Bool.True;
-		setTimeout(function () {
+		setTimeout(() => {
 			StartSearch();
 		}, 200);
 	}

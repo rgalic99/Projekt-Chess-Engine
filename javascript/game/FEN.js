@@ -154,3 +154,55 @@ const GeneratePositionKey = () => {
 
 	HashCastle(); // hashiranje rokade
 };
+
+const MakeFEN = () => {
+	let fenString = "";
+	let buffer = "";
+	let i = 0;
+	let piece = 0;
+	let counter = 0;
+	let square120 = 0;
+
+	for (i = 63; i >= 0; i--) {
+		square120 = GetSquare120(i);
+		piece = GameBoard.pieces[square120];
+		//console.log(piece);
+		if (piece == PIECES.EMPTY) counter++;
+		else {
+			if (counter != 0) {
+				buffer += counter.toString();
+				counter = 0;
+			}
+			buffer += pieceChar[piece];
+		}
+		if (i % 8 == 0) {
+			if (counter != 0) buffer += counter.toString();
+			counter = 0;
+			fenString += ReverseString(buffer);
+			if (i != 0) fenString += "/";
+			buffer = "";
+		}
+	}
+	fenString += ` ${
+		sideChar[GameBoard.side]
+	} ${MakeCastleChar()} ${PrintSquare(GameBoard.enPassant)} ${
+		GameBoard.fiftyMoveRule
+	} ${Math.floor(GameBoard.ply / 2) + 1}`;
+
+	return fenString;
+};
+
+const ReverseString = (s) => {
+	for (var i = s.length - 1, o = ""; i >= 0; o += s[i--]) {}
+	return o;
+};
+
+const MakeCastleChar = () => {
+	let castleString = "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.BKCA ? castleChar[0] : "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.BQCA ? castleChar[1] : "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.WKCA ? castleChar[2] : "";
+	castleString += GameBoard.castlePerm & CASTLEBIT.WQCA ? castleChar[3] : "";
+
+	return castleString;
+};

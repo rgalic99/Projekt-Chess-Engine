@@ -24,7 +24,7 @@ const SquareOffboard = (square) => {
 const PrintSquare = (square) => {
 	// ispis kocke u algebarskom formatu
 	return square == SQUARES.NO_SQ
-		? "No"
+		? "-"
 		: `${fileChar[filesBoard[square]]}${rankChar[ranksBoard[square]]}`;
 };
 

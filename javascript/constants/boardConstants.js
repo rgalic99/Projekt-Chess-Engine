@@ -3,6 +3,7 @@ const NUM_OF_SQ = 120;
 const START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 const pieceChar = ".PNBRQKpnbrqk";
+const castleChar = "KQkq";
 const sideChar = "wb-";
 const rankChar = "12345678";
 const fileChar = "abcdefgh";
