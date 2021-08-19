@@ -9,6 +9,7 @@
 }
 
 body {
+	overflow: hidden;
 	font-size: 16px;
 	--main-button-color: #e6776d;
 	--main-button-gradient: #f37b73;
@@ -118,12 +119,6 @@ body {
 	background-color: var(--main-button-disabled-gradient);
 }
 
-.EngineOutput {
-	position: absolute;
-	left: 600px;
-	top: 80px;
-}
-
 .Square {
 	position: absolute;
 	width: 60px;
@@ -220,7 +215,6 @@ body {
 	top: -480px;
 	left: 540px;
 	width: 180px;
-	height: 475px;
 }
 
 .info2 {
@@ -240,6 +234,7 @@ body {
 	position: absolute;
 	top: 20px;
 	left: 300px;
+	height: 600px;
 }
 .space {
 	margin-bottom: 8px;
@@ -258,6 +253,7 @@ body {
 	left: 60px;
 	padding: 0.4rem;
 	width: 480px;
+	margin-bottom: 0;
 }
 
 .info4 {
@@ -274,5 +270,5 @@ body {
 .position {
 	position: relative;
 	left: -16px;
-	width: 140px;
+	width: 145px;
 }

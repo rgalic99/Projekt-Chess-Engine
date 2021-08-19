@@ -249,10 +249,11 @@ const UpdateDOM = (score, depth) => {
 	$("#DepthOut").text(`Dubina: ${depth}`);
 	$("#ScoreOut").text(scoreText);
 	$("#NodesOut").text(`Čvorovi: ${SearchController.nodes}`);
+
 	let order = SearchController.failHighFirst / SearchController.failHigh;
-	order = isNaN(order) ? 0 : order;
-	$("#OrderingOut").text(`Premještanje: ${(order * 100).toFixed(2)}%`);
-	$("#TimeOut").text(
-		`Vrijeme: ${(($.now() - SearchController.start) / 1000).toFixed(1)}s`
-	);
+	order = isNaN(order) ? 0 : (order * 100).toFixed(2);
+	$("#OrderingOut").text(`Premještanje: ${order == 100.0 ? 100 : order}%`);
+
+	let time = (($.now() - SearchController.start) / 1000).toFixed(1);
+	$("#TimeOut").text(`Vrijeme: ${time}s`);
 };
