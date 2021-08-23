@@ -116,9 +116,9 @@ const Quiescence = (alpha, beta) => {
 };
 
 const AlphaBeta = (alpha, beta, depth) => {
-	if (depth <= 0) return Quiescence(alpha, beta);
+	if (depth <= 0) return Quiescence(alpha, beta); // Checks captures
 
-	if ((SearchController.nodes & 2047) == 0) CheckUp();
+	if ((SearchController.nodes & 2047) == 0) CheckUp(); // Checks if the time is up
 
 	SearchController.nodes++;
 
@@ -126,9 +126,9 @@ const AlphaBeta = (alpha, beta, depth) => {
 		GameBoard.ply != 0 &&
 		(IsRepetition() || GameBoard.fiftyMoveRule >= 100)
 	)
-		return 0;
+		return 0; // Is the position drawn by repetition or 50-move rule
 
-	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition();
+	if (GameBoard.ply > MAX_DEPTH - 1) return EvalPosition(); // Did we exceed the maximum depth
 
 	let side = GameBoard.side;
 	let inCheck = SquareAttacked(
@@ -153,7 +153,7 @@ const AlphaBeta = (alpha, beta, depth) => {
 	if (pvMove != noMove) {
 		for (moveNum = start; moveNum < end; moveNum++) {
 			if (GameBoard.moveList[moveNum] == pvMove) {
-				GameBoard.moveScores[moveNum] = 2000000;
+				GameBoard.moveScores[moveNum] = 2000000; // Setting the PV move as high in value
 				break;
 			}
 		}
@@ -165,10 +165,10 @@ const AlphaBeta = (alpha, beta, depth) => {
 		if (MakeMove(move) == Bool.False) continue;
 
 		legal++;
-		score = -AlphaBeta(-beta, -alpha, depth - 1);
+		score = -AlphaBeta(-beta, -alpha, depth - 1); // Null-move pruning
 		TakeMove();
 
-		if (SearchController.stop == Bool.True) return 0;
+		if (SearchController.stop == Bool.True) return 0; // Do we need to stop searching?
 
 		if (score > alpha) {
 			if (score >= beta) {
@@ -179,7 +179,7 @@ const AlphaBeta = (alpha, beta, depth) => {
 						GameBoard.searchKillers[GameBoard.ply];
 					GameBoard.searchKillers[GameBoard.ply] = move;
 				}
-				return beta;
+				return beta; // Adjusting the lower bound
 			}
 			if ((move & moveFlagCapture) == 0) {
 				GameBoard.searchHistory[
@@ -194,10 +194,11 @@ const AlphaBeta = (alpha, beta, depth) => {
 
 	if (legal == 0) {
 		if (inCheck) return -Mate + GameBoard.ply;
-		else return 0;
+		// Do we have mate?
+		else return 0; // or stalemate
 	}
 
-	if (alpha != oldAlpha) StorePvMove(bestMove);
+	if (alpha != oldAlpha) StorePvMove(bestMove); //Storing of the best move if it's good
 
 	return alpha;
 };
@@ -220,8 +221,7 @@ const SearchPosition = () => {
 	let score = -Infinity;
 	let currentDepth = 0;
 	ClearForSearch();
-
-	let targetDepth = 8;
+	let targetDepth = MAX_DEPTH;
 
 	for (currentDepth = 1; currentDepth <= targetDepth; currentDepth++) {
 		score = AlphaBeta(-Infinity, Infinity, currentDepth);

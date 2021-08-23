@@ -1,9 +1,9 @@
 const GameBoard = {};
 
 GameBoard.pieces = new Array(NUM_OF_SQ);
-GameBoard.pieceList = new Array(13 * 10); // lista svih figura
+GameBoard.pieceList = new Array(14 * 10); // lista svih figura
 GameBoard.material = new Array(2); // materijalna vrijednost figura ta bijelog/crnog
-GameBoard.pieceNum = new Array(13); // lista koja pamti količinu svake figure
+GameBoard.pieceNum = new Array(14); // lista koja pamti količinu svake figure
 /*
 max 10 od iste figure
 
@@ -38,7 +38,7 @@ GameBoard.PvTable = [];
 GameBoard.PvArray = new Array(MAX_DEPTH);
 
 // Pretraga
-GameBoard.searchHistory = new Array(13 * NUM_OF_SQ);
+GameBoard.searchHistory = new Array(14 * NUM_OF_SQ);
 GameBoard.searchKillers = new Array(3 * MAX_DEPTH);
 
 const ResetBoard = () => {

@@ -30,7 +30,7 @@ const Mirror64 = (i) => {
 	return Mirror64Array[i];
 };
 
-const pieceKeys = new Array(13 * 10); // hash vrijednosti za figure
+const pieceKeys = new Array(14 * 10); // hash vrijednosti za figure
 const castleKeys = new Array(16); // hash vrijednosti za rokadu
 const sideKey = new Array(1); // hash vrijednost za stranu koja igra
 

@@ -356,6 +356,7 @@ const CheckAndSet = () => {
 };
 
 const PreSearch = () => {
+	AddCheck();
 	if (GameController.gameOver == Bool.False) {
 		SearchController.thinking = Bool.True;
 		setTimeout(() => {
@@ -377,21 +378,21 @@ $(".TakeBack").click(() => {
 		TakeMove();
 		GameBoard.ply = 0;
 		SetInitalBoardPieces();
+		DeSelectAttacks();
 		RemoveCheck();
+		AddCheck();
 	}
 });
 
 const StartSearch = () => {
 	SearchController.depth = MAX_DEPTH;
 	let thinkingTime = $("#ThinkingTime").val();
-	AddCheck();
 	SearchController.time = parseInt(thinkingTime) * 1000;
 	SearchPosition();
-
 	MakeMove(SearchController.best);
 	MovePieceGUI(SearchController.best);
-	RemoveCheck();
 	DeSelectAttacks();
+	RemoveCheck();
 	AddCheck();
 	CheckAndSet();
 };

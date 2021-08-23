@@ -5,12 +5,17 @@ const ParseFEN = (fenString) => {
 
 	if (fenString == "") fenString = START_FEN; //! ako je FEN prazan
 	fenCount = ParsePieces(fenString, fenCount);
-	if (fenCount == -1) ParseFEN(START_FEN); //! ako FEN nije valjan
+	if (fenCount == -1) {
+		//! ako FEN nije valjan
+		ParseFEN(START_FEN);
+		return -1;
+	}
 
 	fenCount = ParseSide(fenString, 0);
 	fenCount = ParseCastle(fenString, fenCount);
 	fenCount = ParseEnPassant(fenString, fenCount);
 
+	GeneratePositionKey();
 	UpdateMaterialLists();
 };
 

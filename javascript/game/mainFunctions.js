@@ -75,6 +75,10 @@ const NewGame = (fenString) => {
 	CheckAndSet();
 	DeSelectAttacks();
 	RemoveCheck();
+	DeSelectSquare(UserMove.from);
+	DeSelectSquare(UserMove.to);
+	UserMove.from = SQUARES.NO_SQ;
+	UserMove.to = SQUARES.NO_SQ;
 };
 
 const ClearAllPieces = () => {
